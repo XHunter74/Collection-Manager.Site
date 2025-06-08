@@ -1,0 +1,68 @@
+.modal-app-dialog {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.dialog-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(243, 240, 236);
+    text-align: center;
+    font-weight: 600;
+}
+
+.dialog-header-text {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.modal-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.modal-content {
+    background-color: var(--modalBackground);
+    padding-left: 30px;
+    padding-right: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.login-username {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.alert-username {
+    margin-bottom: 0px !important;
+}
+
+.dialog-footer {
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.ok-button {
+    color: white !important;
+    background-color: #4189c7;
+    width: 120px;
+}
+
+.cancel-button {
+    color: white !important;
+    background-color: #f7b3b3;
+    width: 120px;
+}
+
+.login-label {
+    margin-bottom: 5px;
+}
