@@ -4,6 +4,7 @@ import { Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-login-modal-component',
@@ -25,6 +26,7 @@ export class LoginModalComponent implements OnInit {
         private router: Router,
         private dialog: MatDialog,
         private translate: TranslateService,
+        private authService: AuthService
     ) { }
 
     static show(dialog: MatDialog, width?: string) {
@@ -50,6 +52,21 @@ export class LoginModalComponent implements OnInit {
 
     tryLogin() {
         console.log('Try to login...');
+        this.authService.login(this.userName?.value, this.password?.value)
+            .then((result) => {
+                if (result) {
+                    console.log('Login successful');
+                    this.dialogRef.close('Login successful');
+                    localStorage.setItem('user_name', this.userName?.value || '');
+                    localStorage.setItem('last_url', this.returnUrl);
+                    this.router.navigate([this.returnUrl]);
+                } else {
+                    console.error('Login failed');
+                    // this.translate.get('LOGIN.FAILED').subscribe((message: string) => {
+                    //     alert(message);
+                    // });
+                }
+            });
     }
 
     processCancel() {

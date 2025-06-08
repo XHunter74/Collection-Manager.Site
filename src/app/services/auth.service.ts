@@ -1,37 +1,51 @@
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { lastValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    constructor(
-        private oidcSecurityService: OidcSecurityService,
+    constructor(private httpClient: HttpClient
     ) { }
 
     isLoggedIn() {
-        return this.oidcSecurityService.isAuthenticated$;
     }
 
     userData() {
-        return this.oidcSecurityService.userData$;
     }
 
     token() {
-        return this.oidcSecurityService.getAccessToken();
     }
 
     checkAuth() {
-        return this.oidcSecurityService.checkAuthMultiple();
     }
 
-    login() {
-        this.oidcSecurityService.authorize();
+    login(userName: string, password: string): Promise<boolean> {
+        const url = `${environment.authUrl}token`;
+        const body = new HttpParams()
+            .set('grant_type', 'password')
+            .set('username', userName)
+            .set('password', password)
+            .set('client_id', environment.client_id)
+            .set('client_secret', environment.client_secret);
+        const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+        return lastValueFrom(
+            this.httpClient.post<any>(url, body.toString(), { headers })
+        ).then(response => {
+            if (response && (response.access_token || response.token)) {
+                const token = response.access_token || response.token;
+                localStorage.setItem('token', token);
+                return true;
+            }
+            return false;
+        }).catch(() => {
+            return false;
+        });
     }
 
     async logout() {
-        await lastValueFrom(this.oidcSecurityService.logoff());
     }
 }
