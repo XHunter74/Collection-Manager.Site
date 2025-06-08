@@ -32,7 +32,6 @@ export class AuthService {
     }
 
     async logout() {
-        this.userProFile = null;
         await lastValueFrom(this.oidcSecurityService.logoff());
     }
 }
