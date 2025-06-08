@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
+  standalone: false,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })

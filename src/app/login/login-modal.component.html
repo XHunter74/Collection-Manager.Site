@@ -1,9 +1,9 @@
 <div class="modal-app-dialog">
-    <div class="dialog-header">{{ 'LOGIN.AUTHENTICATION' }}</div>
+    <div class="dialog-header">{{ 'LOGIN.AUTHENTICATION' | translate }}</div>
     <form class="modal-form" [formGroup]="loginForm" (ngSubmit)="tryLogin()" autocomplete="on">
         <div class="modal-content">
             <div class="form-group login-username">
-                <label for="userName" class="login-label">{{ 'LOGIN.USERNAME' }}</label>
+                <label for="userName" class="login-label">{{ 'LOGIN.USERNAME' | translate }}</label>
                 <div class="input-group">
                     <input
                         class="form-control"
@@ -19,12 +19,12 @@
                     class="alert alert-danger alert-username"
                 >
                     <div *ngIf="userName?.errors?.['required']">
-                        {{ 'LOGIN.USERNAME_ERROR' }}
+                        {{ 'LOGIN.USERNAME_ERROR' | translate }}
                     </div>
                 </div>
             </div>
             <div class="form-group login-passowrd">
-                <label for="password" class="login-label">{{ 'LOGIN.PASSWORD' }}</label>
+                <label for="password" class="login-label">{{ 'LOGIN.PASSWORD' | translate }}</label>
                 <div class="input-group">
                     <input class="form-control" type="password" formControlName="password" />
                 </div>
@@ -33,14 +33,14 @@
                     class="alert alert-danger"
                 >
                     <div *ngIf="password?.errors?.['required']">
-                        {{ 'LOGIN.PASSWORD_ERROR' }}
+                        {{ 'LOGIN.PASSWORD_ERROR' | translate }}
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer dialog-footer">
             <button mat-button type="submit" class="ok-button" [disabled]="loginForm.invalid">
-                {{ 'BUTTONS.LOGIN'  }}
+                {{ 'BUTTONS.LOGIN' | translate  }}
             </button>
         </div>
     </form>

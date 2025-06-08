@@ -1,0 +1,20 @@
+{
+    "LANGUAGE": {
+        "ENGLISH": "English",
+        "UKRAINIAN": "Ukrainian",
+        "CHANGE_LANGUAGE": "Change Language"
+    },
+    "BUTTONS": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel",
+        "OK": "Ok",
+        "LOGIN": "Login"
+    },
+    "LOGIN": {
+        "USERNAME": "Username",
+        "PASSWORD": "Password",
+        "AUTHENTICATION": "Authentication",
+        "PASSWORD_ERROR": "Password is required",
+        "USERNAME_ERROR": "Username is required"
+    }
+}

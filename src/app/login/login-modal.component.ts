@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-login-modal-component',
     templateUrl: './login-modal.component.html',
     styleUrls: ['./login-modal.component.css'],
-    imports: [CommonModule, ReactiveFormsModule, MatButtonModule , MatDialogModule],
-    standalone: true
+    standalone: false
 })
 export class LoginModalComponent implements OnInit {
     returnUrl: string = '';
@@ -26,6 +24,7 @@ export class LoginModalComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private dialog: MatDialog,
+        private translate: TranslateService,
     ) { }
 
     static show(dialog: MatDialog, width?: string) {

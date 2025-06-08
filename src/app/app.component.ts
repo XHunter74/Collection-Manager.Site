@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +10,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'collection-manager';
+
+  constructor(translate: TranslateService) {
+    translate.setDefaultLang(environment.defaultLocale);
+  }
 }

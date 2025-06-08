@@ -17,18 +17,12 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/assets"
-              }
+              "src/assets/favicon.png",
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
