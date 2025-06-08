@@ -4,24 +4,18 @@ import { lastValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class AuthService {
+    constructor(private httpClient: HttpClient) {}
 
-    constructor(private httpClient: HttpClient
-    ) { }
+    isLoggedIn() {}
 
-    isLoggedIn() {
-    }
+    userData() {}
 
-    userData() {
-    }
+    token() {}
 
-    token() {
-    }
-
-    checkAuth() {
-    }
+    checkAuth() {}
 
     login(userName: string, password: string): Promise<boolean> {
         const url = `${environment.authUrl}token`;
@@ -32,20 +26,19 @@ export class AuthService {
             .set('client_id', environment.client_id)
             .set('client_secret', environment.client_secret);
         const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        return lastValueFrom(
-            this.httpClient.post<any>(url, body.toString(), { headers })
-        ).then(response => {
-            if (response && (response.access_token || response.token)) {
-                const token = response.access_token || response.token;
-                localStorage.setItem('token', token);
-                return true;
-            }
-            return false;
-        }).catch(() => {
-            return false;
-        });
+        return lastValueFrom(this.httpClient.post<any>(url, body.toString(), { headers }))
+            .then((response) => {
+                if (response && (response.access_token || response.token)) {
+                    const token = response.access_token || response.token;
+                    localStorage.setItem('token', token);
+                    return true;
+                }
+                return false;
+            })
+            .catch(() => {
+                return false;
+            });
     }
 
-    async logout() {
-    }
+    async logout() {}
 }

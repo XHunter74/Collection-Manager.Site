@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
     selector: 'app-login-modal-component',
     templateUrl: './login-modal.component.html',
     styleUrls: ['./login-modal.component.css'],
-    standalone: false
+    standalone: false,
 })
 export class LoginModalComponent implements OnInit {
     returnUrl: string = '';
@@ -26,8 +26,8 @@ export class LoginModalComponent implements OnInit {
         private router: Router,
         private dialog: MatDialog,
         private translate: TranslateService,
-        private authService: AuthService
-    ) { }
+        private authService: AuthService,
+    ) {}
 
     static show(dialog: MatDialog, width?: string) {
         if (!width) {
@@ -52,21 +52,20 @@ export class LoginModalComponent implements OnInit {
 
     tryLogin() {
         console.log('Try to login...');
-        this.authService.login(this.userName?.value, this.password?.value)
-            .then((result) => {
-                if (result) {
-                    console.log('Login successful');
-                    this.dialogRef.close('Login successful');
-                    localStorage.setItem('user_name', this.userName?.value || '');
-                    localStorage.setItem('last_url', this.returnUrl);
-                    this.router.navigate([this.returnUrl]);
-                } else {
-                    console.error('Login failed');
-                    // this.translate.get('LOGIN.FAILED').subscribe((message: string) => {
-                    //     alert(message);
-                    // });
-                }
-            });
+        this.authService.login(this.userName?.value, this.password?.value).then((result) => {
+            if (result) {
+                console.log('Login successful');
+                this.dialogRef.close('Login successful');
+                localStorage.setItem('user_name', this.userName?.value || '');
+                localStorage.setItem('last_url', this.returnUrl);
+                this.router.navigate([this.returnUrl]);
+            } else {
+                console.error('Login failed');
+                // this.translate.get('LOGIN.FAILED').subscribe((message: string) => {
+                //     alert(message);
+                // });
+            }
+        });
     }
 
     processCancel() {

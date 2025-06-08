@@ -1,9 +1,5 @@
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
-import {
-    HttpClient,
-    provideHttpClient,
-    withInterceptorsFromDi,
-} from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AppMaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from '../app.component';
@@ -17,11 +13,7 @@ import { LoginComponent } from '../login/login.component';
 import { LoginModalComponent } from '../login/login-modal.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        LoginComponent,
-        LoginModalComponent,
-    ],
+    declarations: [AppComponent, LoginComponent, LoginModalComponent],
     bootstrap: [AppComponent],
     imports: [
         AppMaterialModule,
@@ -50,5 +42,5 @@ import { LoginModalComponent } from '../login/login-modal.component';
     ],
 })
 export class AppModule {
-    constructor() { }
+    constructor() {}
 }
