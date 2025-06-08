@@ -61,16 +61,8 @@ export class LoginModalComponent implements OnInit {
                 this.router.navigate([this.returnUrl]);
             } else {
                 console.error('Login failed');
-                // this.translate.get('LOGIN.FAILED').subscribe((message: string) => {
-                //     alert(message);
-                // });
             }
         });
-    }
-
-    processCancel() {
-        this.dialogRef.close('Cancel click');
-        this.router.navigate(['/']);
     }
 
     get userName() {
