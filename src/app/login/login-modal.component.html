@@ -35,6 +35,18 @@
                     </div>
                 </div>
             </div>
+            <div class="forgot-password">
+                <a
+                    class="forgot-password-link"
+                    href="#"
+                    (click)="forgotPassword(); $event.preventDefault()"
+                    (keydown.enter)="forgotPassword()"
+                    tabindex="0"
+                    role="button"
+                >
+                    {{ 'LOGIN.FORGOT_PASSWORD' | translate }}
+                </a>
+            </div>
         </div>
         <div class="modal-footer dialog-footer">
             <button mat-button type="submit" class="ok-button" [disabled]="loginForm.invalid">

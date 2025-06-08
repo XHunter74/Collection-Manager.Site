@@ -43,6 +43,13 @@
     margin-top: 30px;
 }
 
+.forgot-password {
+    margin-top: 15px;
+    color: #4189c7;
+    text-decoration: none;
+    font-size: 14px;
+}
+
 .alert-username,
 .alert-password {
     margin-bottom: -15px !important;

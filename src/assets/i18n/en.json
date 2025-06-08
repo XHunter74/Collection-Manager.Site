@@ -15,6 +15,7 @@
         "PASSWORD": "Password",
         "AUTHENTICATION": "Authentication",
         "PASSWORD_ERROR": "Password is required",
-        "USERNAME_ERROR": "Username is required"
+        "USERNAME_ERROR": "Username is required",
+        "FORGOT_PASSWORD": "Forgot Password?"
     }
 }

@@ -3,7 +3,6 @@ import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -24,8 +23,6 @@ export class LoginModalComponent implements OnInit {
         private readonly dialogRef: MatDialogRef<LoginModalComponent>,
         private route: ActivatedRoute,
         private router: Router,
-        private dialog: MatDialog,
-        private translate: TranslateService,
         private authService: AuthService,
     ) {}
 
@@ -35,7 +32,7 @@ export class LoginModalComponent implements OnInit {
         }
         dialog.open(LoginModalComponent, {
             width,
-            height: '340px',
+            height: '370px',
             disableClose: true,
         });
     }
@@ -62,6 +59,10 @@ export class LoginModalComponent implements OnInit {
                 console.error('Login failed');
             }
         });
+    }
+
+    forgotPassword() {
+        console.log('Forgot password clicked');
     }
 
     get userName() {
