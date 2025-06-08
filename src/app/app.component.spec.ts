@@ -14,6 +14,7 @@ describe('AppComponent', () => {
         expect(app).toBeTruthy();
     });
 
+    // eslint-disable-next-line quotes
     it(`should have the 'collection-manager' title`, () => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.componentInstance;
