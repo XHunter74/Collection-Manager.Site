@@ -36,7 +36,6 @@ export class LoginModalComponent implements OnInit {
         dialog.open(LoginModalComponent, {
             width,
             height: '340px',
-            hasBackdrop: true, // show overlay
             disableClose: true,
         });
     }
