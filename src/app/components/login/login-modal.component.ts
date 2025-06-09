@@ -3,7 +3,7 @@ import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { LoginComponentModel } from '../models/login-component.model';
+import { LoginComponentModel } from '../../models/login-component.model';
 
 @Component({
     selector: 'app-login-modal-component',

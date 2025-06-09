@@ -9,7 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../environments/environment';
 import { appInitializerFactory, HttpLoaderFactory } from './app-initialize.factory';
-import { ErrorDialogComponent } from '../dialogs/message-dialog/message-dialog.component';
+import { ErrorDialogComponent } from '../components/dialogs/message-dialog.component';
 import { LoginModule } from './login.module';
 
 @NgModule({
