@@ -8,9 +8,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from '../login/login.component';
 import { ForgotPasswordComponent } from '../login/forgot-password.component';
 import { UsersService } from '../services/users.service';
+import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 
 @NgModule({
-    declarations: [LoginComponent, LoginModalComponent, ForgotPasswordComponent],
+    declarations: [
+        LoginComponent,
+        LoginModalComponent,
+        ForgotPasswordComponent,
+        ResetPasswordComponent,
+    ],
     bootstrap: [],
     imports: [
         CommonModule,
@@ -20,6 +26,6 @@ import { UsersService } from '../services/users.service';
         TranslateModule.forChild(),
     ],
     providers: [UsersService],
-    exports: [LoginComponent],
+    exports: [LoginComponent, ResetPasswordComponent],
 })
 export class LoginModule {}
