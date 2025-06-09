@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ResetPasswordModalComponent } from './reset-password-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UsersService } from '../services/users.service';
+import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
 
 @Component({
     selector: 'app-reset-password',
@@ -16,6 +18,8 @@ export class ResetPasswordComponent implements OnInit {
     constructor(
         private matDialog: MatDialog,
         private route: ActivatedRoute,
+        private router: Router,
+        private userService: UsersService,
     ) {}
 
     ngOnInit(): void {
@@ -30,9 +34,36 @@ export class ResetPasswordComponent implements OnInit {
         console.log('Token:', this.token);
         ResetPasswordModalComponent.show(this.matDialog).subscribe((result: string) => {
             if (result) {
-                console.log('New password entered:', result);
+                this.userService.resetPassword(this.userId!, this.token!, result).subscribe({
+                    next: () => {
+                        ErrorDialogComponent.show(
+                            this.matDialog,
+                            'RESET_PASSWORD.RESET_SUCCESS',
+                            'RESET_PASSWORD.TITLE',
+                        ).subscribe(() => {
+                            this.router.navigate(['']);
+                        });
+                    },
+                    error: (err) => {
+                        console.error('Reset password error:', err);
+                        ErrorDialogComponent.show(
+                            this.matDialog,
+                            'RESET_PASSWORD.RESET_FAILED',
+                            'RESET_PASSWORD.TITLE',
+                        ).subscribe(() => {
+                            this.router.navigate(['']);
+                        });
+                    },
+                });
             } else {
                 console.log('No new password entered');
+                ErrorDialogComponent.show(
+                    this.matDialog,
+                    'RESET_PASSWORD.ERROR',
+                    'RESET_PASSWORD.TITLE',
+                ).subscribe(() => {
+                    this.router.navigate(['']);
+                });
             }
         });
     }

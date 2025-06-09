@@ -39,6 +39,7 @@
         "PASSWORD_MISMATCH": "Passwords do not match",
         "RESET_SUCCESS": "Password has been reset successfully.",
         "RESET_FAILED": "Failed to reset password. Please try again.",
-        "PASSWORD_COMPLEXITY_ERROR": "Password must be at least 8 characters long and contain a mix of letters, numbers, and special characters."
+        "PASSWORD_COMPLEXITY_ERROR": "Password must be at least 8 characters long and contain a mix of letters, numbers, and special characters.",
+        "NO_NEW_PASSWORD": "No new password entered"
     }
 }

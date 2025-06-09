@@ -36,6 +36,13 @@ export class UsersService extends HttpService {
         return this.post<boolean>(actionUrl, null);
     }
 
+    resetPassword(userId: string, token: string, newPassword: string): Observable<boolean> {
+        const actionUrl = `users/reset-password?userId=${userId}&token=${encodeURIComponent(token)}`;
+        const body = new URLSearchParams();
+        body.set('newPassword', newPassword);
+        return this.post<boolean>(actionUrl, body, undefined, false);
+    }
+
     changePassword(newPassword: string): Observable<UserTokenDto> {
         const passwordModel = {
             newPassword: newPassword,
