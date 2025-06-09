@@ -1,6 +1,6 @@
 export class Constants {
     static AppLanguage = 'app-language';
-    static Token = 'token';
+    static AuthToken = 'auth-token';
     static RefreshToken = 'refresh-token';
     static TokenExpiresIn = 'token-expires-in';
     static RequestTimeout = 5000;
