@@ -28,9 +28,29 @@ export class ResetPasswordModalComponent {
         return password === confirmPassword ? null : { passwordsMismatch: true };
     };
 
+    static passwordComplexityValidator: ValidatorFn = (
+        control: AbstractControl,
+    ): ValidationErrors | null => {
+        const value = control.value as string;
+        if (!value) {
+            return null;
+        }
+        const lengthValid = value.length >= 8;
+        const upper = /[A-Z]/.test(value);
+        const lower = /[a-z]/.test(value);
+        const digit = /[0-9]/.test(value);
+        const special = /[^A-Za-z0-9]/.test(value);
+        return lengthValid && upper && lower && digit && special
+            ? null
+            : { passwordComplexity: true };
+    };
+
     newPasswordForm = new UntypedFormGroup(
         {
-            password: new UntypedFormControl('', [Validators.required]),
+            password: new UntypedFormControl('', [
+                Validators.required,
+                ResetPasswordModalComponent.passwordComplexityValidator,
+            ]),
             confirmPassword: new UntypedFormControl('', [Validators.required]),
         },
         { validators: ResetPasswordModalComponent.passwordsMatchValidator },
@@ -40,11 +60,11 @@ export class ResetPasswordModalComponent {
 
     static show(dialog: MatDialog, width?: string): Observable<string> {
         if (!width) {
-            width = '400px';
+            width = '460px';
         }
         const dialogRef = dialog.open(ResetPasswordModalComponent, {
             width,
-            height: '340px',
+            height: '360px',
             disableClose: true,
         });
         const dialogResult = dialogRef.afterClosed();
