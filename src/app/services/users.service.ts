@@ -27,7 +27,7 @@ export class UsersService extends HttpService {
         body.set('client_secret', environment.client_secret);
 
         return this.post<UserTokenDto>('auth/token', body, undefined, false).pipe(
-            tap((token) => this.authService.processLogin(userName, token)),
+            tap((token) => this.authService.processLogin(token)),
         );
     }
 
@@ -51,7 +51,14 @@ export class UsersService extends HttpService {
     }
 
     refreshToken(token: string): Observable<UserTokenDto> {
-        const actionUrl = `auth/refresh-token?token=${token}`;
-        return this.post<UserTokenDto>(actionUrl, null);
+        const body = new URLSearchParams();
+        body.set('grant_type', 'refresh_token');
+        body.set('client_id', environment.client_id);
+        body.set('client_secret', environment.client_secret);
+        body.set('refresh_token', token);
+
+        return this.post<UserTokenDto>('auth/token', body, undefined, false).pipe(
+            tap((token) => this.authService.processLogin(token)),
+        );
     }
 }

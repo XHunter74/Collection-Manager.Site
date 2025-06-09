@@ -31,9 +31,8 @@ export class AuthService {
 
     checkAuth() {}
 
-    public processLogin(userName: string, userToken: UserTokenDto) {
+    public processLogin(userToken: UserTokenDto) {
         console.log('Processing login for user, token:', JSON.stringify(userToken));
-        localStorage.setItem('user_name', userName);
         this.authToken = userToken.access_token;
         this.refreshToken = userToken.refresh_token;
         const expiresIn = new Date().getTime() + userToken.expires_in * Intervals.OneSecond;
