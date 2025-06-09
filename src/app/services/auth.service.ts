@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Constants, Intervals } from '../shared/constants';
+import { UserTokenDto } from '../models/user-token.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -28,7 +29,7 @@ export class AuthService {
     checkAuth() {}
 
     login(userName: string, password: string): Promise<boolean> {
-        const url = `${environment.authUrl}token`;
+        const url = `${environment.apiUrl}auth/token`;
         const body = new HttpParams()
             .set('grant_type', 'password')
             .set('username', userName)
@@ -53,6 +54,11 @@ export class AuthService {
             .catch(() => {
                 return false;
             });
+    }
+
+    public processLogin(userName: string, userToken: UserTokenDto) {
+        console.log('Processing login for user, token:', JSON.stringify(userToken));
+        localStorage.setItem('user_name', userName);
     }
 
     logout() {

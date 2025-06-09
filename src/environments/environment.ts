@@ -5,7 +5,6 @@
 
 export const environment = {
     production: false,
-    authUrl: 'https://localhost:5003/connect/',
     apiUrl: 'https://localhost:5003/api/',
     version: 'DEV',
     locales: ['en', 'uk'],

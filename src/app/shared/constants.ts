@@ -3,6 +3,8 @@ export class Constants {
     static Token = 'token';
     static RefreshToken = 'refresh-token';
     static TokenExpiresIn = 'token-expires-in';
+    static RequestTimeout = 5000;
+    static RetryCount = 3;
 }
 
 export class Intervals {

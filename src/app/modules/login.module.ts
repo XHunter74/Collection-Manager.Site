@@ -7,6 +7,7 @@ import { AppMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from '../login/login.component';
 import { ForgotPasswordComponent } from '../login/forgot-password.component';
+import { UsersService } from '../services/users.service';
 
 @NgModule({
     declarations: [LoginComponent, LoginModalComponent, ForgotPasswordComponent],
@@ -18,7 +19,7 @@ import { ForgotPasswordComponent } from '../login/forgot-password.component';
         ReactiveFormsModule,
         TranslateModule.forChild(),
     ],
-    providers: [],
+    providers: [UsersService],
     exports: [LoginComponent],
 })
 export class LoginModule {}
