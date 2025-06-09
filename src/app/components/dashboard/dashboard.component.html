@@ -1,1 +1,8 @@
-<p>dashboard works!</p>
+<div class="header-container">
+    <app-select-collection
+        (currentCollectionChange)="currentCollection = $event"
+    ></app-select-collection>
+</div>
+<div class="items-container">
+    <app-items [currentCollection]="currentCollection"></app-items>
+</div>

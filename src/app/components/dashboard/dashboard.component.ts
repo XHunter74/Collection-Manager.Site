@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CollectionDto } from '../../models/collection.dto';
 
 @Component({
     selector: 'app-dashboard',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
     styleUrl: './dashboard.component.css',
     standalone: false,
 })
-export class DashboardComponent {}
+export class DashboardComponent {
+    currentCollection: CollectionDto | null = null;
+}

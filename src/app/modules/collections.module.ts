@@ -7,9 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../services/users.service';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
 import { SelectCollectionComponent } from '../components/select-collection/select-collection.component';
+import { CollectionsService } from '../services/collections.service';
+import { ItemsComponent } from '../components/items/items.component';
 
 @NgModule({
-    declarations: [DashboardComponent, SelectCollectionComponent],
+    declarations: [DashboardComponent, SelectCollectionComponent, ItemsComponent],
     bootstrap: [],
     imports: [
         CommonModule,
@@ -18,7 +20,7 @@ import { SelectCollectionComponent } from '../components/select-collection/selec
         ReactiveFormsModule,
         TranslateModule.forChild(),
     ],
-    providers: [UsersService],
+    providers: [UsersService, CollectionsService],
     exports: [DashboardComponent],
 })
 export class CollectionsModule {}

@@ -1,1 +1,10 @@
-<p>select-collection works!</p>
+<mat-select
+    [(value)]="currentCollectionId"
+    placeholder="Choose collection"
+    (selectionChange)="onCollectionChange($event)"
+    class="select-collections"
+>
+    <mat-option *ngFor="let collection of collections" [value]="collection.id">
+        {{ collection.name }}
+    </mat-option>
+</mat-select>
