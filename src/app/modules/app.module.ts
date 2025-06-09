@@ -17,6 +17,7 @@ import { appInitializerFactory, HttpLoaderFactory } from './app-initialize.facto
 import { ErrorDialogComponent } from '../components/dialogs/message-dialog.component';
 import { LoginModule } from './login.module';
 import { AppHttpInterceptor } from '../interceptors/http.interceptor';
+import { CollectionsModule } from './collections.module';
 
 @NgModule({
     declarations: [AppComponent, ErrorDialogComponent],
@@ -28,6 +29,7 @@ import { AppHttpInterceptor } from '../interceptors/http.interceptor';
         ReactiveFormsModule,
         BrowserModule,
         LoginModule,
+        CollectionsModule,
         TranslateModule.forRoot({
             defaultLanguage: environment.defaultLocale,
             loader: {
