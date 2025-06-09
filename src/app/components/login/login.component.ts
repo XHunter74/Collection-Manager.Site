@@ -32,90 +32,106 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
         const loginModalSub = LoginModalComponent.show(this.matDialog).subscribe(
             (result: LoginComponentModel) => {
                 if (result.doLogin) {
-                    console.log('Login attempt with user:', result.userName);
-                    const loginSub = this.userService
-                        .login(result.userName, result.password)
-                        .subscribe({
-                            next: (loginResult) => {
-                                if (loginResult) {
-                                    console.log('Login successful');
-                                    localStorage.setItem('user_name', result.userName);
-                                    let returnUrl =
-                                        this.route.snapshot.queryParams['returnUrl'] ||
-                                        Constants.HOME;
-                                    if (!returnUrl.startsWith('/')) {
-                                        returnUrl = '/' + returnUrl;
-                                    }
-                                    this.router.navigateByUrl(returnUrl);
-                                } else {
-                                    console.error('Login failed');
-                                    const dialogSub = ErrorDialogComponent.show(
-                                        this.matDialog,
-                                        'LOGIN.LOGIN_FAILED',
-                                        'LOGIN.DIALOG_TITLE',
-                                    ).subscribe(() => {
-                                        this.processLogin();
-                                    });
-                                    this.subscriptions.push(dialogSub);
-                                }
-                            },
-                            error: (err) => {
-                                console.error('Login error:', err);
-                                const dialogSub = ErrorDialogComponent.show(
-                                    this.matDialog,
-                                    'LOGIN.LOGIN_FAILED',
-                                    'LOGIN.DIALOG_TITLE',
-                                ).subscribe(() => {
-                                    this.processLogin();
-                                });
-                                this.subscriptions.push(dialogSub);
-                            },
-                        });
-                    this.subscriptions.push(loginSub);
+                    this.handleLogin(result.userName, result.password);
                 } else if (result.doRestorePassword) {
-                    console.log('Restore password requested');
-                    const forgotSub = ForgotPasswordComponent.show(this.matDialog).subscribe(
-                        (email) => {
-                            if (email) {
-                                console.log('Password restoration for user:', email);
-                                const resetSub = this.userService
-                                    .sendResetPasswordLink(email)
-                                    .subscribe({
-                                        next: () => {
-                                            console.log('Reset password link sent successfully');
-                                            const dialogSub = ErrorDialogComponent.show(
-                                                this.matDialog,
-                                                'FORGOT_PASSWORD.RESTORE_PASSWORD_SUCCESS',
-                                                'FORGOT_PASSWORD.TITLE',
-                                            ).subscribe(() => {
-                                                this.processLogin();
-                                            });
-                                            this.subscriptions.push(dialogSub);
-                                        },
-                                        error: (err) => {
-                                            console.error(
-                                                'Error sending reset password link:',
-                                                err,
-                                            );
-                                            const dialogSub = ErrorDialogComponent.show(
-                                                this.matDialog,
-                                                'FORGOT_PASSWORD.RESTORE_PASSWORD_FAILED',
-                                                'FORGOT_PASSWORD.TITLE',
-                                            ).subscribe(() => {
-                                                this.processLogin();
-                                            });
-                                            this.subscriptions.push(dialogSub);
-                                        },
-                                    });
-                                this.subscriptions.push(resetSub);
-                            }
-                        },
-                    );
-                    this.subscriptions.push(forgotSub);
+                    this.handleRestorePassword();
                 }
             },
         );
         this.subscriptions.push(loginModalSub);
+    }
+
+    private handleLogin(userName: string, password: string): void {
+        const loginSub = this.userService.login(userName, password).subscribe({
+            next: (loginResult) => this.handleLoginResult(loginResult, userName),
+            error: (err) => this.handleLoginError(err),
+        });
+        this.subscriptions.push(loginSub);
+    }
+
+    private handleLoginResult(loginResult: any, userName: string): void {
+        if (loginResult) {
+            console.log('Login successful');
+            localStorage.setItem('user_name', userName);
+            let returnUrl = this.route.snapshot.queryParams['returnUrl'] || Constants.HOME;
+            if (Array.isArray(returnUrl)) {
+                returnUrl = returnUrl[0] || Constants.HOME;
+            }
+            if (typeof returnUrl !== 'string') {
+                returnUrl = String(returnUrl);
+            }
+            if (!returnUrl.startsWith('/')) {
+                returnUrl = '/' + returnUrl;
+            }
+            this.router.navigateByUrl(returnUrl);
+        } else {
+            this.handleLoginFailed();
+        }
+    }
+
+    private handleLoginFailed(): void {
+        console.error('Login failed');
+        const dialogSub = ErrorDialogComponent.show(
+            this.matDialog,
+            'LOGIN.LOGIN_FAILED',
+            'LOGIN.DIALOG_TITLE',
+        ).subscribe(() => {
+            this.processLogin();
+        });
+        this.subscriptions.push(dialogSub);
+    }
+
+    private handleLoginError(err: any): void {
+        console.error('Login error:', err);
+        const dialogSub = ErrorDialogComponent.show(
+            this.matDialog,
+            'LOGIN.LOGIN_FAILED',
+            'LOGIN.DIALOG_TITLE',
+        ).subscribe(() => {
+            this.processLogin();
+        });
+        this.subscriptions.push(dialogSub);
+    }
+
+    private handleRestorePassword(): void {
+        const forgotSub = ForgotPasswordComponent.show(this.matDialog).subscribe((email) => {
+            if (email) {
+                this.handleSendResetPasswordLink(email);
+            }
+        });
+        this.subscriptions.push(forgotSub);
+    }
+
+    private handleSendResetPasswordLink(email: string): void {
+        const resetSub = this.userService.sendResetPasswordLink(email).subscribe({
+            next: () => this.handleResetPasswordSuccess(),
+            error: (err) => this.handleResetPasswordError(err),
+        });
+        this.subscriptions.push(resetSub);
+    }
+
+    private handleResetPasswordSuccess(): void {
+        console.log('Reset password link sent successfully');
+        const dialogSub = ErrorDialogComponent.show(
+            this.matDialog,
+            'FORGOT_PASSWORD.RESTORE_PASSWORD_SUCCESS',
+            'FORGOT_PASSWORD.TITLE',
+        ).subscribe(() => {
+            this.processLogin();
+        });
+        this.subscriptions.push(dialogSub);
+    }
+
+    private handleResetPasswordError(err: any): void {
+        console.error('Error sending reset password link:', err);
+        const dialogSub = ErrorDialogComponent.show(
+            this.matDialog,
+            'FORGOT_PASSWORD.RESTORE_PASSWORD_FAILED',
+            'FORGOT_PASSWORD.TITLE',
+        ).subscribe(() => {
+            this.processLogin();
+        });
+        this.subscriptions.push(dialogSub);
     }
 
     ngOnDestroy(): void {
