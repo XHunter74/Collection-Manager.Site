@@ -4,6 +4,8 @@ import { Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../services/auth.service';
+import { Observable } from 'rxjs';
+import { LoginComponentModel } from '../models/login-component.model';
 
 @Component({
     selector: 'app-login-modal-component',
@@ -26,15 +28,17 @@ export class LoginModalComponent implements OnInit {
         private authService: AuthService,
     ) {}
 
-    static show(dialog: MatDialog, width?: string) {
+    static show(dialog: MatDialog, width?: string): Observable<LoginComponentModel> {
         if (!width) {
             width = '400px';
         }
-        dialog.open(LoginModalComponent, {
+        const dialogRef = dialog.open(LoginModalComponent, {
             width,
             height: '370px',
             disableClose: true,
         });
+        const dialogResult = dialogRef.afterClosed();
+        return dialogResult;
     }
 
     ngOnInit(): void {
@@ -42,23 +46,15 @@ export class LoginModalComponent implements OnInit {
         this.loginForm.patchValue({
             userName: userName,
         });
-        this.returnUrl =
-            this.route.snapshot.queryParams['returnUrl'] || localStorage.getItem('last_url') || '/';
     }
 
     tryLogin() {
         console.log('Try to login...');
-        this.authService.login(this.userName?.value, this.password?.value).then((result) => {
-            if (result) {
-                console.log('Login successful');
-                this.dialogRef.close('Login successful');
-                localStorage.setItem('user_name', this.userName?.value || '');
-                localStorage.setItem('last_url', this.returnUrl);
-                this.router.navigate([this.returnUrl]);
-            } else {
-                console.error('Login failed');
-            }
-        });
+        const loginModel = new LoginComponentModel();
+        loginModel.userName = this.userName?.value || '';
+        loginModel.password = this.password?.value || '';
+        loginModel.doLogin = true;
+        this.dialogRef.close(loginModel);
     }
 
     forgotPassword() {
