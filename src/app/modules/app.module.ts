@@ -18,6 +18,7 @@ import { ErrorDialogComponent } from '../components/dialogs/message-dialog.compo
 import { LoginModule } from './login.module';
 import { AppHttpInterceptor } from '../interceptors/http.interceptor';
 import { CollectionsModule } from './collections.module';
+import { AuthGuard } from '../guards/auth.guard';
 
 @NgModule({
     declarations: [AppComponent, ErrorDialogComponent],
@@ -41,6 +42,7 @@ import { CollectionsModule } from './collections.module';
     ],
     providers: [
         AuthService,
+        AuthGuard,
         provideHttpClient(withInterceptorsFromDi()),
         {
             provide: APP_INITIALIZER,

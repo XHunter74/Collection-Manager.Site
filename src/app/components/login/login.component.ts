@@ -6,6 +6,7 @@ import { LoginComponentModel } from '../../models/login-component.model';
 import { ErrorDialogComponent } from '../dialogs/message-dialog.component';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { UsersService } from '../../services/users.service';
+import { Constants } from '../../shared/constants';
 
 @Component({
     selector: 'app-login',
@@ -39,8 +40,12 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
                                 if (loginResult) {
                                     console.log('Login successful');
                                     localStorage.setItem('user_name', result.userName);
-                                    const returnUrl =
-                                        this.route.snapshot.queryParams['returnUrl'] || '/';
+                                    let returnUrl =
+                                        this.route.snapshot.queryParams['returnUrl'] ||
+                                        Constants.HOME;
+                                    if (!returnUrl.startsWith('/')) {
+                                        returnUrl = '/' + returnUrl;
+                                    }
                                     this.router.navigateByUrl(returnUrl);
                                 } else {
                                     console.error('Login failed');
