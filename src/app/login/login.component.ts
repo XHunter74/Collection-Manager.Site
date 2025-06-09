@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoginComponentModel } from '../models/login-component.model';
 import { AuthService } from '../services/auth.service';
 import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
+import { ForgotPasswordComponent } from './forgot-password.component';
 
 @Component({
     selector: 'app-login',
@@ -47,6 +48,11 @@ export class LoginComponent implements AfterViewInit {
                 });
             } else if (result.doRestorePassword) {
                 console.log('Restore password requested');
+                ForgotPasswordComponent.show(this.matDialog).subscribe((email) => {
+                    if (email) {
+                        console.log('Password restoration for user:', email);
+                    }
+                });
             }
         });
     }

@@ -19,5 +19,11 @@
         "FORGOT_PASSWORD": "Forgot Password?",
         "LOGIN_FAILED": "Login failed. Please check your username and password.",
         "DIALOG_TITLE": "Login Error"
+    },
+    "FORGOT_PASSWORD": {
+        "TITLE": "Forgot Password",
+        "EMAIL": "Email",
+        "SEND_RESET_LINK": "Send Reset Link",
+        "EMAIL_ERROR": "Email is required"
     }
 }

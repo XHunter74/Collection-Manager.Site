@@ -6,9 +6,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from '../login/login.component';
+import { ForgotPasswordComponent } from '../login/forgot-password.component';
 
 @NgModule({
-    declarations: [LoginComponent, LoginModalComponent],
+    declarations: [LoginComponent, LoginModalComponent, ForgotPasswordComponent],
     bootstrap: [],
     imports: [
         CommonModule,
