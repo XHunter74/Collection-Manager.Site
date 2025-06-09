@@ -33,4 +33,14 @@ export class CollectionsService extends HttpService {
         const actionUrl = `collections/${collectionId}/items`;
         return this.get<any[]>(actionUrl);
     }
+
+    createCollection(collection: CollectionDto): Observable<CollectionDto> {
+        const actionUrl = 'collections';
+        return this.post<CollectionDto>(actionUrl, collection);
+    }
+
+    updateCollection(collection: CollectionDto): Observable<CollectionDto> {
+        const actionUrl = `collections/${collection.id}`;
+        return this.put<CollectionDto>(actionUrl, collection);
+    }
 }

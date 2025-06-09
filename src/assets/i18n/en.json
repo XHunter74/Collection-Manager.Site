@@ -41,5 +41,19 @@
         "RESET_FAILED": "Failed to reset password. Please try again.",
         "PASSWORD_COMPLEXITY_ERROR": "Password must be at least 8 characters long and contain a mix of letters, numbers, and special characters.",
         "NO_NEW_PASSWORD": "No new password entered"
+    },
+    "EDIT_COLLECTION": {
+        "TITLE_EDIT": "Edit Collection",
+        "TITLE_CREATE": "Create Collection",
+        "NAME": "Collection Name",
+        "DESCRIPTION": "Description",
+        "NAME_ERROR": "Collection name is required",
+        "SAVE_SUCCESS": "Collection saved successfully.",
+        "SAVE_FAILED": "Failed to save collection. Please try again.",
+        "DELETE_CONFIRMATION": "Are you sure you want to delete this collection?",
+        "DELETE_SUCCESS": "Collection deleted successfully.",
+        "DELETE_FAILED": "Failed to delete collection. Please try again.",
+        "SAVE_EDIT": "Save Changes",
+        "SAVE_CREATE": "Create Collection"
     }
 }

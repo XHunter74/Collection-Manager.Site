@@ -1,33 +1,56 @@
 <div class="modal-app-dialog">
-    <div class="dialog-header">{{ 'FORGOT_PASSWORD.TITLE' | translate }}</div>
+    <div class="dialog-header">{{ title | translate }}</div>
     <form class="modal-form" [formGroup]="editForm" (ngSubmit)="saveChanges()" autocomplete="on">
         <div class="modal-content">
-            <div class="form-group login-username">
-                <label for="userName" class="login-label">{{
-                    'FORGOT_PASSWORD.EMAIL' | translate
+            <div class="form-group collection-name">
+                <label for="collectionName" class="login-label">{{
+                    'EDIT_COLLECTION.NAME' | translate
                 }}</label>
                 <div class="input-group">
                     <input
                         class="form-control"
                         type="text"
-                        formControlName="userName"
+                        formControlName="collectionName"
                         validateEmail
                         ngbAutofocus
                         autofocus="true"
                     />
                 </div>
-                <div class="alert alert-username">
-                    <div *ngIf="userName?.invalid && (userName?.dirty || userName?.touched)">
-                        <div *ngIf="userName?.errors?.['required']">
+                <div class="alert alert-name">
+                    <div
+                        *ngIf="
+                            collectionName?.invalid &&
+                            (collectionName?.dirty || collectionName?.touched)
+                        "
+                    >
+                        <div *ngIf="collectionName?.errors?.['required']">
                             {{ 'FORGOT_PASSWORD.EMAIL_ERROR' | translate }}
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="form-group collection-description">
+                <label for="description" class="login-label">{{
+                    'EDIT_COLLECTION.DESCRIPTION' | translate
+                }}</label>
+                <div class="input-group">
+                    <input
+                        class="form-control"
+                        type="text"
+                        formControlName="description"
+                        validateEmail
+                        ngbAutofocus
+                        autofocus="true"
+                    />
+                </div>
+            </div>
         </div>
         <div class="modal-footer dialog-footer">
+            <button mat-button type="reset" class="cancel-button" [matDialogClose]="null">
+                {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
             <button mat-button type="submit" class="ok-button" [disabled]="editForm.invalid">
-                {{ 'FORGOT_PASSWORD.SEND_RESET_LINK' | translate }}
+                {{ saveButtonText | translate }}
             </button>
         </div>
     </form>

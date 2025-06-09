@@ -35,11 +35,15 @@
     font-weight: 600;
 }
 
-.login-username {
+.collection-name {
     margin-top: 15px;
 }
 
-.alert-username {
+.collection-description {
+    margin-top: 30px;
+}
+
+.alert-name {
     margin-bottom: -15px !important;
     margin-top: 3px;
     padding: 0px;
@@ -60,6 +64,12 @@
 .ok-button {
     color: white !important;
     background-color: #4189c7;
+    width: 140px;
+}
+
+.cancel-button {
+    color: white !important;
+    background-color: #d95071;
     width: 140px;
 }
 

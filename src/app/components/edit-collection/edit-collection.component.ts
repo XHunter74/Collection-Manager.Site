@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { CollectionDto } from '../../models/collection.dto';
 
 @Component({
     selector: 'app-edit-collection',
@@ -10,39 +11,66 @@ import { Observable } from 'rxjs';
     standalone: false,
 })
 export class EditCollectionComponent implements OnInit {
-    returnUrl: string = '';
+    title: string = '';
+    saveButtonText: string = '';
+    collectionId: string = '';
 
     editForm = new UntypedFormGroup({
-        userName: new UntypedFormControl('', [Validators.required]),
+        collectionName: new UntypedFormControl('', [Validators.required]),
+        description: new UntypedFormControl(''),
     });
 
-    constructor(private readonly dialogRef: MatDialogRef<EditCollectionComponent>) {}
+    constructor(
+        private readonly dialogRef: MatDialogRef<EditCollectionComponent>,
+        @Optional() @Inject(MAT_DIALOG_DATA) public componentData: CollectionDto,
+    ) {}
 
-    static show(dialog: MatDialog, width?: string): Observable<string> {
+    static show(
+        dialog: MatDialog,
+        width?: string,
+        data?: CollectionDto,
+    ): Observable<CollectionDto> {
         if (!width) {
-            width = '400px';
+            width = '430px';
         }
         const dialogRef = dialog.open(EditCollectionComponent, {
             width,
-            height: '230px',
+            height: '350px',
             disableClose: false,
+            data: data,
         });
         const dialogResult = dialogRef.afterClosed();
         return dialogResult;
     }
 
     ngOnInit(): void {
-        const userName = localStorage.getItem('user_name');
-        this.editForm.patchValue({
-            userName: userName,
-        });
+        if (this.componentData) {
+            this.collectionId = this.componentData.id!;
+            this.title = 'EDIT_COLLECTION.TITLE_EDIT';
+            this.saveButtonText = 'EDIT_COLLECTION.SAVE_EDIT';
+            this.editForm.patchValue({
+                collectionName: this.componentData.name,
+                description: this.componentData.description,
+            });
+        } else {
+            this.title = 'EDIT_COLLECTION.TITLE_CREATE';
+            this.saveButtonText = 'EDIT_COLLECTION.SAVE_CREATE';
+        }
     }
 
     saveChanges() {
-        this.dialogRef.close(this.userName?.value);
+        const updatedCollection = new CollectionDto();
+        updatedCollection.id = this.collectionId;
+        updatedCollection.name = this.collectionName?.value;
+        updatedCollection.description = this.description?.value;
+        this.dialogRef.close(updatedCollection);
     }
 
-    get userName() {
-        return this.editForm.get('userName');
+    get collectionName() {
+        return this.editForm.get('collectionName');
+    }
+
+    get description() {
+        return this.editForm.get('description');
     }
 }
