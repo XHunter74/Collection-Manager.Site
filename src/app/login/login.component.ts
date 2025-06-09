@@ -3,7 +3,6 @@ import { LoginModalComponent } from './login-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginComponentModel } from '../models/login-component.model';
-import { AuthService } from '../services/auth.service';
 import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { UsersService } from '../services/users.service';
@@ -19,7 +18,6 @@ export class LoginComponent implements AfterViewInit {
         private matDialog: MatDialog,
         private route: ActivatedRoute,
         private router: Router,
-        private authService: AuthService,
         private userService: UsersService,
     ) {}
 
@@ -65,6 +63,28 @@ export class LoginComponent implements AfterViewInit {
                 ForgotPasswordComponent.show(this.matDialog).subscribe((email) => {
                     if (email) {
                         console.log('Password restoration for user:', email);
+                        this.userService.sendResetPasswordLink(email).subscribe({
+                            next: () => {
+                                console.log('Reset password link sent successfully');
+                                ErrorDialogComponent.show(
+                                    this.matDialog,
+                                    'FORGOT_PASSWORD.RESTORE_PASSWORD_SUCCESS',
+                                    'FORGOT_PASSWORD.TITLE',
+                                ).subscribe(() => {
+                                    this.processLogin();
+                                });
+                            },
+                            error: (err) => {
+                                console.error('Error sending reset password link:', err);
+                                ErrorDialogComponent.show(
+                                    this.matDialog,
+                                    'FORGOT_PASSWORD.RESTORE_PASSWORD_FAILED',
+                                    'FORGOT_PASSWORD.TITLE',
+                                ).subscribe(() => {
+                                    this.processLogin();
+                                });
+                            },
+                        });
                     }
                 });
             }

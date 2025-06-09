@@ -31,6 +31,11 @@ export class UsersService extends HttpService {
         );
     }
 
+    sendResetPasswordLink(email: string): Observable<boolean> {
+        const actionUrl = `users/generate-reset-password-link?userName=${encodeURIComponent(email)}`;
+        return this.post<boolean>(actionUrl, null);
+    }
+
     changePassword(newPassword: string): Observable<UserTokenDto> {
         const passwordModel = {
             newPassword: newPassword,

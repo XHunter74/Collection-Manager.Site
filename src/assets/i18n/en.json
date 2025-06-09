@@ -24,6 +24,9 @@
         "TITLE": "Forgot Password",
         "EMAIL": "Email",
         "SEND_RESET_LINK": "Send Reset Link",
-        "EMAIL_ERROR": "Email is required"
+        "EMAIL_ERROR": "Email is required",
+        "RESTORE_PASSWORD_FAILED": "Failed to send reset link. Please try again.",
+        "RESET_LINK_SENT": "Reset link sent to your email.",
+        "RESTORE_PASSWORD_SUCCESS": "Password reset link has been sent to your email."
     }
 }
