@@ -1,15 +1,12 @@
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { Constants, Intervals } from '../shared/constants';
+import { Constants } from '../shared/constants';
 import { UserTokenDto } from '../models/user-token.dto';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
-    constructor(private httpClient: HttpClient) {}
+    constructor() {}
 
     isLoggedIn() {}
 
@@ -28,37 +25,11 @@ export class AuthService {
 
     checkAuth() {}
 
-    login(userName: string, password: string): Promise<boolean> {
-        const url = `${environment.apiUrl}auth/token`;
-        const body = new HttpParams()
-            .set('grant_type', 'password')
-            .set('username', userName)
-            .set('password', password)
-            .set('client_id', environment.client_id)
-            .set('client_secret', environment.client_secret);
-        const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        return lastValueFrom(this.httpClient.post<any>(url, body.toString(), { headers }))
-            .then((response) => {
-                if (response && (response.access_token || response.token)) {
-                    const token = response.access_token || response.token;
-                    localStorage.setItem(Constants.Token, token);
-                    localStorage.setItem(Constants.RefreshToken, response.refresh_token);
-                    const expiresIn =
-                        new Date().getTime() +
-                        Number.parseFloat(response.expires_in) * Intervals.OneSecond;
-                    localStorage.setItem(Constants.TokenExpiresIn, expiresIn.toString());
-                    return true;
-                }
-                return false;
-            })
-            .catch(() => {
-                return false;
-            });
-    }
-
     public processLogin(userName: string, userToken: UserTokenDto) {
         console.log('Processing login for user, token:', JSON.stringify(userToken));
         localStorage.setItem('user_name', userName);
+        localStorage.setItem(Constants.Token, userToken.access_token);
+        localStorage.setItem(Constants.RefreshToken, userToken.refresh_token);
     }
 
     logout() {
