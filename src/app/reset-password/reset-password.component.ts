@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ResetPasswordModalComponent } from './reset-password-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-reset-password',
@@ -11,7 +13,10 @@ export class ResetPasswordComponent implements OnInit {
     userId: string | null = null;
     token: string | null = null;
 
-    constructor(private route: ActivatedRoute) {}
+    constructor(
+        private matDialog: MatDialog,
+        private route: ActivatedRoute,
+    ) {}
 
     ngOnInit(): void {
         this.userId = this.route.snapshot.paramMap.get('userId');
@@ -23,5 +28,12 @@ export class ResetPasswordComponent implements OnInit {
         }
         console.log('User ID:', this.userId);
         console.log('Token:', this.token);
+        ResetPasswordModalComponent.show(this.matDialog).subscribe((result: string) => {
+            if (result) {
+                console.log('New password entered:', result);
+            } else {
+                console.log('No new password entered');
+            }
+        });
     }
 }

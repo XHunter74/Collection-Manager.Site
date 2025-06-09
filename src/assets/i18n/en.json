@@ -28,5 +28,16 @@
         "RESTORE_PASSWORD_FAILED": "Failed to send reset link. Please try again.",
         "RESET_LINK_SENT": "Reset link sent to your email.",
         "RESTORE_PASSWORD_SUCCESS": "Password reset link has been sent to your email."
+    },
+    "RESET_PASSWORD": {
+        "TITLE": "Reset Password",
+        "NEW_PASSWORD": "New Password",
+        "CONFIRM_PASSWORD": "Confirm Password",
+        "NEW_PASSWORD_ERROR": "New password is required",
+        "CONFIRM_PASSWORD_ERROR": "Confirm password is required",
+        "RESET_PASSWORD": "Reset Password",
+        "PASSWORD_MISMATCH": "Passwords do not match",
+        "RESET_SUCCESS": "Password has been reset successfully.",
+        "RESET_FAILED": "Failed to reset password. Please try again."
     }
 }

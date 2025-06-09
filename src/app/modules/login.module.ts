@@ -9,6 +9,7 @@ import { LoginComponent } from '../login/login.component';
 import { ForgotPasswordComponent } from '../login/forgot-password.component';
 import { UsersService } from '../services/users.service';
 import { ResetPasswordComponent } from '../reset-password/reset-password.component';
+import { ResetPasswordModalComponent } from '../reset-password/reset-password-modal.component';
 
 @NgModule({
     declarations: [
@@ -16,6 +17,7 @@ import { ResetPasswordComponent } from '../reset-password/reset-password.compone
         LoginModalComponent,
         ForgotPasswordComponent,
         ResetPasswordComponent,
+        ResetPasswordModalComponent,
     ],
     bootstrap: [],
     imports: [
