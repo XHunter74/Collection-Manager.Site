@@ -6,9 +6,10 @@ import { AppMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../services/users.service';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
+import { SelectCollectionComponent } from '../components/select-collection/select-collection.component';
 
 @NgModule({
-    declarations: [DashboardComponent],
+    declarations: [DashboardComponent, SelectCollectionComponent],
     bootstrap: [],
     imports: [
         CommonModule,
