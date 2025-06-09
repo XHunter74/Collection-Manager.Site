@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginComponentModel } from '../models/login-component.model';
 import { AuthService } from '../services/auth.service';
+import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
 
 @Component({
     selector: 'app-login',
@@ -20,6 +21,10 @@ export class LoginComponent implements AfterViewInit {
     ) {}
 
     ngAfterViewInit(): void {
+        this.processLogin();
+    }
+
+    private processLogin() {
         LoginModalComponent.show(this.matDialog).subscribe((result: LoginComponentModel) => {
             if (result.doLogin) {
                 console.log('Login attempt with user:', result.userName);
@@ -31,10 +36,16 @@ export class LoginComponent implements AfterViewInit {
                         this.router.navigateByUrl(returnUrl);
                     } else {
                         console.error('Login failed');
+                        ErrorDialogComponent.show(
+                            this.matDialog,
+                            'Login failed. Please check your credentials.',
+                        ).subscribe(() => {
+                            this.processLogin();
+                        });
                     }
                 });
             } else if (result.doRestorePassword) {
-                console.log('Restore password requested for user:', result.userName);
+                console.log('Restore password requested');
             }
         });
     }

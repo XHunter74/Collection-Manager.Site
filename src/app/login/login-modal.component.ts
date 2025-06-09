@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
 import { LoginComponentModel } from '../models/login-component.model';
 
@@ -21,12 +19,7 @@ export class LoginModalComponent implements OnInit {
         password: new UntypedFormControl('', [Validators.required]),
     });
 
-    constructor(
-        private readonly dialogRef: MatDialogRef<LoginModalComponent>,
-        private route: ActivatedRoute,
-        private router: Router,
-        private authService: AuthService,
-    ) {}
+    constructor(private readonly dialogRef: MatDialogRef<LoginModalComponent>) {}
 
     static show(dialog: MatDialog, width?: string): Observable<LoginComponentModel> {
         if (!width) {
@@ -58,7 +51,9 @@ export class LoginModalComponent implements OnInit {
     }
 
     forgotPassword() {
-        console.log('Forgot password clicked');
+        const loginModel = new LoginComponentModel();
+        loginModel.doRestorePassword = true;
+        this.dialogRef.close(loginModel);
     }
 
     get userName() {

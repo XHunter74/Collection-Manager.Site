@@ -9,11 +9,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../environments/environment';
 import { appInitializerFactory, HttpLoaderFactory } from './app-initialize.factory';
-import { LoginComponent } from '../login/login.component';
-import { LoginModalComponent } from '../login/login-modal.component';
+import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
+import { LoginModule } from './login.module';
 
 @NgModule({
-    declarations: [AppComponent, LoginComponent, LoginModalComponent],
+    declarations: [AppComponent, ErrorDialogComponent],
     bootstrap: [AppComponent],
     imports: [
         AppMaterialModule,
@@ -21,6 +21,7 @@ import { LoginModalComponent } from '../login/login-modal.component';
         FormsModule,
         ReactiveFormsModule,
         BrowserModule,
+        LoginModule,
         TranslateModule.forRoot({
             defaultLanguage: environment.defaultLocale,
             loader: {
