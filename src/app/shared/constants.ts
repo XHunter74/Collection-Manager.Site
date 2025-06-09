@@ -9,4 +9,6 @@ export class Constants {
 
 export class Intervals {
     static OneSecond = 1000;
+    static OneMinute = 60 * Intervals.OneSecond;
+    static OneHour = 60 * Intervals.OneMinute;
 }

@@ -1,5 +1,10 @@
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+    HTTP_INTERCEPTORS,
+    HttpClient,
+    provideHttpClient,
+    withInterceptorsFromDi,
+} from '@angular/common/http';
 import { AppMaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from '../app.component';
@@ -11,6 +16,7 @@ import { environment } from '../../environments/environment';
 import { appInitializerFactory, HttpLoaderFactory } from './app-initialize.factory';
 import { ErrorDialogComponent } from '../components/dialogs/message-dialog.component';
 import { LoginModule } from './login.module';
+import { AppHttpInterceptor } from '../interceptors/http.interceptor';
 
 @NgModule({
     declarations: [AppComponent, ErrorDialogComponent],
@@ -40,6 +46,7 @@ import { LoginModule } from './login.module';
             deps: [TranslateService, Injector],
             multi: true,
         },
+        { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
     ],
 })
 export class AppModule {
