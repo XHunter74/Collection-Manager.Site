@@ -3,7 +3,7 @@ import { LoginModalComponent } from './login-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginComponentModel } from '../models/login-component.model';
-import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../dialogs/message-dialog/message-dialog.component';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { UsersService } from '../services/users.service';
 

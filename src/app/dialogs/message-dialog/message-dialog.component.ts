@@ -6,8 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-error-dialog',
-    templateUrl: './error-dialog.component.html',
-    styleUrls: ['./error-dialog.component.css'],
+    templateUrl: './message-dialog.component.html',
+    styleUrls: ['./message-dialog.component.css'],
     standalone: false,
 })
 export class ErrorDialogComponent {

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ResetPasswordModalComponent } from './reset-password-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from '../services/users.service';
-import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../dialogs/message-dialog/message-dialog.component';
 
 @Component({
     selector: 'app-reset-password',
