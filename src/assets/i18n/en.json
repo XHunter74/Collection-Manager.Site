@@ -16,6 +16,8 @@
         "AUTHENTICATION": "Authentication",
         "PASSWORD_ERROR": "Password is required",
         "USERNAME_ERROR": "Username is required",
-        "FORGOT_PASSWORD": "Forgot Password?"
+        "FORGOT_PASSWORD": "Forgot Password?",
+        "LOGIN_FAILED": "Login failed. Please check your username and password.",
+        "DIALOG_TITLE": "Login Error"
     }
 }

@@ -38,7 +38,8 @@ export class LoginComponent implements AfterViewInit {
                         console.error('Login failed');
                         ErrorDialogComponent.show(
                             this.matDialog,
-                            'Login failed. Please check your credentials.',
+                            'LOGIN.LOGIN_FAILED',
+                            'LOGIN.DIALOG_TITLE',
                         ).subscribe(() => {
                             this.processLogin();
                         });

@@ -41,7 +41,7 @@
 }
 
 .ok-button {
-    color: white;
+    color: white !important;
     background-color: #4189c7;
     width: 120px;
 }
