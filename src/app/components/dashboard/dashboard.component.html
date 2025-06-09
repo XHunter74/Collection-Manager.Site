@@ -2,6 +2,28 @@
     <app-select-collection
         (currentCollectionChange)="currentCollection = $event"
     ></app-select-collection>
+    <button
+        class="hourly__mat-button"
+        mat-button
+        (click)="clickEditCollection()"
+        [disabled]="!currentCollection"
+        [matTooltipDisabled]="!currentCollection"
+        matTooltip="{{ 'COMMON.BACK' | translate }}"
+        matTooltipClass="tooltip"
+    >
+        <mat-icon>edit</mat-icon>
+    </button>
+    <button
+        class="hourly__mat-button"
+        mat-button
+        (click)="clickEditCollection()"
+        [disabled]="!currentCollection"
+        [matTooltipDisabled]="!currentCollection"
+        matTooltip="{{ 'COMMON.BACK' | translate }}"
+        matTooltipClass="tooltip"
+    >
+        <mat-icon>settings</mat-icon>
+    </button>
 </div>
 <div class="items-container">
     <app-items [currentCollection]="currentCollection"></app-items>

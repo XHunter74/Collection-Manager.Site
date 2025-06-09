@@ -9,9 +9,15 @@ import { DashboardComponent } from '../components/dashboard/dashboard.component'
 import { SelectCollectionComponent } from '../components/select-collection/select-collection.component';
 import { CollectionsService } from '../services/collections.service';
 import { ItemsComponent } from '../components/items/items.component';
+import { EditCollectionComponent } from '../components/edit-collection/edit-collection.component';
 
 @NgModule({
-    declarations: [DashboardComponent, SelectCollectionComponent, ItemsComponent],
+    declarations: [
+        DashboardComponent,
+        SelectCollectionComponent,
+        ItemsComponent,
+        EditCollectionComponent,
+    ],
     bootstrap: [],
     imports: [
         CommonModule,

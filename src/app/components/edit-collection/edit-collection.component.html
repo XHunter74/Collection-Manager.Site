@@ -1,0 +1,34 @@
+<div class="modal-app-dialog">
+    <div class="dialog-header">{{ 'FORGOT_PASSWORD.TITLE' | translate }}</div>
+    <form class="modal-form" [formGroup]="editForm" (ngSubmit)="saveChanges()" autocomplete="on">
+        <div class="modal-content">
+            <div class="form-group login-username">
+                <label for="userName" class="login-label">{{
+                    'FORGOT_PASSWORD.EMAIL' | translate
+                }}</label>
+                <div class="input-group">
+                    <input
+                        class="form-control"
+                        type="text"
+                        formControlName="userName"
+                        validateEmail
+                        ngbAutofocus
+                        autofocus="true"
+                    />
+                </div>
+                <div class="alert alert-username">
+                    <div *ngIf="userName?.invalid && (userName?.dirty || userName?.touched)">
+                        <div *ngIf="userName?.errors?.['required']">
+                            {{ 'FORGOT_PASSWORD.EMAIL_ERROR' | translate }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer dialog-footer">
+            <button mat-button type="submit" class="ok-button" [disabled]="editForm.invalid">
+                {{ 'FORGOT_PASSWORD.SEND_RESET_LINK' | translate }}
+            </button>
+        </div>
+    </form>
+</div>

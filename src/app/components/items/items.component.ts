@@ -29,36 +29,34 @@ export class ItemsComponent implements OnChanges {
     }
 
     private processCollectionChange(): void {
-        if (this.currentCollection) {
-            this.collectionsService.loadCollectionFields(this.currentCollection.id!).subscribe({
-                next: (fields: CollectionFieldDto[]) => {
-                    this.fields = fields;
-                    if (this.currentCollection && this.currentCollection.id) {
-                        this.collectionsService
-                            .loadCollectionItems(this.currentCollection.id)
-                            .subscribe({
-                                next: (items: BaseItemModel[]) => {
-                                    console.log(
-                                        'Items loaded for collection:',
-                                        this.currentCollection?.name,
-                                        items,
-                                    );
-                                    this.items = items;
-                                },
-                                error: (err) => {
-                                    console.error('Error loading items for collection:', err);
-                                },
-                            });
-                    } else {
-                        console.warn('No current collection or collection id found.');
-                    }
-                },
-                error: (err) => {
-                    console.error('Error loading items for collection:', err);
-                },
-            });
-        } else {
-            console.warn('No current collection selected.');
+        if (!this.currentCollection || !this.currentCollection.id) {
+            console.warn('No current collection or collection id found.');
+            return;
         }
+
+        this.collectionsService.loadCollectionFields(this.currentCollection.id).subscribe({
+            next: (fields: CollectionFieldDto[]) => {
+                this.fields = fields;
+                this.loadItemsForCurrentCollection();
+            },
+            error: (err) => {
+                console.error('Error loading collection fields:', err);
+            },
+        });
+    }
+
+    private loadItemsForCurrentCollection(): void {
+        if (!this.currentCollection || !this.currentCollection.id) {
+            return;
+        }
+        this.collectionsService.loadCollectionItems(this.currentCollection.id).subscribe({
+            next: (items: BaseItemModel[]) => {
+                console.log('Items loaded for collection:', this.currentCollection?.name, items);
+                this.items = items;
+            },
+            error: (err) => {
+                console.error('Error loading items for collection:', err);
+            },
+        });
     }
 }
