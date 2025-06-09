@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { LoginModalComponent } from './login-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,7 +13,9 @@ import { UsersService } from '../services/users.service';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent implements AfterViewInit, OnDestroy {
+    private subscriptions: any[] = [];
+
     constructor(
         private matDialog: MatDialog,
         private route: ActivatedRoute,
@@ -26,68 +28,94 @@ export class LoginComponent implements AfterViewInit {
     }
 
     private processLogin() {
-        LoginModalComponent.show(this.matDialog).subscribe((result: LoginComponentModel) => {
-            if (result.doLogin) {
-                console.log('Login attempt with user:', result.userName);
-                this.userService.login(result.userName, result.password).subscribe({
-                    next: (loginResult) => {
-                        if (loginResult) {
-                            console.log('Login successful');
-                            localStorage.setItem('user_name', result.userName);
-                            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                            this.router.navigateByUrl(returnUrl);
-                        } else {
-                            console.error('Login failed');
-                            ErrorDialogComponent.show(
-                                this.matDialog,
-                                'LOGIN.LOGIN_FAILED',
-                                'LOGIN.DIALOG_TITLE',
-                            ).subscribe(() => {
-                                this.processLogin();
-                            });
-                        }
-                    },
-                    error: (err) => {
-                        console.error('Login error:', err);
-                        ErrorDialogComponent.show(
-                            this.matDialog,
-                            'LOGIN.LOGIN_FAILED',
-                            'LOGIN.DIALOG_TITLE',
-                        ).subscribe(() => {
-                            this.processLogin();
-                        });
-                    },
-                });
-            } else if (result.doRestorePassword) {
-                console.log('Restore password requested');
-                ForgotPasswordComponent.show(this.matDialog).subscribe((email) => {
-                    if (email) {
-                        console.log('Password restoration for user:', email);
-                        this.userService.sendResetPasswordLink(email).subscribe({
-                            next: () => {
-                                console.log('Reset password link sent successfully');
-                                ErrorDialogComponent.show(
-                                    this.matDialog,
-                                    'FORGOT_PASSWORD.RESTORE_PASSWORD_SUCCESS',
-                                    'FORGOT_PASSWORD.TITLE',
-                                ).subscribe(() => {
-                                    this.processLogin();
-                                });
+        const loginModalSub = LoginModalComponent.show(this.matDialog).subscribe(
+            (result: LoginComponentModel) => {
+                if (result.doLogin) {
+                    console.log('Login attempt with user:', result.userName);
+                    const loginSub = this.userService
+                        .login(result.userName, result.password)
+                        .subscribe({
+                            next: (loginResult) => {
+                                if (loginResult) {
+                                    console.log('Login successful');
+                                    localStorage.setItem('user_name', result.userName);
+                                    const returnUrl =
+                                        this.route.snapshot.queryParams['returnUrl'] || '/';
+                                    this.router.navigateByUrl(returnUrl);
+                                } else {
+                                    console.error('Login failed');
+                                    const dialogSub = ErrorDialogComponent.show(
+                                        this.matDialog,
+                                        'LOGIN.LOGIN_FAILED',
+                                        'LOGIN.DIALOG_TITLE',
+                                    ).subscribe(() => {
+                                        this.processLogin();
+                                    });
+                                    this.subscriptions.push(dialogSub);
+                                }
                             },
                             error: (err) => {
-                                console.error('Error sending reset password link:', err);
-                                ErrorDialogComponent.show(
+                                console.error('Login error:', err);
+                                const dialogSub = ErrorDialogComponent.show(
                                     this.matDialog,
-                                    'FORGOT_PASSWORD.RESTORE_PASSWORD_FAILED',
-                                    'FORGOT_PASSWORD.TITLE',
+                                    'LOGIN.LOGIN_FAILED',
+                                    'LOGIN.DIALOG_TITLE',
                                 ).subscribe(() => {
                                     this.processLogin();
                                 });
+                                this.subscriptions.push(dialogSub);
                             },
                         });
-                    }
-                });
-            }
-        });
+                    this.subscriptions.push(loginSub);
+                } else if (result.doRestorePassword) {
+                    console.log('Restore password requested');
+                    const forgotSub = ForgotPasswordComponent.show(this.matDialog).subscribe(
+                        (email) => {
+                            if (email) {
+                                console.log('Password restoration for user:', email);
+                                const resetSub = this.userService
+                                    .sendResetPasswordLink(email)
+                                    .subscribe({
+                                        next: () => {
+                                            console.log('Reset password link sent successfully');
+                                            const dialogSub = ErrorDialogComponent.show(
+                                                this.matDialog,
+                                                'FORGOT_PASSWORD.RESTORE_PASSWORD_SUCCESS',
+                                                'FORGOT_PASSWORD.TITLE',
+                                            ).subscribe(() => {
+                                                this.processLogin();
+                                            });
+                                            this.subscriptions.push(dialogSub);
+                                        },
+                                        error: (err) => {
+                                            console.error(
+                                                'Error sending reset password link:',
+                                                err,
+                                            );
+                                            const dialogSub = ErrorDialogComponent.show(
+                                                this.matDialog,
+                                                'FORGOT_PASSWORD.RESTORE_PASSWORD_FAILED',
+                                                'FORGOT_PASSWORD.TITLE',
+                                            ).subscribe(() => {
+                                                this.processLogin();
+                                            });
+                                            this.subscriptions.push(dialogSub);
+                                        },
+                                    });
+                                this.subscriptions.push(resetSub);
+                            }
+                        },
+                    );
+                    this.subscriptions.push(forgotSub);
+                }
+            },
+        );
+        this.subscriptions.push(loginModalSub);
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach(
+            (sub) => sub && typeof sub.unsubscribe === 'function' && sub.unsubscribe(),
+        );
     }
 }
