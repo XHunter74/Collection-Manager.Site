@@ -1,5 +1,5 @@
 export class Constants {
-    static HOME = '/dashboard';
+    static HOME = '/collections';
     static AppLanguage = 'app-language';
     static AuthToken = 'auth-token';
     static RefreshToken = 'refresh-token';

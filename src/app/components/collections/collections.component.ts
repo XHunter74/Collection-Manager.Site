@@ -5,12 +5,12 @@ import { EditCollectionComponent } from '../edit-collection/edit-collection.comp
 import { CollectionsService } from '../../services/collections.service';
 
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrl: './dashboard.component.css',
+    selector: 'app-collections',
+    templateUrl: './collections.component.html',
+    styleUrl: './collections.component.css',
     standalone: false,
 })
-export class DashboardComponent {
+export class CollectionsComponent {
     @Input() currentCollection: CollectionDto | null = null;
 
     constructor(
