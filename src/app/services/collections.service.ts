@@ -54,4 +54,9 @@ export class CollectionsService extends HttpService {
         const actionUrl = 'collectionfields/types';
         return this.get<FieldTypeDto[]>(actionUrl);
     }
+
+    changeCollectionFieldOrder(orderId: string, order: number): Observable<CollectionFieldDto> {
+        const actionUrl = `collectionfields/${orderId}/order?order=${order}`;
+        return this.put<CollectionFieldDto>(actionUrl, undefined, undefined, false);
+    }
 }

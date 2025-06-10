@@ -102,6 +102,8 @@ export class FieldsListComponent implements OnChanges, OnInit {
 
         this.fields.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
         this.sortedData.data = this.fields;
+        this.storeChangedOrder(field.id!, field.order!);
+        this.storeChangedOrder(pairField.id!, pairField.order!);
     }
 
     isUpButtonDisabled(fieldId: string): boolean {
@@ -114,5 +116,16 @@ export class FieldsListComponent implements OnChanges, OnInit {
         const maxOrder = Math.max(...this.fields.map((f) => f.order ?? 0));
         const order = this.fields.find((f) => f.id === fieldId)!.order;
         return order! >= maxOrder;
+    }
+
+    storeChangedOrder(fieldId: string, order: number): void {
+        this.collectionService.changeCollectionFieldOrder(fieldId, order).subscribe({
+            next: () => {
+                console.log(`Order for field ${fieldId} updated to ${order}`);
+            },
+            error: (err) => {
+                console.error(`Error updating order for field ${fieldId}:`, err);
+            },
+        });
     }
 }
