@@ -13,19 +13,33 @@
     <div class="collection-fields-list">
         <table mat-table [dataSource]="sortedData" class="fields-table">
             <ng-container matColumnDef="name">
-                <th *matHeaderCellDef class="right-align">{{ 'COMMON.NAME' | translate }}</th>
+                <th *matHeaderCellDef class="right-align">
+                    {{ 'FIELDS_LIST.NAME_COLUMN' | translate }}
+                </th>
                 <td *matCellDef="let element" class="name-column">
                     {{ element.name }}
                 </td>
             </ng-container>
             <ng-container matColumnDef="description">
-                <th *matHeaderCellDef class="right-align">{{ 'COMMON.NAME' | translate }}</th>
+                <th *matHeaderCellDef class="right-align">
+                    {{ 'FIELDS_LIST.DESCRIPTION_COLUMN' | translate }}
+                </th>
                 <td *matCellDef="let element" class="description-column">
                     {{ element.description }}
                 </td>
             </ng-container>
+            <ng-container matColumnDef="isRequired">
+                <th *matHeaderCellDef class="right-align">
+                    {{ 'FIELDS_LIST.REQUIRED_COLUMN' | translate }}
+                </th>
+                <td *matCellDef="let element" class="required-column">
+                    <mat-icon *ngIf="element.isRequired">check</mat-icon>
+                </td>
+            </ng-container>
             <ng-container matColumnDef="typeName">
-                <th *matHeaderCellDef class="right-align">{{ 'COMMON.NAME' | translate }}</th>
+                <th *matHeaderCellDef class="right-align">
+                    {{ 'FIELDS_LIST.TYPE_COLUMN' | translate }}
+                </th>
                 <td *matCellDef="let element" class="type-name-column">
                     {{ element.typeName }}
                 </td>
@@ -45,6 +59,7 @@
                     <button
                         class="row-button"
                         mat-button
+                        [disabled]="element.isSystem"
                         (click)="deleteCollectionField(element.id)"
                         matTooltip="{{ 'FIELDS_LIST.DELETE_FIELD' | translate }}"
                         matTooltipClass="tooltip"
@@ -73,6 +88,7 @@
                     </button>
                 </td>
             </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr class="table-row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
     </div>

@@ -60,12 +60,20 @@ export class EditCollectionFieldComponent implements OnInit {
                 fieldType: this.componentData.field?.type,
                 isRequired: this.componentData.field?.isRequired ?? false,
             });
+            if (this.componentData.field.isSystem) {
+                this.editForm.get('fieldName')?.disable();
+                this.editForm.get('fieldType')?.disable();
+            } else {
+                this.editForm.get('fieldName')?.enable();
+                this.editForm.get('fieldType')?.enable();
+            }
         } else {
             this.title = 'EDIT_FIELD.TITLE_CREATE';
             this.saveButtonText = 'EDIT_FIELD.SAVE_CREATE';
+            this.editForm.get('fieldName')?.enable();
+            this.editForm.get('fieldType')?.enable();
         }
         this.fieldTypes = this.componentData.fieldTypes;
-        // this.isRequired = this.componentData.field?.isRequired ?? false;
     }
 
     saveChanges() {
@@ -76,6 +84,7 @@ export class EditCollectionFieldComponent implements OnInit {
         updatedField.type = this.fieldType?.value;
         updatedField.order = this.componentData.field?.order ?? 0;
         updatedField.isRequired = this.isRequired?.value;
+        updatedField.isSystem = this.componentData.field?.isSystem ?? false;
         this.dialogRef.close(updatedField);
     }
 

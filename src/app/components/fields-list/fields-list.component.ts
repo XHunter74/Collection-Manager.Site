@@ -18,7 +18,7 @@ export class FieldsListComponent implements OnChanges, OnInit {
     fieldTypes: FieldTypeDto[] = [];
     fields: CollectionFieldDto[] = [];
     sortedData = new MatTableDataSource();
-    displayedColumns: string[] = ['name', 'description', 'typeName', 'buttons']; //'description', 'typeName',
+    displayedColumns: string[] = ['name', 'description', 'isRequired', 'typeName', 'buttons'];
 
     constructor(
         private matDialog: MatDialog,

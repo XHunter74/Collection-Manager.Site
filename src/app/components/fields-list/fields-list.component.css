@@ -36,12 +36,18 @@
 }
 
 .description-column {
-    width: 40%;
+    width: 35%;
     background-color: transparent;
 }
 
+.required-column {
+    width: 10%;
+    background-color: transparent;
+    color: #6f940bef;
+}
+
 .type-name-column {
-    width: 15%;
+    width: 10%;
     background-color: transparent;
 }
 
