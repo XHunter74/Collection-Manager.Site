@@ -1,2 +1,79 @@
-<p>Fields List Component</p>
-<p>{{ collectionId }}</p>
+<div class="collection-fields-container">
+    <div class="collection-fields-header">
+        <button
+            class="add-field-button"
+            mat-button
+            (click)="addCollectionField()"
+            matTooltip="{{ 'FIELDS_LIST.ADD_FIELD' | translate }}"
+            matTooltipClass="tooltip"
+        >
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div class="collection-fields-list">
+        <table mat-table [dataSource]="sortedData" class="fields-table">
+            <ng-container matColumnDef="name">
+                <th *matHeaderCellDef class="right-align">{{ 'COMMON.NAME' | translate }}</th>
+                <td *matCellDef="let element" class="name-column">
+                    {{ element.name }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+                <th *matHeaderCellDef class="right-align">{{ 'COMMON.NAME' | translate }}</th>
+                <td *matCellDef="let element" class="description-column">
+                    {{ element.description }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="typeName">
+                <th *matHeaderCellDef class="right-align">{{ 'COMMON.NAME' | translate }}</th>
+                <td *matCellDef="let element" class="type-name-column">
+                    {{ element.typeName }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="buttons">
+                <th *matHeaderCellDef></th>
+                <td *matCellDef="let element" class="button-column">
+                    <button
+                        class="row-button"
+                        mat-button
+                        (click)="editCollectionField(element.id)"
+                        matTooltip="{{ 'FIELDS_LIST.EDIT_FIELD' | translate }}"
+                        matTooltipClass="tooltip"
+                    >
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button
+                        class="row-button"
+                        mat-button
+                        (click)="deleteCollectionField(element.id)"
+                        matTooltip="{{ 'FIELDS_LIST.DELETE_FIELD' | translate }}"
+                        matTooltipClass="tooltip"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button
+                        class="row-button"
+                        mat-button
+                        [disabled]="isUpButtonDisabled(element.id)"
+                        (click)="changeOrder(element.id, -1)"
+                        matTooltip="{{ 'FIELDS_LIST.UP' | translate }}"
+                        matTooltipClass="tooltip"
+                    >
+                        <mat-icon>arrow_upward</mat-icon>
+                    </button>
+                    <button
+                        class="row-button"
+                        mat-button
+                        [disabled]="isDownButtonDisabled(element.id)"
+                        (click)="changeOrder(element.id, 1)"
+                        matTooltip="{{ 'FIELDS_LIST.DOWN' | translate }}"
+                        matTooltipClass="tooltip"
+                    >
+                        <mat-icon>arrow_downward</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr class="table-row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+    </div>
+</div>

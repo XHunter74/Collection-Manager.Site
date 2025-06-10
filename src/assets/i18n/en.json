@@ -62,5 +62,13 @@
         "ADD_COLLECTION": "Add Collection",
         "EDIT_COLLECTION": "Edit Collection",
         "DELETE_COLLECTION": "Delete Collection"
+    },
+    "FIELDS_LIST": {
+        "ADD_FIELD": "Add Field",
+        "EDIT_FIELD": "Edit Field",
+        "DELETE_FIELD": "Delete Field",
+        "DELETE_FIELD_CONFIRMATION": "Are you sure you want to delete this field?",
+        "UP": "Up",
+        "DOWN": "Down"
     }
 }

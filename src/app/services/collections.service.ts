@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { CollectionDto } from '../models/collection.dto';
 import { CollectionFieldDto } from '../models/collection-field.dto';
 import { BaseItemModel } from '../models/base-item.model';
+import { FieldTypeDto } from '../models/field-type.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -47,5 +48,10 @@ export class CollectionsService extends HttpService {
     deleteCollection(collectionId: string): Observable<void> {
         const actionUrl = `collections/${collectionId}`;
         return this.delete(actionUrl);
+    }
+
+    loadFieldTypes(): Observable<FieldTypeDto[]> {
+        const actionUrl = 'collectionfields/types';
+        return this.get<FieldTypeDto[]>(actionUrl);
     }
 }
