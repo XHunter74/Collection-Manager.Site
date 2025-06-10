@@ -54,6 +54,10 @@
     padding-left: 10px;
 }
 
+.field-checkbox {
+    margin-left: 10px;
+}
+
 .alert-name {
     margin-bottom: -15px !important;
     margin-top: 3px;

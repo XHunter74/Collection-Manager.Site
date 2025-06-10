@@ -78,7 +78,7 @@
         "DESCRIPTION": "Description",
         "TYPE": "Field Type",
         "SELECT_TYPE": "Select Field Type",
-        "REQUIRED": "Required",
+        "REQUIRED": "Is Required",
         "NAME_ERROR": "Field name is required",
         "TYPE_ERROR": "Field type is required",
         "SAVE_EDIT": "Save Changes",

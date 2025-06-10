@@ -18,11 +18,13 @@ export class EditCollectionFieldComponent implements OnInit {
     fieldId: string = '';
     selectedTypeId: number | undefined = undefined;
     fieldTypes: FieldTypeDto[] = [];
+    // isRequired: boolean = false;
 
     editForm = new UntypedFormGroup({
         fieldName: new UntypedFormControl('', [Validators.required]),
         description: new UntypedFormControl(''),
         fieldType: new UntypedFormControl(''),
+        isRequired: new UntypedFormControl(false),
     });
 
     constructor(
@@ -57,6 +59,7 @@ export class EditCollectionFieldComponent implements OnInit {
                 fieldName: this.componentData.field?.name,
                 description: this.componentData.field?.description,
                 fieldType: this.componentData.field?.type,
+                isRequired: this.componentData.field?.isRequired ?? false,
             });
             this.selectedTypeId = this.componentData.field?.type;
         } else {
@@ -64,6 +67,7 @@ export class EditCollectionFieldComponent implements OnInit {
             this.saveButtonText = 'EDIT_FIELD.SAVE_CREATE';
         }
         this.fieldTypes = this.componentData.fieldTypes;
+        // this.isRequired = this.componentData.field?.isRequired ?? false;
     }
 
     saveChanges() {
@@ -73,6 +77,7 @@ export class EditCollectionFieldComponent implements OnInit {
         updatedField.description = this.description?.value;
         updatedField.type = this.selectedTypeId;
         updatedField.order = this.componentData.field?.order ?? 0;
+        updatedField.isRequired = this.isRequired?.value;
         this.dialogRef.close(updatedField);
     }
 
@@ -86,5 +91,9 @@ export class EditCollectionFieldComponent implements OnInit {
 
     get fieldType() {
         return this.editForm.get('fieldType');
+    }
+
+    get isRequired() {
+        return this.editForm.get('isRequired');
     }
 }
