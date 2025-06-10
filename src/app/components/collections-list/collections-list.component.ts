@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { CollectionsService } from '../../services/collections.service';
 import { CollectionDto } from '../../models/collection.dto';
 import { MatSort } from '@angular/material/sort';
@@ -13,10 +13,12 @@ import { EditCollectionComponent } from '../edit-collection/edit-collection.comp
     standalone: false,
 })
 export class CollectionsListComponent implements OnInit {
+    @Output() selectedCollectionIdChange = new EventEmitter<string | null>();
     @ViewChild(MatSort, { static: true }) sort: MatSort | undefined;
     sortedData = new MatTableDataSource();
     displayedColumns: string[] = ['name', 'buttons'];
     collections: CollectionDto[] = [];
+    selectedCollectionId: string | null = null;
 
     constructor(
         private matDialog: MatDialog,
@@ -93,5 +95,11 @@ export class CollectionsListComponent implements OnInit {
                 console.error('Error updating user name:', err);
             },
         });
+    }
+
+    public selectRow(collection: CollectionDto): void {
+        this.selectedCollectionId = collection.id ?? null;
+        this.selectedCollectionIdChange.emit(this.selectedCollectionId);
+        console.log('Selected collection:', collection);
     }
 }

@@ -18,6 +18,7 @@
 }
 
 .add-collection-button {
+    /* Will update later */
 }
 
 .row-button {
@@ -54,4 +55,8 @@ td {
 
 .collections-table {
     background-color: transparent !important;
+}
+
+.selected {
+    background-color: #2483f0 !important;
 }

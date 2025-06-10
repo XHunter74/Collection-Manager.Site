@@ -41,7 +41,13 @@
                     </button>
                 </td>
             </ng-container>
-            <tr class="table-row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr
+                class="table-row"
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ selected: row.id === selectedCollectionId }"
+                (click)="selectRow(row)"
+            ></tr>
         </table>
     </div>
 </div>
