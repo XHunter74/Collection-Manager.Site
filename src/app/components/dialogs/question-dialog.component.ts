@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { QuestionDialogDto } from '../../models/question-dialog.dto';
-import { firstValueFrom } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Constants } from '../../shared/constants';
 
 @Component({
     selector: 'app-dialog',
@@ -10,13 +11,15 @@ import { firstValueFrom } from 'rxjs';
     standalone: false,
 })
 export class QuestionDialogComponent {
-    static async show(
+    Constants = Constants;
+
+    static show(
         dialog: MatDialog,
         question: string,
         positiveButton?: string,
         negativeButton?: string,
         width?: string,
-    ): Promise<string> {
+    ): Observable<string> {
         if (!width) {
             width = '500px';
         }
@@ -31,7 +34,7 @@ export class QuestionDialogComponent {
             height: '170px',
             data: new QuestionDialogDto(question, positiveButton, negativeButton),
         });
-        const dialogResult = await firstValueFrom(dialogRef.afterClosed());
+        const dialogResult = dialogRef.afterClosed();
         return dialogResult;
     }
 

@@ -7,6 +7,8 @@ export class Constants {
     static TokenExpiresIn = 'token-expires-in';
     static RequestTimeout = 5000;
     static RetryCount = 3;
+    static Positive = 'positive';
+    static Negative = 'negative';
 }
 
 export class Intervals {

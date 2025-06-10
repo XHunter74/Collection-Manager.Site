@@ -5,6 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { EditCollectionComponent } from '../edit-collection/edit-collection.component';
+import { QuestionDialogComponent } from '../dialogs/question-dialog.component';
+import { Constants } from '../../shared/constants';
 
 @Component({
     selector: 'app-collections-list',
@@ -61,7 +63,35 @@ export class CollectionsListComponent implements OnInit {
 
     public deleteCollection(collectionId: string): void {
         if (collectionId) {
-            // Confirm deletion with the user
+            QuestionDialogComponent.show(
+                this.matDialog,
+                'EDIT_COLLECTION.DELETE_CONFIRMATION',
+            ).subscribe({
+                next: (result) => {
+                    if (result && result === Constants.Positive) {
+                        console.log('Deleting collection with ID:', collectionId);
+                        this.collectionsService.deleteCollection(collectionId).subscribe({
+                            next: () => {
+                                console.log('Collection deleted successfully');
+                                this.collections = this.collections.filter(
+                                    (c) => c.id !== collectionId,
+                                );
+                                this.sortedData.data = [...this.collections];
+                                if (this.selectedCollectionId === collectionId) {
+                                    this.selectedCollectionId = null;
+                                    this.selectedCollectionIdChange.emit(this.selectedCollectionId);
+                                }
+                            },
+                            error: (err: any) => {
+                                console.error('Error deleting collection:', err);
+                            },
+                        });
+                    }
+                },
+                error: (err) => {
+                    console.error('Error showing delete confirmation dialog:', err);
+                },
+            });
         }
     }
 

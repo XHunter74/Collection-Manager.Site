@@ -43,4 +43,9 @@ export class CollectionsService extends HttpService {
         const actionUrl = `collections/${collection.id}`;
         return this.put<CollectionDto>(actionUrl, collection);
     }
+
+    deleteCollection(collectionId: string): Observable<void> {
+        const actionUrl = `collections/${collectionId}`;
+        return this.delete(actionUrl);
+    }
 }
