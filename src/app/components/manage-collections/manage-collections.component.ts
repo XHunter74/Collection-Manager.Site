@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-manage-collections',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
     styleUrl: './manage-collections.component.css',
     standalone: false,
 })
-export class ManageCollectionsComponent {}
+export class ManageCollectionsComponent {
+    @Input() collectionId: string | null = null;
+}
