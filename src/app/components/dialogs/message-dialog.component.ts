@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./message-dialog.component.css'],
     standalone: false,
 })
-export class ErrorDialogComponent {
+export class MessageDialogComponent {
     static show(
         dialog: MatDialog,
         message: string,
@@ -24,7 +24,7 @@ export class ErrorDialogComponent {
             title = 'COMMON.ERROR';
         }
 
-        const dialogRef = dialog.open(ErrorDialogComponent, {
+        const dialogRef = dialog.open(MessageDialogComponent, {
             width: width,
             height: '205px',
             data: new ErrorDialogData(message, title),
@@ -35,7 +35,7 @@ export class ErrorDialogComponent {
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: ErrorDialogData,
-        private readonly dialogRef: MatDialogRef<ErrorDialogComponent>,
+        private readonly dialogRef: MatDialogRef<MessageDialogComponent>,
         private translate: TranslateService,
     ) {}
 

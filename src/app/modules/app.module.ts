@@ -14,7 +14,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../environments/environment';
 import { appInitializerFactory, HttpLoaderFactory } from './app-initialize.factory';
-import { ErrorDialogComponent } from '../components/dialogs/message-dialog.component';
+import { MessageDialogComponent } from '../components/dialogs/message-dialog.component';
 import { LoginModule } from './login.module';
 import { AppHttpInterceptor } from '../interceptors/http.interceptor';
 import { CollectionsModule } from './collections.module';
@@ -23,7 +23,7 @@ import { ManageCollectionsModule } from './manage-collections.module';
 import { QuestionDialogComponent } from '../components/dialogs/question-dialog.component';
 
 @NgModule({
-    declarations: [AppComponent, ErrorDialogComponent, QuestionDialogComponent],
+    declarations: [AppComponent, MessageDialogComponent, QuestionDialogComponent],
     bootstrap: [AppComponent],
     imports: [
         AppMaterialModule,

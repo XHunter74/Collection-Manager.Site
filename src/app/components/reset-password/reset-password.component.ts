@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ResetPasswordModalComponent } from './reset-password-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from '../../services/users.service';
-import { ErrorDialogComponent } from '../dialogs/message-dialog.component';
+import { MessageDialogComponent } from '../dialogs/message-dialog.component';
 
 @Component({
     selector: 'app-reset-password',
@@ -41,7 +41,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
                         .resetPassword(this.userId!, this.token!, result)
                         .subscribe({
                             next: () => {
-                                const dialogSub = ErrorDialogComponent.show(
+                                const dialogSub = MessageDialogComponent.show(
                                     this.matDialog,
                                     'RESET_PASSWORD.RESET_SUCCESS',
                                     'RESET_PASSWORD.TITLE',
@@ -52,7 +52,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
                             },
                             error: (err) => {
                                 console.error('Reset password error:', err);
-                                const dialogSub = ErrorDialogComponent.show(
+                                const dialogSub = MessageDialogComponent.show(
                                     this.matDialog,
                                     'RESET_PASSWORD.RESET_FAILED',
                                     'RESET_PASSWORD.TITLE',
@@ -65,7 +65,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
                     this.subscriptions.push(resetSub);
                 } else {
                     console.log('No new password entered');
-                    const dialogSub = ErrorDialogComponent.show(
+                    const dialogSub = MessageDialogComponent.show(
                         this.matDialog,
                         'RESET_PASSWORD.ERROR',
                         'RESET_PASSWORD.TITLE',

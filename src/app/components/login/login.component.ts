@@ -3,7 +3,7 @@ import { LoginModalComponent } from './login-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginComponentModel } from '../../models/login-component.model';
-import { ErrorDialogComponent } from '../dialogs/message-dialog.component';
+import { MessageDialogComponent } from '../dialogs/message-dialog.component';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { UsersService } from '../../services/users.service';
 import { Constants } from '../../shared/constants';
@@ -71,7 +71,7 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
 
     private handleLoginFailed(): void {
         console.error('Login failed');
-        const dialogSub = ErrorDialogComponent.show(
+        const dialogSub = MessageDialogComponent.show(
             this.matDialog,
             'LOGIN.LOGIN_FAILED',
             'LOGIN.DIALOG_TITLE',
@@ -83,7 +83,7 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
 
     private handleLoginError(err: any): void {
         console.error('Login error:', err);
-        const dialogSub = ErrorDialogComponent.show(
+        const dialogSub = MessageDialogComponent.show(
             this.matDialog,
             'LOGIN.LOGIN_FAILED',
             'LOGIN.DIALOG_TITLE',
@@ -112,7 +112,7 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
 
     private handleResetPasswordSuccess(): void {
         console.log('Reset password link sent successfully');
-        const dialogSub = ErrorDialogComponent.show(
+        const dialogSub = MessageDialogComponent.show(
             this.matDialog,
             'FORGOT_PASSWORD.RESTORE_PASSWORD_SUCCESS',
             'FORGOT_PASSWORD.TITLE',
@@ -124,7 +124,7 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
 
     private handleResetPasswordError(err: any): void {
         console.error('Error sending reset password link:', err);
-        const dialogSub = ErrorDialogComponent.show(
+        const dialogSub = MessageDialogComponent.show(
             this.matDialog,
             'FORGOT_PASSWORD.RESTORE_PASSWORD_FAILED',
             'FORGOT_PASSWORD.TITLE',
