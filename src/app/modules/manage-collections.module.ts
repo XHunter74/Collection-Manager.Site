@@ -5,13 +5,19 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../services/users.service';
-import { CollectionsComponent } from '../components/collections/collections.component';
-import { SelectCollectionComponent } from '../components/select-collection/select-collection.component';
 import { CollectionsService } from '../services/collections.service';
-import { ItemsComponent } from '../components/items/items.component';
+import { EditCollectionComponent } from '../components/edit-collection/edit-collection.component';
+import { ManageCollectionsComponent } from '../components/manage-collections/manage-collections.component';
+import { FieldsListComponent } from '../components/fields-list/fields-list.component';
+import { CollectionsListComponent } from '../components/collections-list/collections-list.component';
 
 @NgModule({
-    declarations: [CollectionsComponent, SelectCollectionComponent, ItemsComponent],
+    declarations: [
+        ManageCollectionsComponent,
+        FieldsListComponent,
+        CollectionsListComponent,
+        EditCollectionComponent,
+    ],
     bootstrap: [],
     imports: [
         CommonModule,
@@ -21,6 +27,6 @@ import { ItemsComponent } from '../components/items/items.component';
         TranslateModule.forChild(),
     ],
     providers: [UsersService, CollectionsService],
-    exports: [CollectionsComponent],
+    exports: [ManageCollectionsComponent],
 })
-export class CollectionsModule {}
+export class ManageCollectionsModule {}

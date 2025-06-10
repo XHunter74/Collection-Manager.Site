@@ -19,6 +19,7 @@ import { LoginModule } from './login.module';
 import { AppHttpInterceptor } from '../interceptors/http.interceptor';
 import { CollectionsModule } from './collections.module';
 import { AuthGuard } from '../guards/auth.guard';
+import { ManageCollectionsModule } from './manage-collections.module';
 
 @NgModule({
     declarations: [AppComponent, ErrorDialogComponent],
@@ -31,6 +32,7 @@ import { AuthGuard } from '../guards/auth.guard';
         BrowserModule,
         LoginModule,
         CollectionsModule,
+        ManageCollectionsModule,
         TranslateModule.forRoot({
             defaultLanguage: environment.defaultLocale,
             loader: {

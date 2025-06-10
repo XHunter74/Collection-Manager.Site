@@ -5,12 +5,14 @@ import { LoginComponent } from '../components/login/login.component';
 import { ResetPasswordComponent } from '../components/reset-password/reset-password.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { CollectionsComponent } from '../components/collections/collections.component';
+import { ManageCollectionsComponent } from '../components/manage-collections/manage-collections.component';
 
 const routes: Routes = [
     { path: '', component: LoginComponent },
     { path: 'login', component: LoginComponent },
     { path: 'reset-password', component: ResetPasswordComponent },
     { path: 'collections', component: CollectionsComponent, canActivate: [AuthGuard] },
+    { path: 'manage-collections', component: ManageCollectionsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

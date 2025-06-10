@@ -53,9 +53,9 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
         if (loginResult) {
             console.log('Login successful');
             localStorage.setItem('user_name', userName);
-            let returnUrl = this.route.snapshot.queryParams['returnUrl'] || Constants.HOME;
+            let returnUrl = this.route.snapshot.queryParams['returnUrl'] || Constants.HomeUrl;
             if (Array.isArray(returnUrl)) {
-                returnUrl = returnUrl[0] || Constants.HOME;
+                returnUrl = returnUrl[0] || Constants.HomeUrl;
             }
             if (typeof returnUrl !== 'string') {
                 returnUrl = String(returnUrl);

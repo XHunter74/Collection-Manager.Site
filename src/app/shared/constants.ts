@@ -1,5 +1,6 @@
 export class Constants {
-    static HOME = '/collections';
+    static HomeUrl = '/collections';
+    static ManageCollectionsUrl = '/manage-collections';
     static AppLanguage = 'app-language';
     static AuthToken = 'auth-token';
     static RefreshToken = 'refresh-token';

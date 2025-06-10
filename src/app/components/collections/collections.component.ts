@@ -3,6 +3,8 @@ import { CollectionDto } from '../../models/collection.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { EditCollectionComponent } from '../edit-collection/edit-collection.component';
 import { CollectionsService } from '../../services/collections.service';
+import { Router } from '@angular/router';
+import { Constants } from '../../shared/constants';
 
 @Component({
     selector: 'app-collections',
@@ -16,6 +18,7 @@ export class CollectionsComponent {
     constructor(
         private matDialog: MatDialog,
         private collectionsService: CollectionsService,
+        private router: Router,
     ) {}
 
     clickEditCollection(): void {
@@ -49,5 +52,9 @@ export class CollectionsComponent {
         } else {
             // If the collection ID is not set, it means a new collection is being created
         }
+    }
+
+    manageCollections(): void {
+        this.router.navigateByUrl(Constants.ManageCollectionsUrl);
     }
 }
