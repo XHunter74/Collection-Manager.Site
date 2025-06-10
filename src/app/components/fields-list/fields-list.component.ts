@@ -3,6 +3,9 @@ import { FieldTypeDto } from '../../models/field-type.dto';
 import { CollectionsService } from '../../services/collections.service';
 import { CollectionFieldDto } from '../../models/collection-field.dto';
 import { MatTableDataSource } from '@angular/material/table';
+import { EditCollectionFieldModel } from '../../models/edit-collection-field.model';
+import { EditCollectionFieldComponent } from '../edit-collection-field/edit-collection-field.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-fields-list',
@@ -17,11 +20,15 @@ export class FieldsListComponent implements OnChanges, OnInit {
     sortedData = new MatTableDataSource();
     displayedColumns: string[] = ['name', 'description', 'typeName', 'buttons']; //'description', 'typeName',
 
-    constructor(private collectionService: CollectionsService) {}
+    constructor(
+        private matDialog: MatDialog,
+        private collectionService: CollectionsService,
+    ) {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['collectionId']) {
             console.log('Collection ID changed:', this.collectionId);
+
             this.loadCollectionFields();
         }
     }
@@ -34,6 +41,10 @@ export class FieldsListComponent implements OnChanges, OnInit {
         this.collectionService.loadFieldTypes().subscribe({
             next: (fieldTypes: FieldTypeDto[]) => {
                 this.fieldTypes = fieldTypes;
+                this.fields.forEach((field) => {
+                    const fieldType = this.fieldTypes.find((ft) => ft.value === field.type);
+                    field.typeName = fieldType ? fieldType.name : 'Unknown';
+                });
                 console.log('Field types loaded:', this.fieldTypes);
             },
             error: (err) => {
@@ -42,7 +53,23 @@ export class FieldsListComponent implements OnChanges, OnInit {
         });
     }
 
-    addCollectionField(): void {}
+    addCollectionField(): void {
+        const data = new EditCollectionFieldModel();
+        data.fieldTypes = this.fieldTypes;
+
+        EditCollectionFieldComponent.show(this.matDialog, undefined, data).subscribe({
+            next: (updatedField: CollectionFieldDto) => {
+                if (updatedField) {
+                    const maxOrder = Math.max(...this.fields.map((f) => f.order ?? 0));
+                    updatedField.order = maxOrder + 1;
+                    this.createCollectionField(updatedField);
+                }
+            },
+            error: (err) => {
+                console.error('Error updating field:', err);
+            },
+        });
+    }
 
     loadCollectionFields(): void {
         if (!this.collectionId) {
@@ -69,9 +96,82 @@ export class FieldsListComponent implements OnChanges, OnInit {
         });
     }
 
-    deleteCollectionField(fieldId: string): void {}
+    deleteCollectionField(fieldId: string): void {
+        if (!fieldId) {
+            console.warn('No field ID provided for deletion.');
+            return;
+        }
 
-    editCollectionField(fieldId: string): void {}
+        this.collectionService.deleteCollectionField(fieldId).subscribe({
+            next: () => {
+                console.log('Field deleted successfully:', fieldId);
+                this.fields = this.fields.filter((f) => f.id !== fieldId);
+                this.sortedData.data = [...this.fields];
+            },
+            error: (err) => {
+                console.error('Error deleting field:', err);
+            },
+        });
+    }
+
+    editCollectionField(fieldId: string): void {
+        const field = this.fields.find((f) => f.id === fieldId);
+        if (!field) {
+            console.warn('Field not found:', fieldId);
+            return;
+        }
+
+        const data = new EditCollectionFieldModel();
+        data.field = field;
+        data.fieldTypes = this.fieldTypes;
+
+        EditCollectionFieldComponent.show(this.matDialog, undefined, data).subscribe({
+            next: (updatedField: CollectionFieldDto) => {
+                if (updatedField) {
+                    this.updateCollectionField(updatedField);
+                }
+            },
+            error: (err) => {
+                console.error('Error updating field:', err);
+            },
+        });
+    }
+
+    createCollectionField(field: CollectionFieldDto): void {
+        this.collectionService.createCollectionField(this.collectionId!, field).subscribe({
+            next: (createdField: CollectionFieldDto) => {
+                console.log('Field created successfully:', createdField);
+                createdField.typeName = this.fieldTypes.find(
+                    (ft) => ft.value === createdField.type,
+                )?.name;
+                this.fields.push(createdField);
+                this.fields.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+                this.sortedData.data = [...this.fields];
+            },
+            error: (err: any) => {
+                console.error('Error creating field:', err);
+            },
+        });
+    }
+
+    updateCollectionField(field: CollectionFieldDto): void {
+        this.collectionService.updateCollectionField(field).subscribe({
+            next: (updatedField: CollectionFieldDto) => {
+                updatedField.typeName = this.fieldTypes.find(
+                    (ft) => ft.value === updatedField.type,
+                )?.name;
+                console.log('Field updated successfully:', updatedField);
+                const index = this.fields.findIndex((f) => f.id === updatedField.id);
+                if (index !== -1) {
+                    this.fields[index] = updatedField;
+                    this.sortedData.data = [...this.fields];
+                }
+            },
+            error: (err: any) => {
+                console.error('Error updating field:', err);
+            },
+        });
+    }
 
     changeOrder(fieldId: string, direction: number): void {
         const field = this.fields.find((f) => f.id === fieldId);

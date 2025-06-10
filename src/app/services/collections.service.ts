@@ -59,4 +59,22 @@ export class CollectionsService extends HttpService {
         const actionUrl = `collectionfields/${orderId}/order?order=${order}`;
         return this.put<CollectionFieldDto>(actionUrl, undefined, undefined, false);
     }
+
+    updateCollectionField(collectionField: CollectionFieldDto): Observable<CollectionFieldDto> {
+        const actionUrl = `collectionfields/${collectionField.id}`;
+        return this.put<CollectionFieldDto>(actionUrl, collectionField);
+    }
+
+    createCollectionField(
+        collectionId: string,
+        collectionField: CollectionFieldDto,
+    ): Observable<CollectionFieldDto> {
+        const actionUrl = `collections/${collectionId}/collectionfields`;
+        return this.post<CollectionFieldDto>(actionUrl, collectionField, undefined, false);
+    }
+
+    deleteCollectionField(fieldId: string): Observable<void> {
+        const actionUrl = `collectionfields/${fieldId}`;
+        return this.delete(actionUrl);
+    }
 }

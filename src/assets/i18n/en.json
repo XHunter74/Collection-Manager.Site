@@ -49,7 +49,7 @@
         "TITLE_CREATE": "Create Collection",
         "NAME": "Collection Name",
         "DESCRIPTION": "Description",
-        "NAME_ERROR": "Collection name is required",
+        "NAME_ERROR": "Name is required",
         "SAVE_SUCCESS": "Collection saved successfully.",
         "SAVE_FAILED": "Failed to save collection. Please try again.",
         "DELETE_CONFIRMATION": "Are you sure you want to delete this collection?",
@@ -70,5 +70,18 @@
         "DELETE_FIELD_CONFIRMATION": "Are you sure you want to delete this field?",
         "UP": "Up",
         "DOWN": "Down"
+    },
+    "EDIT_FIELD": {
+        "TITLE_EDIT": "Edit Field",
+        "TITLE_CREATE": "Create Field",
+        "NAME": "Field Name",
+        "DESCRIPTION": "Description",
+        "TYPE": "Field Type",
+        "SELECT_TYPE": "Select Field Type",
+        "REQUIRED": "Required",
+        "NAME_ERROR": "Field name is required",
+        "TYPE_ERROR": "Field type is required",
+        "SAVE_EDIT": "Save Changes",
+        "SAVE_CREATE": "Create Field"
     }
 }

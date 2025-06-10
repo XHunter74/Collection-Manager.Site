@@ -10,6 +10,7 @@ import { EditCollectionComponent } from '../components/edit-collection/edit-coll
 import { ManageCollectionsComponent } from '../components/manage-collections/manage-collections.component';
 import { FieldsListComponent } from '../components/fields-list/fields-list.component';
 import { CollectionsListComponent } from '../components/collections-list/collections-list.component';
+import { EditCollectionFieldComponent } from '../components/edit-collection-field/edit-collection-field.component';
 
 @NgModule({
     declarations: [
@@ -17,6 +18,7 @@ import { CollectionsListComponent } from '../components/collections-list/collect
         FieldsListComponent,
         CollectionsListComponent,
         EditCollectionComponent,
+        EditCollectionFieldComponent,
     ],
     bootstrap: [],
     imports: [
