@@ -28,10 +28,23 @@ export class CollectionsListComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        const storedId = localStorage.getItem('selectedCollectionId');
+        this.selectedCollectionId = storedId ? storedId : null;
+        if (this.selectedCollectionId) {
+            this.selectedCollectionIdChange.emit(this.selectedCollectionId);
+        }
+
         this.collectionsService.loadCollections().subscribe({
             next: (collections) => {
                 this.sortedData.data = collections;
                 this.collections = collections;
+                if (
+                    this.selectedCollectionId &&
+                    !this.collections.some((c) => c.id === this.selectedCollectionId)
+                ) {
+                    this.selectedCollectionId = null;
+                    localStorage.removeItem('selectedCollectionId');
+                }
             },
             error: (err) => {
                 console.error('Error loading collections:', err);
@@ -129,6 +142,11 @@ export class CollectionsListComponent implements OnInit {
 
     public selectRow(collection: CollectionDto): void {
         this.selectedCollectionId = collection.id ?? null;
+        if (this.selectedCollectionId) {
+            localStorage.setItem('selectedCollectionId', this.selectedCollectionId);
+        } else {
+            localStorage.removeItem('selectedCollectionId');
+        }
         this.selectedCollectionIdChange.emit(this.selectedCollectionId);
         console.log('Selected collection:', collection);
     }
