@@ -37,7 +37,7 @@
                 }}</label>
                 <mat-select
                     class="select-field-type"
-                    [(value)]="selectedTypeId"
+                    formControlName="fieldType"
                     placeholder="{{ 'EDIT_FIELD.SELECT_TYPE' | translate }}"
                 >
                     <mat-option *ngFor="let fieldType of fieldTypes" [value]="fieldType.value">

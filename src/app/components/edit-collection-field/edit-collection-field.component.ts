@@ -16,7 +16,6 @@ export class EditCollectionFieldComponent implements OnInit {
     title: string = '';
     saveButtonText: string = '';
     fieldId: string = '';
-    selectedTypeId: number | undefined = undefined;
     fieldTypes: FieldTypeDto[] = [];
     // isRequired: boolean = false;
 
@@ -61,7 +60,6 @@ export class EditCollectionFieldComponent implements OnInit {
                 fieldType: this.componentData.field?.type,
                 isRequired: this.componentData.field?.isRequired ?? false,
             });
-            this.selectedTypeId = this.componentData.field?.type;
         } else {
             this.title = 'EDIT_FIELD.TITLE_CREATE';
             this.saveButtonText = 'EDIT_FIELD.SAVE_CREATE';
@@ -75,7 +73,7 @@ export class EditCollectionFieldComponent implements OnInit {
         updatedField.id = this.fieldId;
         updatedField.name = this.fieldName?.value;
         updatedField.description = this.description?.value;
-        updatedField.type = this.selectedTypeId;
+        updatedField.type = this.fieldType?.value;
         updatedField.order = this.componentData.field?.order ?? 0;
         updatedField.isRequired = this.isRequired?.value;
         this.dialogRef.close(updatedField);
