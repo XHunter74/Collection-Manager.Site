@@ -20,9 +20,10 @@ import { AppHttpInterceptor } from '../interceptors/http.interceptor';
 import { CollectionsModule } from './collections.module';
 import { AuthGuard } from '../guards/auth.guard';
 import { ManageCollectionsModule } from './manage-collections.module';
+import { QuestionDialogComponent } from '../components/dialogs/question-dialog.component';
 
 @NgModule({
-    declarations: [AppComponent, ErrorDialogComponent],
+    declarations: [AppComponent, ErrorDialogComponent, QuestionDialogComponent],
     bootstrap: [AppComponent],
     imports: [
         AppMaterialModule,

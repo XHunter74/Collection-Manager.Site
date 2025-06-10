@@ -1,0 +1,12 @@
+<div *ngIf="data" class="modal-app-dialog">
+    <div class="modal-body dialog-header" [innerHTML]="data.question"></div>
+    <div class="modal-body modal-content"></div>
+    <div class="modal-footer dialog-footer">
+        <button class="ok-button" mat-button [matDialogClose]="'positive'" tabindex="2">
+            {{ data.positiveButton | translate }}
+        </button>
+        <button class="cancel-button" mat-button [matDialogClose]="'negative'" tabindex="3">
+            {{ data.negativeButton | translate }}
+        </button>
+    </div>
+</div>

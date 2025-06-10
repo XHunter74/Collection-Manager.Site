@@ -8,7 +8,9 @@
         "SAVE": "Save",
         "CANCEL": "Cancel",
         "OK": "Ok",
-        "LOGIN": "Login"
+        "LOGIN": "Login",
+        "YES": "Yes",
+        "NO": "No"
     },
     "LOGIN": {
         "USERNAME": "Username",
