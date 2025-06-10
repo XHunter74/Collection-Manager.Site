@@ -36,7 +36,7 @@ export class CollectionsService extends HttpService {
 
     createCollection(collection: CollectionDto): Observable<CollectionDto> {
         const actionUrl = 'collections';
-        return this.post<CollectionDto>(actionUrl, collection);
+        return this.post<CollectionDto>(actionUrl, collection, undefined, false);
     }
 
     updateCollection(collection: CollectionDto): Observable<CollectionDto> {

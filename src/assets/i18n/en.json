@@ -55,5 +55,10 @@
         "DELETE_FAILED": "Failed to delete collection. Please try again.",
         "SAVE_EDIT": "Save Changes",
         "SAVE_CREATE": "Create Collection"
+    },
+    "COLLECTIONS_LIST": {
+        "ADD_COLLECTION": "Add Collection",
+        "EDIT_COLLECTION": "Edit Collection",
+        "DELETE_COLLECTION": "Delete Collection"
     }
 }

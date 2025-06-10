@@ -1,1 +1,47 @@
-<p>collections-list works!</p>
+<div class="collections-container">
+    <div class="collections-header">
+        <button
+            class="add-collection-button"
+            mat-button
+            (click)="addCollection()"
+            matTooltip="{{ 'COLLECTIONS_LIST.ADD_COLLECTION' | translate }}"
+            matTooltipClass="tooltip"
+        >
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div class="collections-list">
+        <table mat-table [dataSource]="sortedData" class="collections-table">
+            <ng-container matColumnDef="name">
+                <th *matHeaderCellDef class="right-align">{{ 'COMMON.NAME' | translate }}</th>
+                <td *matCellDef="let element" class="name-column">
+                    {{ element.name }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="buttons">
+                <th *matHeaderCellDef></th>
+                <td *matCellDef="let element" class="button-column">
+                    <button
+                        class="row-button"
+                        mat-button
+                        (click)="editCollection(element.id)"
+                        matTooltip="{{ 'COLLECTIONS_LIST.EDIT_COLLECTION' | translate }}"
+                        matTooltipClass="tooltip"
+                    >
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button
+                        class="row-button"
+                        mat-button
+                        (click)="deleteCollection(element.id)"
+                        matTooltip="{{ 'COLLECTIONS_LIST.DELETE_COLLECTION' | translate }}"
+                        matTooltipClass="tooltip"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr class="table-row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+.manage-collections-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.collections-container {
+    width: 30%;
+    height: 100%;
+}
+
+.fields-container {
+    width: 70%;
+    display: flex;
+    height: 100%;
+}

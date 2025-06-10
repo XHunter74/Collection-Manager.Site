@@ -1,0 +1,57 @@
+.collections-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.collections-header {
+    display: flex;
+    background-color: var(--headerBackground);
+    padding: 10px;
+    height: 50px;
+}
+
+.collections-list {
+    width: 100%;
+    height: calc(100% - 50px);
+}
+
+.add-collection-button {
+}
+
+.row-button {
+    padding: 0px !important;
+    max-width: 30px !important;
+    min-width: 30px;
+    height: auto;
+}
+
+.name-column {
+    width: 80%;
+}
+
+.button-column {
+    width: 20%;
+}
+
+.table-row {
+    cursor: pointer;
+}
+
+.mat-mdc-row:nth-child(2n) {
+    background-color: #d8d8ff;
+    .mat-mdc-cell {
+        color: #cd7f32;
+    }
+}
+
+.mat-mdc-cell,
+.mat-cell,
+td {
+    background-color: transparent !important;
+}
+
+.collections-table {
+    background-color: transparent !important;
+}
