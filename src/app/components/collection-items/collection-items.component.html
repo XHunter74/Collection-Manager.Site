@@ -1,1 +1,30 @@
-<p>{{ currentCollection?.id }}</p>
+<div class="items-panel-content">
+    <div class="items-panel-header">
+        <button
+            class="add-value-button"
+            mat-button
+            matTooltip="{{ 'COLLECTIONS.ADD_NEW_ITEM' | translate }}"
+            matTooltipClass="tooltip"
+            (click)="addNewItem()"
+        >
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div class="items-list">
+        <table mat-table [dataSource]="sortedData" class="items-table">
+            <ng-container matColumnDef="name">
+                <td *matCellDef="let element" class="name-column">
+                    {{ element.Name }}
+                </td>
+            </ng-container>
+
+            <tr
+                class="table-row"
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ selected: row.Id === selectedItemId }"
+                (click)="selectRow(row)"
+            ></tr>
+        </table>
+    </div>
+</div>

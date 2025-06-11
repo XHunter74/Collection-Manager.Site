@@ -99,6 +99,7 @@
         "VALUE": "Value"
     },
     "COLLECTIONS": {
-        "CONFIGURE": "Configure Collections"
+        "CONFIGURE": "Configure Collections",
+        "ADD_NEW_ITEM": "Add New Item"
     }
 }

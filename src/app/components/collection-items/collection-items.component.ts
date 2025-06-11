@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, OnInit } from '@angular/core';
 import { CollectionDto } from '../../models/collection.dto';
 import { CollectionsService } from '../../services/collections.service';
 import { CollectionFieldDto } from '../../models/collection-field.dto';
@@ -11,10 +11,26 @@ import { MatTableDataSource } from '@angular/material/table';
     styleUrl: './collection-items.component.css',
     standalone: false,
 })
-export class CollectionItemsComponent implements OnChanges {
+export class CollectionItemsComponent implements OnInit, OnChanges {
     @Input() currentCollection: CollectionDto | null = null;
     fields: CollectionFieldDto[] = [];
     sortedData = new MatTableDataSource<BaseItemModel>();
+    displayedColumns = ['name'];
+    @Output() selectedItemIdChange = new EventEmitter<string | null>();
+    selectedItemId: string | null = null;
+
+    ngOnInit(): void {
+        this.restoreSelectedItem();
+    }
+
+    restoreSelectedItem() {
+        const key = this.getStorageKey();
+        const stored = localStorage.getItem(key);
+        if (stored) {
+            this.selectedItemId = stored;
+            this.selectedItemIdChange.emit(this.selectedItemId);
+        }
+    }
 
     constructor(private collectionsService: CollectionsService) {}
 
@@ -53,10 +69,25 @@ export class CollectionItemsComponent implements OnChanges {
             next: (items: BaseItemModel[]) => {
                 console.log('Items loaded for collection:', this.currentCollection?.name, items);
                 this.sortedData.data = items;
+                this.restoreSelectedItem();
             },
             error: (err) => {
                 console.error('Error loading items for collection:', err);
             },
         });
+    }
+
+    addNewItem(): void {}
+
+    public selectRow(item: BaseItemModel): void {
+        this.selectedItemId = item.Id ?? null;
+        localStorage.setItem(this.getStorageKey(), this.selectedItemId ?? '');
+        this.selectedItemIdChange.emit(this.selectedItemId);
+    }
+
+    private getStorageKey(): string {
+        return this.currentCollection && this.currentCollection.id
+            ? `selectedItemId_${this.currentCollection.id}`
+            : 'selectedItemId';
     }
 }
