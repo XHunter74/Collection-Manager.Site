@@ -1,6 +1,11 @@
 <div class="collection-items-container">
     <div class="app-collection-items">
-        <app-collection-items [currentCollection]="currentCollection"></app-collection-items>
+        <app-collection-items
+            [currentCollection]="currentCollection"
+            (selectedItemIdChange)="selectedItemId = $event"
+        ></app-collection-items>
     </div>
-    <div></div>
+    <div class="app-item-component">
+        <app-item-component [itemId]="selectedItemId"></app-item-component>
+    </div>
 </div>

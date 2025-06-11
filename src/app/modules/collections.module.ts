@@ -10,6 +10,7 @@ import { SelectCollectionComponent } from '../components/select-collection/selec
 import { CollectionsService } from '../services/collections.service';
 import { ItemsPanelComponent } from '../components/items/items-panel.component';
 import { CollectionItemsComponent } from '../components/collection-items/collection-items.component';
+import { ItemComponent } from '../components/item/item.component';
 
 @NgModule({
     declarations: [
@@ -17,6 +18,7 @@ import { CollectionItemsComponent } from '../components/collection-items/collect
         SelectCollectionComponent,
         ItemsPanelComponent,
         CollectionItemsComponent,
+        ItemComponent,
     ],
     bootstrap: [],
     imports: [

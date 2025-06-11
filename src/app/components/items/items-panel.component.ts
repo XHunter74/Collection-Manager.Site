@@ -9,6 +9,7 @@ import { CollectionDto } from '../../models/collection.dto';
 })
 export class ItemsPanelComponent {
     @Input() currentCollection: CollectionDto | null = null;
+    selectedItemId: string | null = null;
 
     constructor() {}
 }
