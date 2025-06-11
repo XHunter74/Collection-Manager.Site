@@ -5,17 +5,6 @@
     <button
         class="hourly__mat-button"
         mat-button
-        (click)="clickEditCollection()"
-        [disabled]="!currentCollection"
-        [matTooltipDisabled]="!currentCollection"
-        matTooltip="{{ 'COMMON.BACK' | translate }}"
-        matTooltipClass="tooltip"
-    >
-        <mat-icon>edit</mat-icon>
-    </button>
-    <button
-        class="hourly__mat-button"
-        mat-button
         (click)="manageCollections()"
         [disabled]="!currentCollection"
         [matTooltipDisabled]="!currentCollection"

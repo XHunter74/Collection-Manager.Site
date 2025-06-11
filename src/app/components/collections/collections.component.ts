@@ -21,23 +21,6 @@ export class CollectionsComponent {
         private router: Router,
     ) {}
 
-    clickEditCollection(): void {
-        const data = new CollectionDto();
-        data.id = this.currentCollection?.id;
-        data.name = this.currentCollection?.name;
-        data.description = this.currentCollection?.description;
-        EditCollectionComponent.show(this.matDialog, undefined, data).subscribe({
-            next: (collection: CollectionDto) => {
-                if (collection) {
-                    console.log('Updated collection:', collection);
-                }
-            },
-            error: (err) => {
-                console.error('Error updating user name:', err);
-            },
-        });
-    }
-
     processCollectionChange(updatedCollection: CollectionDto): void {
         if (updatedCollection.id) {
             this.collectionsService.updateCollection(updatedCollection).subscribe({
