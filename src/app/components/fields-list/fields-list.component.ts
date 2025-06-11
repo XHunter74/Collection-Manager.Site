@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { EditCollectionFieldModel } from '../../models/edit-collection-field.model';
 import { EditCollectionFieldComponent } from '../edit-collection-field/edit-collection-field.component';
 import { MatDialog } from '@angular/material/dialog';
+import { EditPossibleValuesComponent } from '../edit-possible-values/edit-possible-values.component';
 
 @Component({
     selector: 'app-fields-list',
@@ -233,6 +234,21 @@ export class FieldsListComponent implements OnChanges, OnInit {
         this.collectionService.loadPossibleValues(fieldId).subscribe({
             next: (possibleValues) => {
                 console.log('Possible values loaded for field:', fieldId, possibleValues);
+                EditPossibleValuesComponent.show(
+                    this.matDialog,
+                    undefined,
+                    possibleValues,
+                ).subscribe({
+                    next: (updatedValues) => {
+                        if (updatedValues) {
+                            console.log('Updated possible values:', updatedValues);
+                            // Optionally, you can refresh the possible values for the field
+                        }
+                    },
+                    error: (err) => {
+                        console.error('Error updating possible values:', err);
+                    },
+                });
             },
             error: (err) => {
                 console.error('Error loading possible values for field:', err);

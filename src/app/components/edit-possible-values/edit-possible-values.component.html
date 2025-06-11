@@ -1,1 +1,89 @@
-<p>edit-possible-values works!</p>
+<div class="modal-app-dialog">
+    <div class="dialog-header">{{ 'POSSIBLE_VALUES.TITLE' | translate }}</div>
+    <div class="modal-content">
+        <div class="values-container">
+            <div class="values-header">
+                <button
+                    class="add-field-button"
+                    mat-button
+                    matTooltip="{{ 'FIELDS_LIST.ADD_FIELD' | translate }}"
+                    matTooltipClass="tooltip"
+                >
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <div class="values-list">
+                <table mat-table [dataSource]="sortedData" class="values-table">
+                    <ng-container matColumnDef="value">
+                        <td *matCellDef="let element" class="values-column">
+                            <ng-container *ngIf="editingId === element.id; else displayValue">
+                                <input
+                                    [(ngModel)]="editedValue"
+                                    (keydown.enter)="saveEdit(element)"
+                                    (keydown.escape)="cancelEdit()"
+                                    class="inline-edit-input"
+                                    autofocus
+                                />
+                                <button
+                                    class="save-inline-button"
+                                    mat-icon-button
+                                    (click)="saveEdit(element)"
+                                    matTooltip="Save"
+                                >
+                                    <mat-icon>check</mat-icon>
+                                </button>
+                                <button
+                                    class="cancel-inline-button"
+                                    mat-icon-button
+                                    (click)="cancelEdit()"
+                                    matTooltip="Cancel"
+                                >
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </ng-container>
+                            <ng-template #displayValue>
+                                <span (dblclick)="startEdit(element)">{{ element.value }}</span>
+                            </ng-template>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="buttons">
+                        <td *matCellDef="let element" class="buttons-column">
+                            <button
+                                class="row-button"
+                                mat-button
+                                (click)="startEdit(element)"
+                                matTooltip="{{ 'FIELDS_LIST.EDIT_FIELD' | translate }}"
+                                matTooltipClass="tooltip"
+                            >
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button
+                                class="row-button"
+                                mat-button
+                                [disabled]="element.isSystem"
+                                (click)="deletePossibleValue(element.id)"
+                                matTooltip="{{ 'FIELDS_LIST.DELETE_FIELD' | translate }}"
+                                matTooltipClass="tooltip"
+                            >
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr
+                        class="table-row"
+                        mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer dialog-footer">
+        <button mat-button type="reset" class="cancel-button" [matDialogClose]="null">
+            {{ 'BUTTONS.CANCEL' | translate }}
+        </button>
+        <button mat-button (click)="saveChanges()" class="ok-button">
+            {{ 'BUTTONS.SAVE' | translate }}
+        </button>
+    </div>
+</div>

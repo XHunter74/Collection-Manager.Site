@@ -88,5 +88,12 @@
         "TYPE_ERROR": "Field type is required",
         "SAVE_EDIT": "Save Changes",
         "SAVE_CREATE": "Create Field"
+    },
+    "POSSIBLE_VALUES": {
+        "TITLE": "Possible Values",
+        "ADD_VALUE": "Add Value",
+        "EDIT_VALUE": "Edit Value",
+        "DELETE_VALUE": "Delete Value",
+        "VALUE": "Value"
     }
 }
