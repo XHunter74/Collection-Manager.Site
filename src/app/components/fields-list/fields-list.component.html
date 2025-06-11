@@ -59,6 +59,16 @@
                     <button
                         class="row-button"
                         mat-button
+                        [disabled]="element.type !== 10"
+                        (click)="editPossibleValues(element.id)"
+                        matTooltip="{{ 'FIELDS_LIST.EDIT_POSSIBLE_VALUES' | translate }}"
+                        matTooltipClass="tooltip"
+                    >
+                        <mat-icon>format_list_bulleted</mat-icon>
+                    </button>
+                    <button
+                        class="row-button"
+                        mat-button
                         [disabled]="element.isSystem"
                         (click)="deleteCollectionField(element.id)"
                         matTooltip="{{ 'FIELDS_LIST.DELETE_FIELD' | translate }}"

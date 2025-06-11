@@ -73,7 +73,8 @@
         "NAME_COLUMN": "Name",
         "DESCRIPTION_COLUMN": "Description",
         "TYPE_COLUMN": "Type",
-        "REQUIRED_COLUMN": "Required"
+        "REQUIRED_COLUMN": "Required",
+        "EDIT_POSSIBLE_VALUES": "Edit Possible Values"
     },
     "EDIT_FIELD": {
         "TITLE_EDIT": "Edit Field",

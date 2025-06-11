@@ -228,4 +228,15 @@ export class FieldsListComponent implements OnChanges, OnInit {
             },
         });
     }
+
+    editPossibleValues(fieldId: string): void {
+        this.collectionService.loadPossibleValues(fieldId).subscribe({
+            next: (possibleValues) => {
+                console.log('Possible values loaded for field:', fieldId, possibleValues);
+            },
+            error: (err) => {
+                console.error('Error loading possible values for field:', err);
+            },
+        });
+    }
 }

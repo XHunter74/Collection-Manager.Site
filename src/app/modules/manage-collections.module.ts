@@ -11,6 +11,7 @@ import { ManageCollectionsComponent } from '../components/manage-collections/man
 import { FieldsListComponent } from '../components/fields-list/fields-list.component';
 import { CollectionsListComponent } from '../components/collections-list/collections-list.component';
 import { EditCollectionFieldComponent } from '../components/edit-collection-field/edit-collection-field.component';
+import { EditPossibleValuesComponent } from '../components/edit-possible-values/edit-possible-values.component';
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import { EditCollectionFieldComponent } from '../components/edit-collection-fiel
         CollectionsListComponent,
         EditCollectionComponent,
         EditCollectionFieldComponent,
+        EditPossibleValuesComponent,
     ],
     bootstrap: [],
     imports: [
