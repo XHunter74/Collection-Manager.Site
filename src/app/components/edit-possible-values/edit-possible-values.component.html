@@ -19,6 +19,7 @@
                         <td *matCellDef="let element" class="values-column">
                             <ng-container *ngIf="editingId === element.id; else displayValue">
                                 <input
+                                    #inlineInput
                                     [(ngModel)]="editedValue"
                                     (keydown.enter)="saveEdit(element)"
                                     (keydown.escape)="cancelEdit()"

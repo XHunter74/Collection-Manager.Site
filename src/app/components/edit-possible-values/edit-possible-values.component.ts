@@ -1,4 +1,12 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import {
+    Component,
+    Inject,
+    OnInit,
+    Optional,
+    ViewChild,
+    ElementRef,
+    AfterViewChecked,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PossibleValueDto } from '../../models/possible-value.dto';
 import { Observable } from 'rxjs';
@@ -10,7 +18,9 @@ import { MatTableDataSource } from '@angular/material/table';
     styleUrl: './edit-possible-values.component.css',
     standalone: false,
 })
-export class EditPossibleValuesComponent implements OnInit {
+export class EditPossibleValuesComponent implements OnInit, AfterViewChecked {
+    @ViewChild('inlineInput') inlineInput?: ElementRef<HTMLInputElement>;
+    private shouldFocusInput = false;
     sortedData = new MatTableDataSource<PossibleValueDto>();
     displayedColumns: string[] = ['value', 'buttons'];
     editingId: string | null = null;
@@ -33,7 +43,7 @@ export class EditPossibleValuesComponent implements OnInit {
         const dialogRef = dialog.open(EditPossibleValuesComponent, {
             width,
             height: '450px',
-            disableClose: false,
+            disableClose: true,
             data: data,
         });
         const dialogResult = dialogRef.afterClosed();
@@ -49,6 +59,7 @@ export class EditPossibleValuesComponent implements OnInit {
     startEdit(element: PossibleValueDto): void {
         this.editingId = element.id;
         this.editedValue = element.value;
+        this.shouldFocusInput = true;
     }
 
     saveEdit(element: PossibleValueDto): void {
@@ -65,7 +76,8 @@ export class EditPossibleValuesComponent implements OnInit {
     }
 
     saveChanges() {
-        this.dialogRef.close(this.sortedData.data);
+        const data = this.sortedData.data.filter((value) => value.value.trim() !== '');
+        this.dialogRef.close(data);
     }
 
     addValue() {
@@ -74,6 +86,13 @@ export class EditPossibleValuesComponent implements OnInit {
         this.sortedData.data = [...this.sortedData.data, newValue];
         this.editingId = newId.toString();
         this.editedValue = '';
+        this.shouldFocusInput = true;
+    }
+    ngAfterViewChecked(): void {
+        if (this.shouldFocusInput && this.inlineInput) {
+            this.inlineInput.nativeElement.focus();
+            this.shouldFocusInput = false;
+        }
     }
 
     deletePossibleValue(id: string) {
