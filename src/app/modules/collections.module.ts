@@ -9,9 +9,15 @@ import { CollectionsComponent } from '../components/collections/collections.comp
 import { SelectCollectionComponent } from '../components/select-collection/select-collection.component';
 import { CollectionsService } from '../services/collections.service';
 import { ItemsComponent } from '../components/items/items.component';
+import { CollectionItemsComponent } from '../components/collection-items/collection-items.component';
 
 @NgModule({
-    declarations: [CollectionsComponent, SelectCollectionComponent, ItemsComponent],
+    declarations: [
+        CollectionsComponent,
+        SelectCollectionComponent,
+        ItemsComponent,
+        CollectionItemsComponent,
+    ],
     bootstrap: [],
     imports: [
         CommonModule,

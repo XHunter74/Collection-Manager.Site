@@ -1,19 +1,21 @@
-<div class="header-container">
-    <app-select-collection
-        (currentCollectionChange)="currentCollection = $event"
-    ></app-select-collection>
-    <button
-        class="hourly__mat-button"
-        mat-button
-        (click)="manageCollections()"
-        [disabled]="!currentCollection"
-        [matTooltipDisabled]="!currentCollection"
-        matTooltip="{{ 'COMMON.BACK' | translate }}"
-        matTooltipClass="tooltip"
-    >
-        <mat-icon>settings</mat-icon>
-    </button>
-</div>
-<div class="items-container">
-    <app-items [currentCollection]="currentCollection"></app-items>
+<div class="dashboard-container">
+    <div class="header-container">
+        <app-select-collection
+            (currentCollectionChange)="currentCollection = $event"
+        ></app-select-collection>
+        <button
+            class="hourly__mat-button"
+            mat-button
+            (click)="manageCollections()"
+            [disabled]="!currentCollection"
+            [matTooltipDisabled]="!currentCollection"
+            matTooltip="{{ 'COLLECTIONS.CONFIGURE' | translate }}"
+            matTooltipClass="tooltip"
+        >
+            <mat-icon>settings</mat-icon>
+        </button>
+    </div>
+    <div class="items-container">
+        <app-items [currentCollection]="currentCollection"></app-items>
+    </div>
 </div>

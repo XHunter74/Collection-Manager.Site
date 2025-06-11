@@ -97,5 +97,8 @@
         "EDIT_VALUE": "Edit Value",
         "DELETE_VALUE": "Delete Value",
         "VALUE": "Value"
+    },
+    "COLLECTIONS": {
+        "CONFIGURE": "Configure Collections"
     }
 }

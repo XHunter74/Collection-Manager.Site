@@ -1,0 +1,12 @@
+.collection-items-container {
+    width: 100%;
+    height: calc(100% - 50px);
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.app-collection-items {
+    width: 30%;
+    height: 100%;
+}
