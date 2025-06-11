@@ -15,6 +15,7 @@ export class EditPossibleValuesComponent implements OnInit {
     displayedColumns: string[] = ['value', 'buttons'];
     editingId: string | null = null;
     editedValue: string = '';
+    newId: number = 0;
 
     constructor(
         private readonly dialogRef: MatDialogRef<EditPossibleValuesComponent>,
@@ -65,6 +66,14 @@ export class EditPossibleValuesComponent implements OnInit {
 
     saveChanges() {
         this.dialogRef.close(this.sortedData.data);
+    }
+
+    addValue() {
+        const newId = --this.newId;
+        const newValue = { id: newId.toString(), value: '' } as PossibleValueDto;
+        this.sortedData.data = [...this.sortedData.data, newValue];
+        this.editingId = newId.toString();
+        this.editedValue = '';
     }
 
     deletePossibleValue(id: string) {

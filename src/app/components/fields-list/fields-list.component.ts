@@ -7,6 +7,7 @@ import { EditCollectionFieldModel } from '../../models/edit-collection-field.mod
 import { EditCollectionFieldComponent } from '../edit-collection-field/edit-collection-field.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPossibleValuesComponent } from '../edit-possible-values/edit-possible-values.component';
+import { PossibleValueDto } from '../../models/possible-value.dto';
 
 @Component({
     selector: 'app-fields-list',
@@ -234,15 +235,20 @@ export class FieldsListComponent implements OnChanges, OnInit {
         this.collectionService.loadPossibleValues(fieldId).subscribe({
             next: (possibleValues) => {
                 console.log('Possible values loaded for field:', fieldId, possibleValues);
+                const possibleValuesClone = possibleValues.map((v) => ({ ...v }));
                 EditPossibleValuesComponent.show(
                     this.matDialog,
                     undefined,
-                    possibleValues,
+                    possibleValuesClone,
                 ).subscribe({
                     next: (updatedValues) => {
                         if (updatedValues) {
                             console.log('Updated possible values:', updatedValues);
-                            // Optionally, you can refresh the possible values for the field
+                            this.processPossibleValuesChange(
+                                fieldId,
+                                possibleValues,
+                                updatedValues,
+                            );
                         }
                     },
                     error: (err) => {
@@ -254,5 +260,54 @@ export class FieldsListComponent implements OnChanges, OnInit {
                 console.error('Error loading possible values for field:', err);
             },
         });
+    }
+
+    processPossibleValuesChange(
+        fieldId: string,
+        originalValues: PossibleValueDto[],
+        updatedValues: PossibleValueDto[],
+    ): void {
+        const addedValues = updatedValues.filter(
+            (v) => !originalValues.some((ov) => ov.id === v.id),
+        );
+        const removedValues = originalValues.filter(
+            (v) => !updatedValues.some((uv) => uv.id === v.id),
+        );
+        const updatedValuesList = updatedValues.filter((v) =>
+            originalValues.some((ov) => ov.id === v.id && ov.value !== v.value),
+        );
+
+        for (const value of addedValues) {
+            this.collectionService.createPossibleValue(fieldId, value.value).subscribe({
+                next: (createdValue) => {
+                    console.log('Added possible value:', createdValue);
+                },
+                error: (err) => {
+                    console.error('Error adding possible value:', err);
+                },
+            });
+        }
+
+        for (const value of removedValues) {
+            this.collectionService.deletePossibleValue(value.id).subscribe({
+                next: () => {
+                    console.log('Removed possible value:', value);
+                },
+                error: (err) => {
+                    console.error('Error removing possible value:', err);
+                },
+            });
+        }
+
+        for (const value of updatedValuesList) {
+            this.collectionService.updatePossibleValue(value.id, value.value).subscribe({
+                next: (updatedValue) => {
+                    console.log('Updated possible value:', updatedValue);
+                },
+                error: (err) => {
+                    console.error('Error updating possible value:', err);
+                },
+            });
+        }
     }
 }

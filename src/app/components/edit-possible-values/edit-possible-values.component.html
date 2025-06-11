@@ -4,10 +4,11 @@
         <div class="values-container">
             <div class="values-header">
                 <button
-                    class="add-field-button"
+                    class="add-value-button"
                     mat-button
                     matTooltip="{{ 'FIELDS_LIST.ADD_FIELD' | translate }}"
                     matTooltipClass="tooltip"
+                    (click)="addValue()"
                 >
                     <mat-icon>add</mat-icon>
                 </button>

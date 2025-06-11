@@ -84,13 +84,13 @@ export class CollectionsService extends HttpService {
         return this.get<PossibleValueDto[]>(actionUrl);
     }
 
-    createPossibleValue(fieldId: string, value: PossibleValueDto): Observable<PossibleValueDto> {
-        const actionUrl = `collectionfields/${fieldId}/possible-values`;
+    createPossibleValue(fieldId: string, value: string): Observable<PossibleValueDto> {
+        const actionUrl = `collectionfields/${fieldId}/possible-values?value=${encodeURIComponent(value)}`;
         return this.post<PossibleValueDto>(actionUrl, value, undefined, false);
     }
 
-    updatePossibleValue(id: string, value: PossibleValueDto): Observable<PossibleValueDto> {
-        const actionUrl = `collectionfields/possible-values/${id}`;
+    updatePossibleValue(id: string, value: string): Observable<PossibleValueDto> {
+        const actionUrl = `collectionfields/possible-values/${id}?value=${encodeURIComponent(value)}`;
         return this.put<PossibleValueDto>(actionUrl, value);
     }
 
