@@ -67,11 +67,7 @@ export class HttpService {
             headers = new HttpHeaders({
                 'Content-Type': 'application/x-www-form-urlencoded',
             });
-        } else if (body instanceof FormData) {
-            headers = new HttpHeaders({
-                'Content-Type': 'multipart/form-data',
-            });
-        } else {
+        } else if (!(body instanceof FormData)) {
             headers = new HttpHeaders({
                 'Content-Type': 'application/json',
             });
