@@ -8,14 +8,14 @@ import { UsersService } from '../services/users.service';
 import { CollectionsComponent } from '../components/collections/collections.component';
 import { SelectCollectionComponent } from '../components/select-collection/select-collection.component';
 import { CollectionsService } from '../services/collections.service';
-import { ItemsComponent } from '../components/items/items.component';
+import { ItemsPanelComponent } from '../components/items/items-panel.component';
 import { CollectionItemsComponent } from '../components/collection-items/collection-items.component';
 
 @NgModule({
     declarations: [
         CollectionsComponent,
         SelectCollectionComponent,
-        ItemsComponent,
+        ItemsPanelComponent,
         CollectionItemsComponent,
     ],
     bootstrap: [],

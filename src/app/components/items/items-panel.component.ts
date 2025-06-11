@@ -3,11 +3,11 @@ import { CollectionDto } from '../../models/collection.dto';
 
 @Component({
     selector: 'app-items',
-    templateUrl: './items.component.html',
-    styleUrl: './items.component.css',
+    templateUrl: './items-panel.component.html',
+    styleUrl: './items-panel.component.css',
     standalone: false,
 })
-export class ItemsComponent {
+export class ItemsPanelComponent {
     @Input() currentCollection: CollectionDto | null = null;
 
     constructor() {}
