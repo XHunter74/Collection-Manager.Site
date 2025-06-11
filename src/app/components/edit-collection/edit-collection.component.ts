@@ -7,6 +7,7 @@ import { CollectionDto } from '../../models/collection.dto';
 import { ImageDto } from '../../models/image.dto';
 import { environment } from '../../../environments/environment';
 import { Constants } from '../../shared/constants';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-edit-collection',
@@ -32,6 +33,7 @@ export class EditCollectionComponent implements OnInit {
         private readonly dialogRef: MatDialogRef<EditCollectionComponent>,
         @Optional() @Inject(MAT_DIALOG_DATA) public componentData: CollectionDto,
         private collectionsService: CollectionsService,
+        private authService: AuthService,
     ) {}
 
     static show(
@@ -106,7 +108,9 @@ export class EditCollectionComponent implements OnInit {
 
     public get getImageUrl(): string | null {
         if (this.imageId) {
-            return `${environment.apiUrl}collections/${this.collectionId}/images/${this.imageId}`;
+            let imageUrl = `${environment.apiUrl}collections/${this.collectionId}/images/${this.imageId}`;
+            imageUrl = imageUrl + `?token=${this.authService.token()}`;
+            return imageUrl;
         } else {
             return Constants.PlaceholderImage;
         }
