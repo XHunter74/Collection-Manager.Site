@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { CollectionDto } from '../../models/collection.dto';
-import { MatDialog } from '@angular/material/dialog';
-import { EditCollectionComponent } from '../edit-collection/edit-collection.component';
 import { CollectionsService } from '../../services/collections.service';
 import { Router } from '@angular/router';
 import { Constants } from '../../shared/constants';
@@ -16,7 +14,6 @@ export class CollectionsComponent {
     @Input() currentCollection: CollectionDto | null = null;
 
     constructor(
-        private matDialog: MatDialog,
         private collectionsService: CollectionsService,
         private router: Router,
     ) {}
