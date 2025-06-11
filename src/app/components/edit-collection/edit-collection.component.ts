@@ -109,7 +109,9 @@ export class EditCollectionComponent implements OnInit {
     public get getImageUrl(): string | null {
         if (this.imageId) {
             let imageUrl = `${environment.apiUrl}collections/${this.collectionId}/images/${this.imageId}`;
-            imageUrl = imageUrl + `?token=${this.authService.token()}`;
+            if (environment.useTokenAuthorizationForImages) {
+                imageUrl = imageUrl + `?token=${this.authService.token()}`;
+            }
             return imageUrl;
         } else {
             return Constants.PlaceholderImage;

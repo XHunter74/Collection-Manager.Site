@@ -11,4 +11,5 @@ export const environment = {
     defaultLocale: 'en',
     client_id: 'default-client',
     client_secret: '499D56FA-B47B-5199-BA61-B298D431C318',
+    useTokenAuthorizationForImages: true,
 };
