@@ -7,6 +7,7 @@ import { CollectionDto } from '../models/collection.dto';
 import { CollectionFieldDto } from '../models/collection-field.dto';
 import { BaseItemModel } from '../models/base-item.model';
 import { FieldTypeDto } from '../models/field-type.dto';
+import { PossibleValueDto } from '../models/possible-value.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -75,6 +76,26 @@ export class CollectionsService extends HttpService {
 
     deleteCollectionField(fieldId: string): Observable<void> {
         const actionUrl = `collectionfields/${fieldId}`;
+        return this.delete(actionUrl);
+    }
+
+    loadPossibleValues(fieldId: string): Observable<PossibleValueDto[]> {
+        const actionUrl = `collectionfields/${fieldId}/possible-values`;
+        return this.get<PossibleValueDto[]>(actionUrl);
+    }
+
+    createPossibleValue(fieldId: string, value: PossibleValueDto): Observable<PossibleValueDto> {
+        const actionUrl = `collectionfields/${fieldId}/possible-values`;
+        return this.post<PossibleValueDto>(actionUrl, value, undefined, false);
+    }
+
+    updatePossibleValue(id: string, value: PossibleValueDto): Observable<PossibleValueDto> {
+        const actionUrl = `collectionfields/possible-values/${id}`;
+        return this.put<PossibleValueDto>(actionUrl, value);
+    }
+
+    deletePossibleValue(id: string): Observable<void> {
+        const actionUrl = `collectionfields/possible-values/${id}`;
         return this.delete(actionUrl);
     }
 }
