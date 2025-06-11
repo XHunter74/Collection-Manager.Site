@@ -128,3 +128,11 @@
 .cancel-inline-button {
     color: red;
 }
+
+.add-value-button {
+    padding-left: 10px;
+    padding-right: 0px;
+    min-width: 25px;
+    height: 25px;
+    margin-top: 7px;
+}
