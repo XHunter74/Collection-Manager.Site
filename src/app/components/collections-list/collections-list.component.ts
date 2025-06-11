@@ -114,6 +114,7 @@ export class CollectionsListComponent implements OnInit {
         data.id = collection?.id;
         data.name = collection?.name;
         data.description = collection?.description;
+        data.image = collection?.image || undefined;
         EditCollectionComponent.show(this.matDialog, undefined, data).subscribe({
             next: (collection: CollectionDto) => {
                 if (collection) {

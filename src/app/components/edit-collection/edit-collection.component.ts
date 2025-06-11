@@ -1,8 +1,12 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { CollectionsService } from '../../services/collections.service';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { CollectionDto } from '../../models/collection.dto';
+import { ImageDto } from '../../models/image.dto';
+import { environment } from '../../../environments/environment';
+import { Constants } from '../../shared/constants';
 
 @Component({
     selector: 'app-edit-collection',
@@ -18,11 +22,16 @@ export class EditCollectionComponent implements OnInit {
     editForm = new UntypedFormGroup({
         collectionName: new UntypedFormControl('', [Validators.required]),
         description: new UntypedFormControl(''),
+        image: new UntypedFormControl(''),
     });
+
+    imageId: string | null = null;
+    uploadingImage = false;
 
     constructor(
         private readonly dialogRef: MatDialogRef<EditCollectionComponent>,
         @Optional() @Inject(MAT_DIALOG_DATA) public componentData: CollectionDto,
+        private collectionsService: CollectionsService,
     ) {}
 
     static show(
@@ -35,7 +44,7 @@ export class EditCollectionComponent implements OnInit {
         }
         const dialogRef = dialog.open(EditCollectionComponent, {
             width,
-            height: '350px',
+            height: '550px',
             disableClose: false,
             data: data,
         });
@@ -51,11 +60,31 @@ export class EditCollectionComponent implements OnInit {
             this.editForm.patchValue({
                 collectionName: this.componentData.name,
                 description: this.componentData.description,
+                // image: this.componentData.image || '',
             });
+            this.imageId = this.componentData.image || null;
         } else {
             this.title = 'EDIT_COLLECTION.TITLE_CREATE';
             this.saveButtonText = 'EDIT_COLLECTION.SAVE_CREATE';
         }
+    }
+
+    onImageSelected(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (!input.files || input.files.length === 0) return;
+        const file = input.files[0];
+        this.uploadingImage = true;
+        this.collectionsService.uploadCollectionImage(this.collectionId, file).subscribe({
+            next: (imageDto: ImageDto) => {
+                this.imageId = imageDto.fileId;
+                this.editForm.patchValue({ image: this.imageId });
+                this.uploadingImage = false;
+            },
+            error: () => {
+                this.uploadingImage = false;
+                // Optionally show error
+            },
+        });
     }
 
     saveChanges() {
@@ -63,6 +92,7 @@ export class EditCollectionComponent implements OnInit {
         updatedCollection.id = this.collectionId;
         updatedCollection.name = this.collectionName?.value;
         updatedCollection.description = this.description?.value;
+        updatedCollection.image = this.imageId || undefined;
         this.dialogRef.close(updatedCollection);
     }
 
@@ -72,5 +102,13 @@ export class EditCollectionComponent implements OnInit {
 
     get description() {
         return this.editForm.get('description');
+    }
+
+    public get getImageUrl(): string | null {
+        if (this.imageId) {
+            return `${environment.apiUrl}collections/${this.collectionId}/images/${this.imageId}`;
+        } else {
+            return Constants.PlaceholderImage;
+        }
     }
 }

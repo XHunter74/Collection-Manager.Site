@@ -7,7 +7,9 @@ import { CollectionDto } from '../models/collection.dto';
 import { CollectionFieldDto } from '../models/collection-field.dto';
 import { BaseItemModel } from '../models/base-item.model';
 import { FieldTypeDto } from '../models/field-type.dto';
+
 import { PossibleValueDto } from '../models/possible-value.dto';
+import { ImageDto } from '../models/image.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -19,6 +21,13 @@ export class CollectionsService extends HttpService {
         authService: AuthService,
     ) {
         super(http, parentModule, authService);
+    }
+
+    uploadCollectionImage(collectionId: string, file: File): Observable<ImageDto> {
+        const formData = new FormData();
+        formData.append('file', file);
+        const actionUrl = `collections/${collectionId}/images`;
+        return this.post<ImageDto>(actionUrl, formData, undefined, false);
     }
 
     loadCollections(): Observable<CollectionDto[]> {

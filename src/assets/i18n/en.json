@@ -56,7 +56,9 @@
         "DELETE_SUCCESS": "Collection deleted successfully.",
         "DELETE_FAILED": "Failed to delete collection. Please try again.",
         "SAVE_EDIT": "Save Changes",
-        "SAVE_CREATE": "Create Collection"
+        "SAVE_CREATE": "Create Collection",
+        "IMAGE": "Collection image",
+        "IMAGE_TOOLTIP": "Click to change image"
     },
     "COLLECTIONS_LIST": {
         "ADD_COLLECTION": "Add Collection",
