@@ -70,16 +70,22 @@ export class CollectionItemsComponent implements OnInit, OnChanges {
         if (!this.currentCollection || !this.currentCollection.id) {
             return;
         }
-        this.collectionsService.loadCollectionItems(this.currentCollection.id).subscribe({
-            next: (items: BaseItemModel[]) => {
-                console.log('Items loaded for collection:', this.currentCollection?.name, items);
-                this.sortedData.data = items;
-                this.restoreSelectedItem();
-            },
-            error: (err) => {
-                console.error('Error loading items for collection:', err);
-            },
-        });
+        this.collectionsService
+            .loadCollectionItemsWithNameField(this.currentCollection.id)
+            .subscribe({
+                next: (items: BaseItemModel[]) => {
+                    console.log(
+                        'Items loaded for collection:',
+                        this.currentCollection?.name,
+                        items,
+                    );
+                    this.sortedData.data = items;
+                    this.restoreSelectedItem();
+                },
+                error: (err) => {
+                    console.error('Error loading items for collection:', err);
+                },
+            });
     }
 
     addNewItem(): void {

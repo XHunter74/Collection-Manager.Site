@@ -42,7 +42,12 @@ export class CollectionsService extends HttpService {
 
     loadCollectionItems(collectionId: string): Observable<BaseItemModel[]> {
         const actionUrl = `collections/${collectionId}/items`;
-        return this.get<any[]>(actionUrl);
+        return this.get<BaseItemModel[]>(actionUrl);
+    }
+
+    loadCollectionItemsWithNameField(collectionId: string): Observable<BaseItemModel[]> {
+        const actionUrl = `collections/${collectionId}/items?fields=Name`;
+        return this.get<BaseItemModel[]>(actionUrl);
     }
 
     createCollection(collection: CollectionDto): Observable<CollectionDto> {
