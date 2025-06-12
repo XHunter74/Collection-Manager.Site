@@ -154,12 +154,10 @@ export class AppHttpInterceptor implements HttpInterceptor {
         this.tokenRefreshSubject.next(null);
 
         return this.usersService.refreshToken(refreshToken).pipe(
-            switchMap((token) => {
+            switchMap((token: UserTokenDto) => {
                 this.authService.processLogin(token);
-                const newToken = this.authService.authToken;
-                this.tokenRefreshSubject.next(newToken);
-
-                return next.handle(this.addTokenToRequest(request, newToken!));
+                this.tokenRefreshSubject.next(token.access_token);
+                return next.handle(this.addTokenToRequest(request, token.access_token!));
             }),
             catchError(() => {
                 this.authService.logout();
