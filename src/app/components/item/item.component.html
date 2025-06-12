@@ -1,4 +1,190 @@
-<div class="item-container">
-    <p>CollectionId: {{ currentCollection?.id }}</p>
-    <p>ItemId: {{ itemId }}</p>
+<div *ngIf="fieldsArray && fieldsArray.length > 0" class="dynamic-form">
+    <form [formGroup]="form">
+        <div formArrayName="fields" class="form-container">
+            <div
+                *ngFor="let field of fieldsArray.controls; let i = index"
+                [formGroupName]="i"
+                class="field-row"
+            >
+                <ng-container [ngSwitch]="field.get('type')!.value">
+                    <!-- String -->
+                    <ng-container *ngSwitchCase="0">
+                        <div class="string-field">
+                            <label [for]="'field-' + i" class="form-label">{{
+                                collectionFields[i].name
+                            }}</label>
+                            <input
+                                id="field-{{ i }}"
+                                type="text"
+                                formControlName="control"
+                                class="form-control"
+                            />
+                        </div>
+                    </ng-container>
+
+                    <!-- Text (textarea) -->
+                    <ng-container *ngSwitchCase="1">
+                        <div class="text-field">
+                            <label [for]="'field-' + i" class="form-label">{{
+                                collectionFields[i].name
+                            }}</label>
+                            <textarea
+                                id="field-{{ i }}"
+                                formControlName="control"
+                                class="form-control"
+                            ></textarea>
+                        </div>
+                    </ng-container>
+
+                    <!-- Integer -->
+                    <!-- <ng-container *ngSwitchCase="2">
+                    <label [for]="'field-' + i">{{ config[i].label }}</label>
+                    <input id="field-{{ i }}" type="number" formControlName="control" />
+                </ng-container> -->
+
+                    <!-- Money / Decimal / Currency -->
+                    <!-- <ng-container *ngSwitchCase="3">
+                    <label [for]="'field-' + i">{{ config[i].label }}</label>
+                    <input id="field-{{ i }}" type="number" step="0.01" formControlName="control" />
+                </ng-container> -->
+
+                    <!-- Boolean -->
+                    <ng-container *ngSwitchCase="6">
+                        <div class="boolean-field">
+                            <label [for]="'field-' + i">
+                                <input
+                                    id="field-{{ i }}"
+                                    type="checkbox"
+                                    formControlName="control"
+                                />
+                                {{ collectionFields[i].name }}
+                            </label>
+                        </div>
+                    </ng-container>
+
+                    <!-- Date -->
+                    <ng-container *ngSwitchCase="7">
+                        <div class="date-field">
+                            <label [for]="'field-' + i" class="form-label">{{
+                                collectionFields[i].name
+                            }}</label>
+                            <mat-form-field appearance="fill" style="width: 100%">
+                                <input
+                                    id="field-{{ i }}"
+                                    matInput
+                                    [matDatepicker]="picker"
+                                    [readonly]="true"
+                                    formControlName="control"
+                                    class="form-control"
+                                />
+                                <mat-datepicker-toggle
+                                    matIconSuffix
+                                    [for]="picker"
+                                ></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+
+                    <!-- Time -->
+                    <ng-container *ngSwitchCase="8">
+                        <div class="time-field">
+                            <label [for]="'field-' + i" class="form-label">{{
+                                collectionFields[i].name
+                            }}</label>
+                            <mat-form-field>
+                                <mat-label>Pick a time</mat-label>
+                                <input
+                                    id="field-{{ i }}"
+                                    matInput
+                                    [matTimepicker]="picker"
+                                    formControlName="control"
+                                />
+                                <mat-timepicker-toggle matIconSuffix [for]="picker" />
+                                <mat-timepicker #picker />
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+
+                    <!-- YesNo -->
+                    <ng-container *ngSwitchCase="9">
+                        <div class="yes-no-field">
+                            <label [for]="'field-' + i" class="form-label">{{
+                                collectionFields[i].name
+                            }}</label>
+                            <select
+                                id="field-{{ i }}"
+                                formControlName="control"
+                                class="form-control"
+                            >
+                                <option *ngFor="let opt of getYesNoOptions()" [value]="opt.v">
+                                    {{ opt.l | translate }}
+                                </option>
+                            </select>
+                        </div>
+                    </ng-container>
+
+                    <!-- Select -->
+                    <ng-container *ngSwitchCase="10">
+                        <div class="select-field">
+                            <label [for]="'field-' + i" class="form-label">{{
+                                collectionFields[i].name
+                            }}</label>
+                            <select
+                                id="field-{{ i }}"
+                                formControlName="control"
+                                class="form-control"
+                            >
+                                <option *ngFor="let opt of getOptions(i)" [value]="opt.v">
+                                    {{ opt.l }}
+                                </option>
+                            </select>
+                        </div>
+                    </ng-container>
+
+                    <!-- Image -->
+                    <!-- <ng-container *ngSwitchCase="11">
+                    <label>{{ config[i].label }}</label>
+                    <input type="file" accept="image/*" (change)="onImageSelected($event, i)" />
+                    <img
+                        *ngIf="field.get('control')!.value"
+                        [src]="field.get('control')!.value"
+                        width="100"
+                    />
+                </ng-container> -->
+                    <ng-container *ngSwitchCase="11">
+                        <div class="form-group collection-image-group">
+                            <label for="image" class="form-label">{{
+                                'EDIT_COLLECTION.IMAGE' | translate
+                            }}</label>
+                            <input
+                                #fileInput
+                                id="file-upload"
+                                type="file"
+                                accept="image/*"
+                                (change)="onImageSelected($event, i)"
+                                style="display: none"
+                            />
+                            <div class="image-preview">
+                                <img
+                                    class="collection-image"
+                                    [src]="field.get('control')!.value"
+                                    alt="Collection image"
+                                    tabindex="0"
+                                    (click)="fileInput.click()"
+                                    (keyup.enter)="fileInput.click()"
+                                    matTooltip="{{ 'EDIT_COLLECTION.IMAGE_TOOLTIP' | translate }}"
+                                />
+                            </div>
+                        </div>
+                    </ng-container>
+                    <!-- Default case -->
+                    <!-- <ng-container *ngSwitchDefault>
+                    <label>{{ config[i].label }}</label>
+                    <input type="text" formControlName="control" />
+                </ng-container> -->
+                </ng-container>
+            </div>
+        </div>
+    </form>
 </div>
