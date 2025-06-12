@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatTimepickerModule } from '@angular/material/timepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -20,6 +21,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
         MatButtonModule,
         MatButtonToggleModule,
         MatDatepickerModule,
+        MatTimepickerModule,
         MatDialogModule,
         MatIconModule,
         MatMenuModule,

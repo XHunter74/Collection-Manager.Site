@@ -20,7 +20,7 @@ export class DynamicFormComponent implements OnInit {
         { label: 'Price', type: 3, value: 99.99 },
         { label: 'Currency', type: 5, value: 'USD' },
         { label: 'Start Date', type: 7, value: new Date() },
-        { label: 'End Time', type: 8, value: new Date() },
+        { label: 'End Time', type: 8, value: new Date(2025, 5, 12, 17, 27) },
         { label: 'Active', type: 6, value: true },
         { label: 'Yes/No', type: 9, value: false },
         { label: 'Select', type: 10, value: 'opt2' },
@@ -37,7 +37,7 @@ export class DynamicFormComponent implements OnInit {
         }
         const dialogRef = dialog.open(DynamicFormComponent, {
             width,
-            height: '675px',
+            height: '700px',
             disableClose: false,
             data: data,
         });
@@ -60,11 +60,11 @@ export class DynamicFormComponent implements OnInit {
         if (type === 7 && value instanceof Date) {
             initialValue = value.toISOString().substring(0, 10);
         }
-        if (type === 8 && value instanceof Date) {
-            const hours = value.getHours().toString().padStart(2, '0');
-            const minutes = value.getMinutes().toString().padStart(2, '0');
-            initialValue = `${hours}:${minutes}`;
-        }
+        // if (type === 8 && value instanceof Date) {
+        //     const hours = value.getHours().toString().padStart(2, '0');
+        //     const minutes = value.getMinutes().toString().padStart(2, '0');
+        //     initialValue = `${hours}:${minutes}`;
+        // }
         const ctrl = this.fb.control(initialValue, Validators.required);
         return this.fb.group({
             type: [type],

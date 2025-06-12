@@ -92,7 +92,17 @@
                             <label [for]="'field-' + i" class="form-label">{{
                                 config[i].label
                             }}</label>
-                            <input id="field-{{ i }}" type="time" formControlName="control" />
+                            <mat-form-field>
+                                <mat-label>Pick a time</mat-label>
+                                <input
+                                    id="field-{{ i }}"
+                                    matInput
+                                    [matTimepicker]="picker"
+                                    formControlName="control"
+                                />
+                                <mat-timepicker-toggle matIconSuffix [for]="picker" />
+                                <mat-timepicker #picker />
+                            </mat-form-field>
                         </div>
                     </ng-container>
 

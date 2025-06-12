@@ -11,7 +11,8 @@ body {
 }
 
 .mat-datepicker-content,
-.mat-calendar {
+.mat-calendar,
+.mat-timepicker-panel {
     background: #fff !important;
 }
 
