@@ -4,6 +4,8 @@ import { CollectionsService } from '../../services/collections.service';
 import { CollectionFieldDto } from '../../models/collection-field.dto';
 import { BaseItemModel } from '../../models/base-item.model';
 import { MatTableDataSource } from '@angular/material/table';
+import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-collection-items',
@@ -32,7 +34,10 @@ export class CollectionItemsComponent implements OnInit, OnChanges {
         }
     }
 
-    constructor(private collectionsService: CollectionsService) {}
+    constructor(
+        private matDialog: MatDialog,
+        private collectionsService: CollectionsService,
+    ) {}
 
     ngOnChanges(): void {
         this.handleCollectionChange();
@@ -77,7 +82,20 @@ export class CollectionItemsComponent implements OnInit, OnChanges {
         });
     }
 
-    addNewItem(): void {}
+    addNewItem(): void {
+        DynamicFormComponent.show(this.matDialog).subscribe({
+            next: (newItem: any) => {
+                if (newItem) {
+                    console.log('New item created:', newItem);
+                    this.sortedData.data = [...this.sortedData.data, newItem];
+                    this.selectRow(newItem);
+                }
+            },
+            error: (err) => {
+                console.error('Error creating new item:', err);
+            },
+        });
+    }
 
     public selectRow(item: BaseItemModel): void {
         this.selectedItemId = item.Id ?? null;

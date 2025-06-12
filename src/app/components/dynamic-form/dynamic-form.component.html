@@ -1,0 +1,94 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div formArrayName="fields">
+        <div
+            *ngFor="let field of fieldsArray.controls; let i = index"
+            [formGroupName]="i"
+            class="field-row"
+        >
+            <ng-container [ngSwitch]="field.get('type')!.value">
+                <!-- String -->
+                <ng-container *ngSwitchCase="0">
+                    <label [for]="'field-' + i">{{ config[i].label }}</label>
+                    <input id="field-{{ i }}" type="text" formControlName="control" />
+                </ng-container>
+
+                <!-- Text (textarea) -->
+                <ng-container *ngSwitchCase="1">
+                    <label [for]="'field-' + i">{{ config[i].label }}</label>
+                    <textarea id="field-{{ i }}" formControlName="control"></textarea>
+                </ng-container>
+
+                <!-- Integer -->
+                <ng-container *ngSwitchCase="2">
+                    <label [for]="'field-' + i">{{ config[i].label }}</label>
+                    <input id="field-{{ i }}" type="number" formControlName="control" />
+                </ng-container>
+
+                <!-- Money / Decimal / Currency -->
+                <ng-container *ngSwitchCase="3">
+                    <label [for]="'field-' + i">{{ config[i].label }}</label>
+                    <input id="field-{{ i }}" type="number" step="0.01" formControlName="control" />
+                </ng-container>
+
+                <!-- Boolean -->
+                <ng-container *ngSwitchCase="6">
+                    <label>
+                        <input type="checkbox" formControlName="control" />
+                        {{ config[i].label }}
+                    </label>
+                </ng-container>
+
+                <!-- Date -->
+                <ng-container *ngSwitchCase="7">
+                    <label [for]="'field-' + i">{{ config[i].label }}</label>
+                    <input id="field-{{ i }}" type="date" formControlName="control" />
+                </ng-container>
+
+                <!-- Time -->
+                <ng-container *ngSwitchCase="8">
+                    <label [for]="'field-' + i">{{ config[i].label }}</label>
+                    <input id="field-{{ i }}" type="time" formControlName="control" />
+                </ng-container>
+
+                <!-- YesNo -->
+                <ng-container *ngSwitchCase="9">
+                    <label [for]="'field-' + i">{{ config[i].label }}</label>
+                    <select id="field-{{ i }}" formControlName="control">
+                        <option *ngFor="let opt of getOptions(9)" [value]="opt.v">
+                            {{ opt.l }}
+                        </option>
+                    </select>
+                </ng-container>
+
+                <!-- Select -->
+                <ng-container *ngSwitchCase="10">
+                    <label [for]="'field-' + i">{{ config[i].label }}</label>
+                    <select id="field-{{ i }}" formControlName="control">
+                        <option *ngFor="let opt of getOptions(10)" [value]="opt.v">
+                            {{ opt.l }}
+                        </option>
+                    </select>
+                </ng-container>
+
+                <!-- Image -->
+                <!-- <ng-container *ngSwitchCase="11">
+                    <label>{{ config[i].label }}</label>
+                    <input type="file" accept="image/*" (change)="onImageSelected($event, i)" />
+                    <img
+                        *ngIf="field.get('control')!.value"
+                        [src]="field.get('control')!.value"
+                        width="100"
+                    />
+                </ng-container> -->
+
+                <!-- Default case -->
+                <!-- <ng-container *ngSwitchDefault>
+                    <label>{{ config[i].label }}</label>
+                    <input type="text" formControlName="control" />
+                </ng-container> -->
+            </ng-container>
+        </div>
+    </div>
+
+    <button type="submit" [disabled]="form.invalid">Submit</button>
+</form>

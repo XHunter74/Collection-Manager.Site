@@ -11,6 +11,7 @@ import { CollectionsService } from '../services/collections.service';
 import { ItemsPanelComponent } from '../components/items/items-panel.component';
 import { CollectionItemsComponent } from '../components/collection-items/collection-items.component';
 import { ItemComponent } from '../components/item/item.component';
+import { DynamicFormComponent } from '../components/dynamic-form/dynamic-form.component';
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import { ItemComponent } from '../components/item/item.component';
         ItemsPanelComponent,
         CollectionItemsComponent,
         ItemComponent,
+        DynamicFormComponent,
     ],
     bootstrap: [],
     imports: [
