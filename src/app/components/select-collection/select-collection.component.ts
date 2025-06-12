@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CollectionsService } from '../../services/collections.service';
 import { CollectionDto } from '../../models/collection.dto';
 
@@ -13,10 +14,29 @@ export class SelectCollectionComponent implements OnInit {
     @Output() currentCollectionChange = new EventEmitter<CollectionDto | null>();
     currentCollectionId: string | null = null;
 
-    constructor(private collectionsService: CollectionsService) {}
+    constructor(
+        private collectionsService: CollectionsService,
+        private route: ActivatedRoute,
+        private router: Router,
+    ) {}
 
     ngOnInit(): void {
-        const currentCollectionId = localStorage.getItem('current_collection_id');
+        this.route.queryParamMap.subscribe((params) => {
+            let collectionIdFromUrl = params.get('collectionId');
+            if (!collectionIdFromUrl) {
+                collectionIdFromUrl = localStorage.getItem('current_collection_id');
+                if (collectionIdFromUrl) {
+                    this.router.navigate([], {
+                        queryParams: { collectionId: collectionIdFromUrl },
+                        queryParamsHandling: 'merge',
+                    });
+                }
+            }
+            this.loadCollections(collectionIdFromUrl);
+        });
+    }
+
+    loadCollections(currentCollectionId?: string | null): void {
         this.collectionsService.loadCollections().subscribe({
             next: (collections: CollectionDto[]) => {
                 console.log('Collections loaded:', collections);
@@ -40,7 +60,19 @@ export class SelectCollectionComponent implements OnInit {
     onCollectionChange(event: any): void {
         const currentCollection =
             this.collections.find((collection) => collection.id === event.value) ?? null;
-        localStorage.setItem('current_collection_id', currentCollection?.id ?? '');
+        if (currentCollection?.id) {
+            this.router.navigate([], {
+                queryParams: { collectionId: currentCollection.id },
+                queryParamsHandling: 'merge',
+            });
+            localStorage.setItem('current_collection_id', currentCollection.id);
+        } else {
+            this.router.navigate([], {
+                queryParams: { collectionId: null },
+                queryParamsHandling: 'merge',
+            });
+            localStorage.removeItem('current_collection_id');
+        }
         this.currentCollectionChange.emit(currentCollection);
     }
 }
