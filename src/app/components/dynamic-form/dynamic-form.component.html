@@ -87,10 +87,14 @@
                     </ng-container>
 
                     <!-- Time -->
-                    <!-- <ng-container *ngSwitchCase="8">
-                    <label [for]="'field-' + i">{{ config[i].label }}</label>
-                    <input id="field-{{ i }}" type="time" formControlName="control" />
-                </ng-container> -->
+                    <ng-container *ngSwitchCase="8">
+                        <div class="time-field">
+                            <label [for]="'field-' + i" class="form-label">{{
+                                config[i].label
+                            }}</label>
+                            <input id="field-{{ i }}" type="time" formControlName="control" />
+                        </div>
+                    </ng-container>
 
                     <!-- YesNo -->
                     <ng-container *ngSwitchCase="9">

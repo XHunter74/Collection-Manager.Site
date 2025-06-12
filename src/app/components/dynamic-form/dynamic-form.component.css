@@ -40,6 +40,12 @@
     flex-direction: column;
 }
 
+.time-field {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
 .yes-no-field {
     margin-bottom: 15px;
     display: flex;

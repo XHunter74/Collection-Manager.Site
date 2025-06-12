@@ -37,7 +37,7 @@ export class DynamicFormComponent implements OnInit {
         }
         const dialogRef = dialog.open(DynamicFormComponent, {
             width,
-            height: '610px',
+            height: '675px',
             disableClose: false,
             data: data,
         });
@@ -59,6 +59,11 @@ export class DynamicFormComponent implements OnInit {
         let initialValue = value;
         if (type === 7 && value instanceof Date) {
             initialValue = value.toISOString().substring(0, 10);
+        }
+        if (type === 8 && value instanceof Date) {
+            const hours = value.getHours().toString().padStart(2, '0');
+            const minutes = value.getMinutes().toString().padStart(2, '0');
+            initialValue = `${hours}:${minutes}`;
         }
         const ctrl = this.fb.control(initialValue, Validators.required);
         return this.fb.group({
