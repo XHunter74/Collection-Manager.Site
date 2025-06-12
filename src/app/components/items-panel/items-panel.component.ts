@@ -1,8 +1,10 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CollectionDto } from '../../models/collection.dto';
 import { CollectionsService } from '../../services/collections.service';
 import { CollectionFieldDto } from '../../models/collection-field.dto';
 import { PossibleValuesHolder } from '../../models/possible-values.holder';
+import { CollectionMetadataModel } from '../../models/collection-metadata.model';
+import { forkJoin, map, of, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-items',
@@ -13,43 +15,62 @@ import { PossibleValuesHolder } from '../../models/possible-values.holder';
 export class ItemsPanelComponent implements OnChanges {
     @Input() currentCollection: CollectionDto | null = null;
     selectedItemId: string | null = null;
-    collectionFields: CollectionFieldDto[] = [];
-    possibleValues: PossibleValuesHolder[] = [];
+    collectionMetadata: CollectionMetadataModel | null = null;
 
     constructor(private collectionService: CollectionsService) {}
 
-    ngOnChanges(): void {
-        this.loadCollectionFields();
-    }
-
-    loadCollectionFields(): void {
-        if (this.currentCollection) {
-            this.collectionService.loadCollectionFields(this.currentCollection.id!).subscribe({
-                next: (fields) => {
-                    console.log('Collection fields loaded:', fields);
-                    this.collectionFields = fields.sort((a, b) => a.order! - b.order!);
-                    this.possibleValues = [];
-                    for (const field of this.collectionFields.filter((f) => f.type === 10)) {
-                        this.loadPossibleValues(field.id!);
-                    }
-                },
-                error: (err) => {
-                    console.error('Error loading collection fields:', err);
-                },
-            });
-        } else {
-            console.log('No current collection selected.');
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log(this.collectionMetadata === null);
+        if (
+            this.collectionMetadata === null ||
+            (changes['currentCollection'] &&
+                changes['currentCollection']?.previousValue?.id !==
+                    changes['currentCollection']?.currentValue?.id)
+        ) {
+            this.loadCollectionMetadata();
         }
     }
 
-    loadPossibleValues(fieldId: string): void {
-        this.collectionService.loadPossibleValues(fieldId).subscribe({
-            next: (values) => {
-                this.possibleValues.push(new PossibleValuesHolder(fieldId, values));
-            },
-            error: (err) => {
-                console.error('Error loading possible values for field:', fieldId, err);
-            },
-        });
+    loadCollectionMetadata(): void {
+        if (!this.currentCollection) {
+            this.collectionMetadata = null;
+            return;
+        }
+        this.collectionService
+            .loadCollectionFields(this.currentCollection.id!)
+            .pipe(
+                switchMap((fields: CollectionFieldDto[]) => {
+                    const selectFields = fields.filter((f) => f.type === 10);
+                    if (selectFields.length === 0) {
+                        return of({ fields, possibleValues: [] });
+                    }
+                    // Use forkJoin to load all possible values in parallel
+                    const possibleValues$ = selectFields.map((field) =>
+                        this.collectionService.loadPossibleValues(field.id!).pipe(
+                            // Map to PossibleValuesHolder
+                            map((values) => new PossibleValuesHolder(field.id!, values)),
+                        ),
+                    );
+                    return forkJoin(possibleValues$).pipe(
+                        map((possibleValues) => ({
+                            fields,
+                            possibleValues,
+                        })),
+                    );
+                }),
+            )
+            .subscribe({
+                next: ({ fields, possibleValues }) => {
+                    this.collectionMetadata = new CollectionMetadataModel(
+                        this.currentCollection!,
+                        fields,
+                        possibleValues,
+                    );
+                },
+                error: (err: any) => {
+                    console.error('Error loading collection metadata:', err);
+                    this.collectionMetadata = null;
+                },
+            });
     }
 }

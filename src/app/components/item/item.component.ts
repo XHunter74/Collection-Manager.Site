@@ -1,10 +1,8 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { CollectionDto } from '../../models/collection.dto';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UtilsService } from '../../services/utils.service';
-import { CollectionFieldDto } from '../../models/collection-field.dto';
 import { BaseItemModel } from '../../models/base-item.model';
-import { PossibleValuesHolder } from '../../models/possible-values.holder';
+import { CollectionMetadataModel } from '../../models/collection-metadata.model';
 
 @Component({
     selector: 'app-item-component',
@@ -12,12 +10,11 @@ import { PossibleValuesHolder } from '../../models/possible-values.holder';
     styleUrl: './item.component.css',
     standalone: false,
 })
-export class ItemComponent implements OnInit, OnChanges {
+export class ItemComponent implements OnChanges {
     form!: FormGroup;
-    @Input() currentCollection: CollectionDto | null = null;
+    @Input() collectionMetadata: CollectionMetadataModel | null = null;
     @Input() itemId: string | null = null;
-    @Input() collectionFields: CollectionFieldDto[] = [];
-    @Input() possibleValues: PossibleValuesHolder[] = [];
+
     itemData: BaseItemModel[] | null = null;
 
     constructor(
@@ -25,22 +22,9 @@ export class ItemComponent implements OnInit, OnChanges {
         private utilsService: UtilsService,
     ) {}
 
-    ngOnInit() {
-        if (this.currentCollection && this.itemId && this.collectionFields.length > 0) {
-            this.createDynamicForm();
-        }
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ngOnChanges(changes: SimpleChanges): void {
-        // if (
-        //     changes['currentCollection'] &&
-        //     changes['currentCollection'].previousValue.id !==
-        //         changes['currentCollection'].currentValue.id
-        // ) {
-        //     this.createDynamicForm();
-        // }
-        if (this.currentCollection && this.itemId && this.collectionFields.length > 0) {
+        if (this.collectionMetadata) {
             this.createDynamicForm();
         }
     }
@@ -48,7 +32,9 @@ export class ItemComponent implements OnInit, OnChanges {
     createDynamicForm(): void {
         this.form = this.formBuilder.group({
             fields: this.formBuilder.array(
-                this.collectionFields.map((f) => this.createControl(f.type!, f.id!, f.isRequired!)),
+                this.collectionMetadata!.fields.map((f) =>
+                    this.createControl(f.type!, f.id!, f.isRequired!),
+                ),
             ),
         });
     }
@@ -65,7 +51,10 @@ export class ItemComponent implements OnInit, OnChanges {
         let initialValue: any = null;
 
         if (type === 11) {
-            initialValue = this.utilsService.getImageUrl(this.currentCollection!.id!, '');
+            initialValue = this.utilsService.getImageUrl(
+                this.collectionMetadata!.collection!.id!,
+                '',
+            );
         }
 
         if (isRequired) {
@@ -88,10 +77,12 @@ export class ItemComponent implements OnInit, OnChanges {
     onImageSelected(event: Event, idx: number) {}
 
     getOptions(fieldIdx: number): any[] {
-        const field = this.collectionFields[fieldIdx];
+        const field = this.collectionMetadata!.fields[fieldIdx];
         if (!field) return [];
         if (field.type != 10) return [];
-        const fieldPossibleValues = this.possibleValues.find((e) => e.fieldId === field.id);
+        const fieldPossibleValues = this.collectionMetadata!.possibleValues.find(
+            (e) => e.fieldId === field.id,
+        );
         if (fieldPossibleValues) {
             return fieldPossibleValues.possibleValues.map((v) => ({
                 v: v.id,
