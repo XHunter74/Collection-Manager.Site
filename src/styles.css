@@ -9,3 +9,21 @@ body {
     margin: 0;
     font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
+.mat-datepicker-content,
+.mat-calendar {
+    background: #fff !important;
+}
+
+/* .mat-calendar-body-selected {
+    color: white !important;
+    background-color: rgba(228, 162, 20, 0.671) !important;
+} */
+
+.mat-mdc-form-field-flex {
+    background-color: white !important;
+}
+
+.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+    background-color: white !important;
+}

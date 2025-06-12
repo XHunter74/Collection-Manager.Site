@@ -68,12 +68,21 @@
                             <label [for]="'field-' + i" class="form-label">{{
                                 config[i].label
                             }}</label>
-                            <input
-                                id="field-{{ i }}"
-                                type="date"
-                                formControlName="control"
-                                class="form-control"
-                            />
+                            <mat-form-field appearance="fill" style="width: 100%">
+                                <input
+                                    id="field-{{ i }}"
+                                    matInput
+                                    [matDatepicker]="picker"
+                                    [readonly]="true"
+                                    formControlName="control"
+                                    class="form-control"
+                                />
+                                <mat-datepicker-toggle
+                                    matIconSuffix
+                                    [for]="picker"
+                                ></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
                         </div>
                     </ng-container>
 
@@ -95,7 +104,7 @@
                                 class="form-control"
                             >
                                 <option *ngFor="let opt of getOptions(9)" [value]="opt.v">
-                                    {{ opt.l }}
+                                    {{ opt.l | translate }}
                                 </option>
                             </select>
                         </div>

@@ -101,5 +101,9 @@
     "COLLECTIONS": {
         "CONFIGURE": "Configure Collections",
         "ADD_NEW_ITEM": "Add New Item"
+    },
+    "DYNAMIC_FORM": {
+        "YES": "Yes",
+        "NO": "No"
     }
 }

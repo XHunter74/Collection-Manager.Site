@@ -1,27 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-
-interface FieldType {
-    name: string;
-    value: number;
-}
-
-const FIELD_TYPES: FieldType[] = [
-    { name: 'String', value: 0 },
-    { name: 'Text', value: 1 },
-    { name: 'Integer', value: 2 },
-    { name: 'Money', value: 3 },
-    { name: 'Decimal', value: 4 },
-    { name: 'Currency', value: 5 },
-    { name: 'Boolean', value: 6 },
-    { name: 'Date', value: 7 },
-    { name: 'Time', value: 8 },
-    { name: 'YesNo', value: 9 },
-    { name: 'Select', value: 10 },
-    { name: 'Image', value: 11 },
-];
 
 @Component({
     selector: 'app-dynamic-form',
@@ -57,7 +37,7 @@ export class DynamicFormComponent implements OnInit {
         }
         const dialogRef = dialog.open(DynamicFormComponent, {
             width,
-            height: '550px',
+            height: '610px',
             disableClose: false,
             data: data,
         });
@@ -90,8 +70,8 @@ export class DynamicFormComponent implements OnInit {
     getOptions(type: number): any[] {
         if (type === 9)
             return [
-                { v: true, l: 'Yes' },
-                { v: false, l: 'No' },
+                { v: true, l: 'DYNAMIC_FORM.YES' },
+                { v: false, l: 'DYNAMIC_FORM.NO' },
             ];
         if (type === 10)
             return [
