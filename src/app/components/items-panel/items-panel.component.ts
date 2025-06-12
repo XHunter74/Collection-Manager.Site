@@ -40,6 +40,7 @@ export class ItemsPanelComponent implements OnChanges {
             .loadCollectionFields(this.currentCollection.id!)
             .pipe(
                 switchMap((fields: CollectionFieldDto[]) => {
+                    fields = fields.sort((a, b) => a.order! - b.order!);
                     const selectFields = fields.filter((f) => f.type === 10);
                     if (selectFields.length === 0) {
                         return of({ fields, possibleValues: [] });
