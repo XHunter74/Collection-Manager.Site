@@ -33,14 +33,17 @@ export class DynamicFormComponent implements OnInit {
     form!: FormGroup;
 
     config = [
-        { label: 'Name', type: 0 },
-        { label: 'Description', type: 1 },
-        { label: 'Age', type: 2 },
-        { label: 'Price', type: 3 },
-        { label: 'Start Date', type: 7 },
-        { label: 'Active', type: 6 },
-        { label: 'YesNo', type: 9 },
-        { label: 'Select', type: 10 },
+        { label: 'Name', type: 0, value: 'Sample string' },
+        { label: 'Description', type: 1, value: 'Sample text' },
+        { label: 'Age', type: 2, value: 30 },
+        { label: 'Amount', type: 4, value: 100.5 },
+        { label: 'Price', type: 3, value: 99.99 },
+        { label: 'Currency', type: 5, value: 'USD' },
+        { label: 'Start Date', type: 7, value: new Date() },
+        { label: 'End Time', type: 8, value: new Date() },
+        { label: 'Active', type: 6, value: true },
+        { label: 'Yes/No', type: 9, value: false },
+        { label: 'Select', type: 10, value: 'opt2' },
     ];
 
     constructor(
@@ -64,7 +67,7 @@ export class DynamicFormComponent implements OnInit {
 
     ngOnInit() {
         this.form = this.fb.group({
-            fields: this.fb.array(this.config.map((f) => this.createControl(f.type))),
+            fields: this.fb.array(this.config.map((f) => this.createControl(f.type, f.value))),
         });
     }
 
@@ -72,8 +75,12 @@ export class DynamicFormComponent implements OnInit {
         return this.form.get('fields') as FormArray;
     }
 
-    private createControl(type: number): FormGroup {
-        const ctrl = this.fb.control('', Validators.required);
+    private createControl(type: number, value: any): FormGroup {
+        let initialValue = value;
+        if (type === 7 && value instanceof Date) {
+            initialValue = value.toISOString().substring(0, 10);
+        }
+        const ctrl = this.fb.control(initialValue, Validators.required);
         return this.fb.group({
             type: [type],
             control: ctrl,
