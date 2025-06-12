@@ -9,7 +9,7 @@ export class Constants {
     static RetryCount = 3;
     static Positive = 'positive';
     static Negative = 'negative';
-    static PlaceholderImage = 'assets/placeholder.png';
+    static PlaceholderImage = 'assets/placeholder.jpg';
 }
 
 export class Intervals {
