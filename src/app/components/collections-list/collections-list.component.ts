@@ -28,8 +28,18 @@ export class CollectionsListComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        let collectionIdFromUrl: string | null = null;
+        const urlParams = new URLSearchParams(window.location.search);
+        collectionIdFromUrl = urlParams.get('collectionId');
         const storedId = localStorage.getItem('selectedCollectionId');
-        this.selectedCollectionId = storedId ? storedId : null;
+        const idToUse = collectionIdFromUrl || storedId;
+        if (!collectionIdFromUrl && storedId) {
+            // If not in URL, update URL for consistency
+            const url = new URL(window.location.href);
+            url.searchParams.set('collectionId', storedId);
+            window.history.replaceState({}, '', url.toString());
+        }
+        this.selectedCollectionId = idToUse ? idToUse : null;
         if (this.selectedCollectionId) {
             this.selectedCollectionIdChange.emit(this.selectedCollectionId);
         }
@@ -145,8 +155,14 @@ export class CollectionsListComponent implements OnInit {
         this.selectedCollectionId = collection.id ?? null;
         if (this.selectedCollectionId) {
             localStorage.setItem('selectedCollectionId', this.selectedCollectionId);
+            const url = new URL(window.location.href);
+            url.searchParams.set('collectionId', this.selectedCollectionId);
+            window.history.replaceState({}, '', url.toString());
         } else {
             localStorage.removeItem('selectedCollectionId');
+            const url = new URL(window.location.href);
+            url.searchParams.delete('collectionId');
+            window.history.replaceState({}, '', url.toString());
         }
         this.selectedCollectionIdChange.emit(this.selectedCollectionId);
         console.log('Selected collection:', collection);
