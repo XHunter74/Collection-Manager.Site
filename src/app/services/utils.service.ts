@@ -10,6 +10,7 @@ export class UtilsService {
     constructor(private authService: AuthService) {}
 
     extractImageIdFromUrl(url: string): string | null {
+        // eslint-disable-next-line no-useless-escape
         const regex = /\/images\/([a-fA-F0-9\-]+)(?:\?|$)/;
         const match = url.match(regex);
         return match ? match[1] : null;
