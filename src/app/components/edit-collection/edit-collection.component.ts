@@ -5,9 +5,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { Observable } from 'rxjs';
 import { CollectionDto } from '../../models/collection.dto';
 import { ImageDto } from '../../models/image.dto';
-import { environment } from '../../../environments/environment';
-import { Constants } from '../../shared/constants';
-import { AuthService } from '../../services/auth.service';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
     selector: 'app-edit-collection',
@@ -26,14 +24,13 @@ export class EditCollectionComponent implements OnInit {
         image: new UntypedFormControl(''),
     });
 
-    imageId: string | null = null;
     uploadingImage = false;
 
     constructor(
         private readonly dialogRef: MatDialogRef<EditCollectionComponent>,
         @Optional() @Inject(MAT_DIALOG_DATA) public componentData: CollectionDto,
         private collectionsService: CollectionsService,
-        private authService: AuthService,
+        private utilsService: UtilsService,
     ) {}
 
     static show(
@@ -62,9 +59,11 @@ export class EditCollectionComponent implements OnInit {
             this.editForm.patchValue({
                 collectionName: this.componentData.name,
                 description: this.componentData.description,
-                // image: this.componentData.image || '',
+                image: this.utilsService.getImageUrl(
+                    this.collectionId,
+                    this.componentData.image || '',
+                ),
             });
-            this.imageId = this.componentData.image || null;
         } else {
             this.title = 'EDIT_COLLECTION.TITLE_CREATE';
             this.saveButtonText = 'EDIT_COLLECTION.SAVE_CREATE';
@@ -78,13 +77,12 @@ export class EditCollectionComponent implements OnInit {
         this.uploadingImage = true;
         this.collectionsService.uploadCollectionImage(this.collectionId, file).subscribe({
             next: (imageDto: ImageDto) => {
-                this.imageId = imageDto.fileId;
-                this.editForm.patchValue({ image: this.imageId });
+                const imageUrl = this.utilsService.getImageUrl(this.collectionId, imageDto.fileId);
+                this.editForm.patchValue({ image: imageUrl });
                 this.uploadingImage = false;
             },
             error: () => {
                 this.uploadingImage = false;
-                // Optionally show error
             },
         });
     }
@@ -94,7 +92,8 @@ export class EditCollectionComponent implements OnInit {
         updatedCollection.id = this.collectionId;
         updatedCollection.name = this.collectionName?.value;
         updatedCollection.description = this.description?.value;
-        updatedCollection.image = this.imageId || undefined;
+        const extractedImageId = this.utilsService.extractImageIdFromUrl(this.image?.value || '');
+        updatedCollection.image = extractedImageId === null ? undefined : extractedImageId;
         this.dialogRef.close(updatedCollection);
     }
 
@@ -106,15 +105,7 @@ export class EditCollectionComponent implements OnInit {
         return this.editForm.get('description');
     }
 
-    public get getImageUrl(): string | null {
-        if (this.imageId) {
-            let imageUrl = `${environment.apiUrl}collections/${this.collectionId}/images/${this.imageId}`;
-            if (environment.useTokenAuthorizationForImages) {
-                imageUrl = imageUrl + `?token=${this.authService.token()}`;
-            }
-            return imageUrl;
-        } else {
-            return Constants.PlaceholderImage;
-        }
+    get image() {
+        return this.editForm.get('image');
     }
 }

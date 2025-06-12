@@ -56,10 +56,10 @@
                     (change)="onImageSelected($event)"
                     style="display: none"
                 />
-                <div class="image-preview" *ngIf="getImageUrl">
+                <div class="image-preview">
                     <img
                         class="collection-image"
-                        [src]="getImageUrl"
+                        [src]="editForm.get('image')?.value"
                         alt="Collection image"
                         tabindex="0"
                         (click)="fileInput.click()"
