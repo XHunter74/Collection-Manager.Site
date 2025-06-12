@@ -21,6 +21,9 @@ import { CollectionsModule } from './collections.module';
 import { AuthGuard } from '../guards/auth.guard';
 import { ManageCollectionsModule } from './manage-collections.module';
 import { QuestionDialogComponent } from '../components/dialogs/question-dialog.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { AppDateAdapter } from '../adapters/app-date.adapter';
+import { APP_DATE_FORMATS } from '../adapters/app-date-format';
 
 @NgModule({
     declarations: [AppComponent, MessageDialogComponent, QuestionDialogComponent],
@@ -46,6 +49,8 @@ import { QuestionDialogComponent } from '../components/dialogs/question-dialog.c
     providers: [
         AuthService,
         AuthGuard,
+        { provide: DateAdapter, useClass: AppDateAdapter, deps: [MAT_DATE_LOCALE] },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
         provideHttpClient(withInterceptorsFromDi()),
         {
             provide: APP_INITIALIZER,
