@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { Constants } from '../../shared/constants';
-import { AuthService } from '../../services/auth.service';
-import { Utils } from '../../shared/utils';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
     selector: 'app-dynamic-form',
@@ -30,14 +27,14 @@ export class DynamicFormComponent implements OnInit {
         // { label: 'Active', type: 6, value: true },
         // { label: 'Yes/No', type: 9, value: false },
         // { label: 'Select', type: 10, value: 'opt2' },
-        // { label: 'Image', type: 11, value: 'ae8b6ebe-5f1b-4d7f-ba62-bd17ad65eddc' },
-        { label: 'Image', type: 11, value: null },
+        { label: 'Image', type: 11, value: 'ae8b6ebe-5f1b-4d7f-ba62-bd17ad65eddc' },
+        // { label: 'Image', type: 11, value: null },
     ];
 
     constructor(
         private readonly dialogRef: MatDialogRef<DynamicFormComponent>,
-        private authService: AuthService,
         private fb: FormBuilder,
+        private utilsService: UtilsService,
     ) {}
 
     static show(dialog: MatDialog, width?: string, data?: any): Observable<any> {
@@ -72,7 +69,7 @@ export class DynamicFormComponent implements OnInit {
             initialValue = value.toISOString().substring(0, 10);
         }
         if (type === 11) {
-            initialValue = this.getImageUrl(value);
+            initialValue = this.utilsService.getImageUrl(this.collectionId!, value);
         }
         const ctrl = this.fb.control(initialValue, Validators.required);
         return this.fb.group({
@@ -96,24 +93,14 @@ export class DynamicFormComponent implements OnInit {
         return [];
     }
 
-    getImageUrl(imageId: string): string | null {
-        if (imageId) {
-            let imageUrl = `${environment.apiUrl}collections/${this.collectionId}/images/${imageId}`;
-            if (environment.useTokenAuthorizationForImages) {
-                imageUrl = imageUrl + `?token=${this.authService.token()}`;
-            }
-            return imageUrl;
-        } else {
-            return Constants.PlaceholderImage;
-        }
-    }
-
     onImageSelected(event: Event, index: number) {
         console.log('onImageSelected', event, index);
         const controlGroup = this.fieldsArray.at(index) as FormGroup;
         if (controlGroup && controlGroup.get('type')?.value === 11) {
             console.log(`Field name: '${controlGroup.get('fieldName')?.value}'`);
-            controlGroup.get('control')?.setValue(this.getImageUrl(this.testImage));
+            controlGroup
+                .get('control')
+                ?.setValue(this.utilsService.getImageUrl(this.collectionId!, this.testImage));
         }
     }
 
@@ -124,7 +111,7 @@ export class DynamicFormComponent implements OnInit {
         }
         const formData = this.form.value.fields.reduce((acc: any, field: any) => {
             if (field.type === 11) {
-                acc[field.fieldName] = Utils.extractImageIdFromUrl(field.control);
+                acc[field.fieldName] = this.utilsService.extractImageIdFromUrl(field.control);
             } else {
                 acc[field.fieldName] = field.control;
             }
