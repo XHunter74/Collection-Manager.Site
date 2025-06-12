@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { Constants } from '../../shared/constants';
+import { AuthService } from '../../services/auth.service';
+import { Utils } from '../../shared/utils';
 
 @Component({
     selector: 'app-dynamic-form',
@@ -11,23 +15,28 @@ import { Observable } from 'rxjs';
 })
 export class DynamicFormComponent implements OnInit {
     form!: FormGroup;
+    collectionId: string | null = '9aa7d666-b7ef-4322-ab52-e0f9ceb94fc7';
+    testImage = 'ae8b6ebe-5f1b-4d7f-ba62-bd17ad65eddc';
 
     config = [
         { label: 'Name', type: 0, value: 'Sample string' },
         { label: 'Description', type: 1, value: 'Sample text' },
-        { label: 'Age', type: 2, value: 30 },
-        { label: 'Amount', type: 4, value: 100.5 },
-        { label: 'Price', type: 3, value: 99.99 },
-        { label: 'Currency', type: 5, value: 'USD' },
-        { label: 'Start Date', type: 7, value: new Date() },
-        { label: 'End Time', type: 8, value: new Date(2025, 5, 12, 17, 27) },
-        { label: 'Active', type: 6, value: true },
-        { label: 'Yes/No', type: 9, value: false },
-        { label: 'Select', type: 10, value: 'opt2' },
+        // { label: 'Age', type: 2, value: 30 },
+        // { label: 'Amount', type: 4, value: 100.5 },
+        // { label: 'Price', type: 3, value: 99.99 },
+        // { label: 'Currency', type: 5, value: 'USD' },
+        // { label: 'Start Date', type: 7, value: new Date() },
+        // { label: 'End Time', type: 8, value: new Date(2025, 5, 12, 17, 27) },
+        // { label: 'Active', type: 6, value: true },
+        // { label: 'Yes/No', type: 9, value: false },
+        // { label: 'Select', type: 10, value: 'opt2' },
+        // { label: 'Image', type: 11, value: 'ae8b6ebe-5f1b-4d7f-ba62-bd17ad65eddc' },
+        { label: 'Image', type: 11, value: null },
     ];
 
     constructor(
         private readonly dialogRef: MatDialogRef<DynamicFormComponent>,
+        private authService: AuthService,
         private fb: FormBuilder,
     ) {}
 
@@ -47,7 +56,9 @@ export class DynamicFormComponent implements OnInit {
 
     ngOnInit() {
         this.form = this.fb.group({
-            fields: this.fb.array(this.config.map((f) => this.createControl(f.type, f.value))),
+            fields: this.fb.array(
+                this.config.map((f) => this.createControl(f.type, f.label, f.value)),
+            ),
         });
     }
 
@@ -55,19 +66,18 @@ export class DynamicFormComponent implements OnInit {
         return this.form.get('fields') as FormArray;
     }
 
-    private createControl(type: number, value: any): FormGroup {
+    private createControl(type: number, fieldName: string, value: any): FormGroup {
         let initialValue = value;
         if (type === 7 && value instanceof Date) {
             initialValue = value.toISOString().substring(0, 10);
         }
-        // if (type === 8 && value instanceof Date) {
-        //     const hours = value.getHours().toString().padStart(2, '0');
-        //     const minutes = value.getMinutes().toString().padStart(2, '0');
-        //     initialValue = `${hours}:${minutes}`;
-        // }
+        if (type === 11) {
+            initialValue = this.getImageUrl(value);
+        }
         const ctrl = this.fb.control(initialValue, Validators.required);
         return this.fb.group({
             type: [type],
+            fieldName: fieldName,
             control: ctrl,
         });
     }
@@ -86,7 +96,41 @@ export class DynamicFormComponent implements OnInit {
         return [];
     }
 
+    getImageUrl(imageId: string): string | null {
+        if (imageId) {
+            let imageUrl = `${environment.apiUrl}collections/${this.collectionId}/images/${imageId}`;
+            if (environment.useTokenAuthorizationForImages) {
+                imageUrl = imageUrl + `?token=${this.authService.token()}`;
+            }
+            return imageUrl;
+        } else {
+            return Constants.PlaceholderImage;
+        }
+    }
+
+    onImageSelected(event: Event, index: number) {
+        console.log('onImageSelected', event, index);
+        const controlGroup = this.fieldsArray.at(index) as FormGroup;
+        if (controlGroup && controlGroup.get('type')?.value === 11) {
+            console.log(`Field name: '${controlGroup.get('fieldName')?.value}'`);
+            controlGroup.get('control')?.setValue(this.getImageUrl(this.testImage));
+        }
+    }
+
     onSubmit() {
-        console.log(this.form.value);
+        if (this.form.invalid) {
+            this.form.markAllAsTouched();
+            return;
+        }
+        const formData = this.form.value.fields.reduce((acc: any, field: any) => {
+            if (field.type === 11) {
+                acc[field.fieldName] = Utils.extractImageIdFromUrl(field.control);
+            } else {
+                acc[field.fieldName] = field.control;
+            }
+            return acc;
+        }, {});
+        console.log('Form submitted:', formData);
+        this.dialogRef.close(formData);
     }
 }
