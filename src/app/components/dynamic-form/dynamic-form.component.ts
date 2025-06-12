@@ -33,7 +33,7 @@ export class DynamicFormComponent implements OnInit {
 
     constructor(
         private readonly dialogRef: MatDialogRef<DynamicFormComponent>,
-        private fb: FormBuilder,
+        private formBuilder: FormBuilder,
         private utilsService: UtilsService,
     ) {}
 
@@ -52,8 +52,8 @@ export class DynamicFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.form = this.fb.group({
-            fields: this.fb.array(
+        this.form = this.formBuilder.group({
+            fields: this.formBuilder.array(
                 this.config.map((f) => this.createControl(f.type, f.label, f.value)),
             ),
         });
@@ -71,8 +71,8 @@ export class DynamicFormComponent implements OnInit {
         if (type === 11) {
             initialValue = this.utilsService.getImageUrl(this.collectionId!, value);
         }
-        const ctrl = this.fb.control(initialValue, Validators.required);
-        return this.fb.group({
+        const ctrl = this.formBuilder.control(initialValue, Validators.required);
+        return this.formBuilder.group({
             type: [type],
             fieldName: fieldName,
             control: ctrl,
