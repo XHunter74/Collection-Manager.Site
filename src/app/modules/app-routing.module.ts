@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LoginComponent } from '../components/login/login.component';
+import { LoginComponent } from '../components/login-module/login/login.component';
 import { ResetPasswordComponent } from '../components/reset-password/reset-password.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { CollectionsComponent } from '../components/collections/collections.component';

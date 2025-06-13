@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { LoginModalComponent } from './login-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoginComponentModel } from '../../models/login-component.model';
-import { MessageDialogComponent } from '../dialogs/message-dialog.component';
-import { ForgotPasswordComponent } from './forgot-password.component';
-import { UsersService } from '../../services/users.service';
-import { Constants } from '../../shared/constants';
+import { LoginComponentModel } from '../../../models/login-component.model';
+import { MessageDialogComponent } from '../../dialogs/message-dialog.component';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
+import { UsersService } from '../../../services/users.service';
+import { Constants } from '../../../shared/constants';
+import { LoginModalComponent } from '../login-modal/login-modal.component';
 
 @Component({
     selector: 'app-login',
