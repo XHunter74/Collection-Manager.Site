@@ -12,9 +12,9 @@
     </div>
     <div class="items-list">
         <table mat-table [dataSource]="sortedData" class="items-table">
-            <ng-container matColumnDef="name">
+            <ng-container matColumnDef="displayName">
                 <td *matCellDef="let element" class="name-column">
-                    {{ element.Name }}
+                    {{ element.displayName }}
                 </td>
             </ng-container>
 
@@ -22,7 +22,7 @@
                 class="table-row"
                 mat-row
                 *matRowDef="let row; columns: displayedColumns"
-                [ngClass]="{ selected: row.Id === selectedItemId }"
+                [ngClass]="{ selected: row.id === selectedItemId }"
                 (click)="selectRow(row)"
             ></tr>
         </table>

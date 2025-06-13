@@ -45,12 +45,10 @@ export class ItemsPanelComponent implements OnChanges {
                     if (selectFields.length === 0) {
                         return of({ fields, possibleValues: [] });
                     }
-                    // Use forkJoin to load all possible values in parallel
                     const possibleValues$ = selectFields.map((field) =>
-                        this.collectionService.loadPossibleValues(field.id!).pipe(
-                            // Map to PossibleValuesHolder
-                            map((values) => new PossibleValuesHolder(field.id!, values)),
-                        ),
+                        this.collectionService
+                            .loadPossibleValues(field.id!)
+                            .pipe(map((values) => new PossibleValuesHolder(field.id!, values))),
                     );
                     return forkJoin(possibleValues$).pipe(
                         map((possibleValues) => ({

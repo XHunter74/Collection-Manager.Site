@@ -17,7 +17,7 @@ export class CollectionItemsComponent implements OnInit, OnChanges {
     @Input() currentCollection: CollectionDto | null = null;
     fields: CollectionFieldDto[] = [];
     sortedData = new MatTableDataSource<BaseItemModel>();
-    displayedColumns = ['name'];
+    displayedColumns = ['displayName'];
     @Output() selectedItemIdChange = new EventEmitter<string | null>();
     selectedItemId: string | null = null;
 
@@ -104,7 +104,7 @@ export class CollectionItemsComponent implements OnInit, OnChanges {
     }
 
     public selectRow(item: BaseItemModel): void {
-        this.selectedItemId = item.Id ?? null;
+        this.selectedItemId = item.id ?? null;
         localStorage.setItem(this.getStorageKey(), this.selectedItemId ?? '');
         this.selectedItemIdChange.emit(this.selectedItemId);
     }

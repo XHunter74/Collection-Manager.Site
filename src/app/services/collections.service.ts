@@ -46,7 +46,7 @@ export class CollectionsService extends HttpService {
     }
 
     loadCollectionItemsWithNameField(collectionId: string): Observable<BaseItemModel[]> {
-        const actionUrl = `collections/${collectionId}/items?fields=Name`;
+        const actionUrl = `collections/${collectionId}/items?fields=DisplayName`;
         return this.get<BaseItemModel[]>(actionUrl);
     }
 
@@ -116,5 +116,15 @@ export class CollectionsService extends HttpService {
     loadItemData(itemId: string): Observable<BaseItemModel> {
         const actionUrl = `items/${itemId}`;
         return this.get<BaseItemModel>(actionUrl);
+    }
+
+    createCollectionItem(collectionId: string, item: BaseItemModel): Observable<BaseItemModel> {
+        const actionUrl = `collections/${collectionId}/items`;
+        return this.post<BaseItemModel>(actionUrl, item, undefined, false);
+    }
+
+    updateCollectionItem(item: BaseItemModel): Observable<BaseItemModel> {
+        const actionUrl = `items/${item.id}`;
+        return this.put<BaseItemModel>(actionUrl, item, undefined, false);
     }
 }

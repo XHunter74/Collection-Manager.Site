@@ -1,8 +1,15 @@
-export interface BaseItemModel {
-    Id: string;
-    CollectionId: string;
-    Created: Date;
-    Updated: Date;
+export class BaseItemModel {
+    id: string | undefined;
+    collectionId: string | undefined;
+    displayName: string | undefined;
+    picture: string | undefined;
+    values: ItemValue[] = [];
+    created: Date | undefined;
+    updated: Date | undefined;
+}
 
-    [key: string]: unknown;
+export class ItemValue {
+    fieldId!: string;
+    fieldName!: string;
+    value!: any;
 }

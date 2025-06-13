@@ -1,9 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UtilsService } from '../../../services/utils.service';
-import { BaseItemModel } from '../../../models/base-item.model';
+import { BaseItemModel, ItemValue } from '../../../models/base-item.model';
 import { CollectionMetadataModel } from '../../../models/collection-metadata.model';
 import { CollectionsService } from '../../../services/collections.service';
+import { FieldTypes } from '../../../models/field-types.enum';
 
 @Component({
     selector: 'app-item-component',
@@ -99,26 +100,52 @@ export class ItemComponent implements OnChanges {
             if (!controlGroup) return;
             const fieldName = field.displayName;
             if (!fieldName) return;
-            let value = itemData[fieldName];
+
+            let value: any = null; //itemData[fieldName];
+
+            switch (field.displayName) {
+                case 'DisplayName':
+                    value = itemData.displayName;
+                    break;
+                case 'Picture':
+                    value = itemData.picture;
+                    break;
+                default:
+                    value = itemData.values.find((v) => v.fieldId === field.id)?.value || null;
+            }
 
             switch (field.type) {
-                case 7: // Date
+                case FieldTypes.Date: // Date
                     if (value) {
                         const date = new Date(value as string);
                         value = date.toISOString().substring(0, 10);
                     }
                     break;
-                case 8: // Time
+                case FieldTypes.Time: // Time
                     if (value) {
                         const date = new Date(value as string);
                         value = date;
                     }
                     break;
-                case 11: // Image
+                case FieldTypes.Image: // Image
                     value = this.utilsService.getImageUrl(
                         this.collectionMetadata!.collection!.id!,
                         value as string,
                     );
+                    break;
+                case FieldTypes.Select: // Select
+                    {
+                        if (value) {
+                            const fieldPossibleValues =
+                                this.collectionMetadata!.possibleValues.find(
+                                    (e) => e.fieldId === field.id,
+                                );
+                            const itemPossibleValue = fieldPossibleValues?.possibleValues.find(
+                                (v) => v.value === value,
+                            );
+                            value = itemPossibleValue?.id || null;
+                        }
+                    }
                     break;
                 default:
                     break;
@@ -163,34 +190,105 @@ export class ItemComponent implements OnChanges {
             return;
         }
 
-        const formData = this.form.value.fields.reduce((acc: any, formField: any) => {
-            const field = this.collectionMetadata!.fields.find((f) => f.id === formField.fieldId);
-            const fieldName = field!.displayName!;
-            if (formField.type === 11) {
-                acc[fieldName] = this.utilsService.extractImageIdFromUrl(formField.control);
+        const formData: BaseItemModel = this.form.value.fields.reduce(
+            (acc: BaseItemModel, formField: any) => {
+                if (acc.values === undefined) {
+                    acc.values = [];
+                }
+                const field = this.collectionMetadata!.fields.find(
+                    (f) => f.id === formField.fieldId,
+                );
+                const fieldId = field!.id!;
+                const fieldName = field!.displayName!;
+
+                switch (fieldName) {
+                    case 'DisplayName':
+                        acc.displayName = formField.control;
+                        break;
+                    case 'Picture':
+                        {
+                            const extractedPicture = this.utilsService.extractImageIdFromUrl(
+                                formField.control,
+                            );
+                            acc.picture = extractedPicture === null ? undefined : extractedPicture;
+                        }
+                        break;
+                    default:
+                        switch (field!.type) {
+                            case FieldTypes.Image:
+                                {
+                                    const newValue = new ItemValue();
+                                    newValue.fieldId = fieldId;
+                                    newValue.fieldName = fieldName;
+                                    newValue.value = this.utilsService.extractImageIdFromUrl(
+                                        formField.control,
+                                    );
+                                    acc.values.push(newValue);
+                                }
+                                break;
+                            case FieldTypes.Select:
+                                {
+                                    const controlValue = formField.control;
+                                    const fieldPossibleValues =
+                                        this.collectionMetadata!.possibleValues.find(
+                                            (e) => e.fieldId === fieldId,
+                                        );
+                                    const itemPossibleValue =
+                                        fieldPossibleValues?.possibleValues.find(
+                                            (v) => v.id === controlValue,
+                                        );
+                                    const newValue = new ItemValue();
+                                    newValue.fieldId = fieldId;
+                                    newValue.fieldName = fieldName;
+                                    newValue.value = itemPossibleValue?.value || null;
+                                    acc.values.push(newValue);
+                                }
+                                break;
+                            default:
+                                {
+                                    const newValue = new ItemValue();
+                                    newValue.fieldId = fieldId;
+                                    newValue.fieldName = fieldName;
+                                    newValue.value = formField.control;
+                                    acc.values.push(newValue);
+                                }
+                                break;
+                        }
+                        break;
+                }
+                return acc as BaseItemModel;
+            },
+            {},
+        );
+
+        formData.collectionId = this.collectionMetadata!.collection.id!;
+        formData.id = this.itemId || undefined;
+
+        if (formData) {
+            console.log('Item data to save:', formData);
+            if (formData.id) {
+                this.collectionsService.updateCollectionItem(formData).subscribe({
+                    next: () => {
+                        console.log('Item updated successfully');
+                        // Optionally, you can reset the form or navigate away
+                    },
+                    error: (err: any) => {
+                        console.error('Error updating item data:', err);
+                    },
+                });
             } else {
-                acc[fieldName] = formField.control;
+                this.collectionsService
+                    .createCollectionItem(formData.collectionId, formData)
+                    .subscribe({
+                        next: (newItem: BaseItemModel) => {
+                            console.log('Item created successfully:', newItem);
+                            // Optionally, you can reset the form or navigate away
+                        },
+                        error: (err: any) => {
+                            console.error('Error creating item data:', err);
+                        },
+                    });
             }
-            return acc;
-        }, {});
-
-        const itemData: BaseItemModel = {
-            id: this.itemId,
-            collectionId: this.collectionMetadata!.collection!.id!,
-            ...formData,
-        };
-
-        if (itemData) {
-            console.log('Item data to save:', itemData);
         }
-        // this.collectionsService.saveItemData(itemData).subscribe({
-        //     next: () => {
-        //         console.log('Item saved successfully');
-        //         // Optionally, you can reset the form or navigate away
-        //     },
-        //     error: (err: any) => {
-        //         console.error('Error saving item data:', err);
-        //     },
-        // });
     }
 }
