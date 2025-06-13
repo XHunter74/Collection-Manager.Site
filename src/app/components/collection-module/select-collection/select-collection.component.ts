@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CollectionsService } from '../../services/collections.service';
-import { CollectionDto } from '../../models/collection.dto';
+import { CollectionsService } from '../../../services/collections.service';
+import { CollectionDto } from '../../../models/collection.dto';
 
 @Component({
     selector: 'app-select-collection',

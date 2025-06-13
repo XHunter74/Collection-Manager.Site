@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { CollectionsService } from '../../services/collections.service';
-import { CollectionDto } from '../../models/collection.dto';
+import { CollectionsService } from '../../../services/collections.service';
+import { CollectionDto } from '../../../models/collection.dto';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { EditCollectionComponent } from '../edit-collection/edit-collection.component';
-import { QuestionDialogComponent } from '../dialogs/question-dialog.component';
-import { Constants } from '../../shared/constants';
+import { QuestionDialogComponent } from '../../dialogs/question-dialog.component';
+import { Constants } from '../../../shared/constants';
 
 @Component({
     selector: 'app-collections-list',

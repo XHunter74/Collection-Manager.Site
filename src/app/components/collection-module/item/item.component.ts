@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UtilsService } from '../../services/utils.service';
-import { BaseItemModel } from '../../models/base-item.model';
-import { CollectionMetadataModel } from '../../models/collection-metadata.model';
-import { CollectionsService } from '../../services/collections.service';
+import { UtilsService } from '../../../services/utils.service';
+import { BaseItemModel } from '../../../models/base-item.model';
+import { CollectionMetadataModel } from '../../../models/collection-metadata.model';
+import { CollectionsService } from '../../../services/collections.service';
 
 @Component({
     selector: 'app-item-component',

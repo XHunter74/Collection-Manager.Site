@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectCollectionComponent } from '../../../src/app/components/select-collection/select-collection.component';
+import { SelectCollectionComponent } from '../../../src/app/components/collection-module/select-collection/select-collection.component';
 
 describe('SelectCollectionComponent', () => {
     let component: SelectCollectionComponent;

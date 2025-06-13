@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditCollectionComponent } from '../../../src/app/components/edit-collection/edit-collection.component';
+import { EditCollectionComponent } from '../../../src/app/components/management-module/edit-collection/edit-collection.component';
 
 describe('EditCollectionComponent', () => {
     let component: EditCollectionComponent;

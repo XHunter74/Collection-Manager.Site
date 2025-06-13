@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { CollectionsService } from '../../services/collections.service';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { CollectionDto } from '../../models/collection.dto';
-import { ImageDto } from '../../models/image.dto';
-import { UtilsService } from '../../services/utils.service';
+import { CollectionDto } from '../../../models/collection.dto';
+import { ImageDto } from '../../../models/image.dto';
+import { UtilsService } from '../../../services/utils.service';
+import { CollectionsService } from '../../../services/collections.service';
 
 @Component({
     selector: 'app-edit-collection',

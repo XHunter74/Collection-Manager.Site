@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditPossibleValuesComponent } from '../../../src/app/components/edit-possible-values/edit-possible-values.component';
+import { EditPossibleValuesComponent } from '../../../src/app/components/management-module/edit-possible-values/edit-possible-values.component';
 
 describe('EditPossibleValuesComponent', () => {
     let component: EditPossibleValuesComponent;

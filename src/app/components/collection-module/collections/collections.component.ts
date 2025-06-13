@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { CollectionDto } from '../../models/collection.dto';
-import { CollectionsService } from '../../services/collections.service';
+import { CollectionDto } from '../../../models/collection.dto';
+import { CollectionsService } from '../../../services/collections.service';
 import { Router } from '@angular/router';
-import { Constants } from '../../shared/constants';
+import { Constants } from '../../../shared/constants';
 
 @Component({
     selector: 'app-collections',

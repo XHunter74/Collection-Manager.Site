@@ -1,14 +1,14 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FieldTypeDto } from '../../models/field-type.dto';
-import { CollectionsService } from '../../services/collections.service';
-import { CollectionFieldDto } from '../../models/collection-field.dto';
+import { FieldTypeDto } from '../../../models/field-type.dto';
+import { CollectionsService } from '../../../services/collections.service';
+import { CollectionFieldDto } from '../../../models/collection-field.dto';
 import { MatTableDataSource } from '@angular/material/table';
-import { EditCollectionFieldModel } from '../../models/edit-collection-field.model';
+import { EditCollectionFieldModel } from '../../../models/edit-collection-field.model';
 import { EditCollectionFieldComponent } from '../edit-collection-field/edit-collection-field.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPossibleValuesComponent } from '../edit-possible-values/edit-possible-values.component';
-import { PossibleValueDto } from '../../models/possible-value.dto';
-import { FieldTypes } from '../../models/field-types.enum';
+import { PossibleValueDto } from '../../../models/possible-value.dto';
+import { FieldTypes } from '../../../models/field-types.enum';
 
 @Component({
     selector: 'app-fields-list',

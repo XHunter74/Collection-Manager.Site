@@ -8,7 +8,7 @@ import {
     AfterViewChecked,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { PossibleValueDto } from '../../models/possible-value.dto';
+import { PossibleValueDto } from '../../../models/possible-value.dto';
 import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 

@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { CollectionDto } from '../../models/collection.dto';
-import { CollectionsService } from '../../services/collections.service';
-import { CollectionFieldDto } from '../../models/collection-field.dto';
-import { PossibleValuesHolder } from '../../models/possible-values.holder';
-import { CollectionMetadataModel } from '../../models/collection-metadata.model';
+import { CollectionDto } from '../../../models/collection.dto';
+import { CollectionsService } from '../../../services/collections.service';
+import { CollectionFieldDto } from '../../../models/collection-field.dto';
+import { PossibleValuesHolder } from '../../../models/possible-values.holder';
+import { CollectionMetadataModel } from '../../../models/collection-metadata.model';
 import { forkJoin, map, of, switchMap } from 'rxjs';
 
 @Component({

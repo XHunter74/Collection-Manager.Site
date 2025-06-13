@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { UtilsService } from '../../services/utils.service';
-import { FieldTypes } from '../../models/field-types.enum';
+import { UtilsService } from '../../../services/utils.service';
+import { FieldTypes } from '../../../models/field-types.enum';
 
 @Component({
     selector: 'app-dynamic-form',

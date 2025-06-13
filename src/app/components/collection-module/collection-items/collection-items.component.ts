@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, Output, EventEmitter, OnInit } from '@angular/core';
-import { CollectionDto } from '../../models/collection.dto';
-import { CollectionsService } from '../../services/collections.service';
-import { CollectionFieldDto } from '../../models/collection-field.dto';
-import { BaseItemModel } from '../../models/base-item.model';
+import { CollectionDto } from '../../../models/collection.dto';
+import { CollectionsService } from '../../../services/collections.service';
+import { CollectionFieldDto } from '../../../models/collection-field.dto';
+import { BaseItemModel } from '../../../models/base-item.model';
 import { MatTableDataSource } from '@angular/material/table';
-import { DynamicFormComponent } from '../collection-module/dynamic-form/dynamic-form.component';
+import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

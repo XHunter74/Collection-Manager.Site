@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditCollectionFieldComponent } from '../../../src/app/components/edit-collection-field/edit-collection-field.component';
+import { EditCollectionFieldComponent } from '../../../src/app/components/management-module/edit-collection-field/edit-collection-field.component';
 
 describe('EditCollectionFieldComponent', () => {
     let component: EditCollectionFieldComponent;

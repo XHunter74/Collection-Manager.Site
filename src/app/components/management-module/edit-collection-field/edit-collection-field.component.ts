@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { CollectionFieldDto } from '../../models/collection-field.dto';
+import { CollectionFieldDto } from '../../../models/collection-field.dto';
 import { Observable } from 'rxjs';
-import { EditCollectionFieldModel } from '../../models/edit-collection-field.model';
-import { FieldTypeDto } from '../../models/field-type.dto';
+import { EditCollectionFieldModel } from '../../../models/edit-collection-field.model';
+import { FieldTypeDto } from '../../../models/field-type.dto';
 
 @Component({
     selector: 'app-edit-collection-field',

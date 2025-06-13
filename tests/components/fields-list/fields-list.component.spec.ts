@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FieldsListComponent } from '../../../src/app/components/fields-list/fields-list.component';
+import { FieldsListComponent } from '../../../src/app/components/management-module/fields-list/fields-list.component';
 
 describe('FieldsListComponent', () => {
     let component: FieldsListComponent;
