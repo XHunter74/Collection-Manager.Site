@@ -1,7 +1,6 @@
 export class CollectionFieldDto {
     id: string | undefined;
-    name: string | undefined;
-    description?: string;
+    displayName: string | undefined;
     type: number | undefined;
     isSystem: boolean | undefined;
     typeName: string | undefined;

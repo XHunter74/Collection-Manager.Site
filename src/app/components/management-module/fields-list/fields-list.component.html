@@ -12,20 +12,12 @@
     </div>
     <div class="collection-fields-list">
         <table mat-table [dataSource]="sortedData" class="fields-table">
-            <ng-container matColumnDef="name">
+            <ng-container matColumnDef="displayName">
                 <th *matHeaderCellDef class="right-align">
                     {{ 'FIELDS_LIST.NAME_COLUMN' | translate }}
                 </th>
                 <td *matCellDef="let element" class="name-column">
-                    {{ element.name | translate }}
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="description">
-                <th *matHeaderCellDef class="right-align">
-                    {{ 'FIELDS_LIST.DESCRIPTION_COLUMN' | translate }}
-                </th>
-                <td *matCellDef="let element" class="description-column">
-                    {{ element.description }}
+                    {{ element.displayName | translate }}
                 </td>
             </ng-container>
             <ng-container matColumnDef="isRequired">
@@ -50,6 +42,7 @@
                     <button
                         class="row-button"
                         mat-button
+                        [disabled]="element.isSystem"
                         (click)="editCollectionField(element.id)"
                         matTooltip="{{ 'FIELDS_LIST.EDIT_FIELD' | translate }}"
                         matTooltipClass="tooltip"

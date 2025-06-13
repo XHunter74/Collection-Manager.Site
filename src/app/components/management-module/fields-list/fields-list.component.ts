@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FieldTypeDto } from '../../../models/field-type.dto';
 import { CollectionsService } from '../../../services/collections.service';
 import { CollectionFieldDto } from '../../../models/collection-field.dto';
@@ -16,13 +16,13 @@ import { FieldTypes } from '../../../models/field-types.enum';
     styleUrl: './fields-list.component.css',
     standalone: false,
 })
-export class FieldsListComponent implements OnChanges, OnInit {
+export class FieldsListComponent implements OnChanges {
     @Input() collectionId: string | null = null;
     fieldTypes = FieldTypes;
     fieldTypes1: FieldTypeDto[] = [];
     fields: CollectionFieldDto[] = [];
     sortedData = new MatTableDataSource<CollectionFieldDto>();
-    displayedColumns: string[] = ['name', 'description', 'isRequired', 'typeName', 'buttons'];
+    displayedColumns: string[] = ['displayName', 'isRequired', 'typeName', 'buttons'];
 
     constructor(
         private matDialog: MatDialog,
@@ -36,8 +36,6 @@ export class FieldsListComponent implements OnChanges, OnInit {
             this.loadCollectionFields();
         }
     }
-
-    ngOnInit(): void {}
 
     addCollectionField(): void {
         const data = new EditCollectionFieldModel();
@@ -69,7 +67,7 @@ export class FieldsListComponent implements OnChanges, OnInit {
                         const fieldTypeStr = `FIELD_TYPES.${(FieldTypes[field.type!] as string).toUpperCase()}`;
                         field.typeName = fieldTypeStr;
                         if (field.isSystem) {
-                            field.name = `SYSTEM_COLUMNS.${field.name?.toUpperCase()}`;
+                            field.displayName = `SYSTEM_COLUMNS.${field.displayName?.toUpperCase()}`;
                         }
                         return {
                             ...field,
@@ -197,14 +195,22 @@ export class FieldsListComponent implements OnChanges, OnInit {
     }
 
     isUpButtonDisabled(fieldId: string): boolean {
+        const field = this.fields.find((f) => f.id === fieldId)!;
+        if (field.isSystem) {
+            return true;
+        }
         const minOrder = Math.min(...this.fields.map((f) => f.order ?? 0));
-        const order = this.fields.find((f) => f.id === fieldId)!.order;
+        const order = field.order;
         return order! <= minOrder;
     }
 
     isDownButtonDisabled(fieldId: string): boolean {
+        const field = this.fields.find((f) => f.id === fieldId)!;
+        if (field.isSystem) {
+            return true;
+        }
         const maxOrder = Math.max(...this.fields.map((f) => f.order ?? 0));
-        const order = this.fields.find((f) => f.id === fieldId)!.order;
+        const order = field.order;
         return order! >= maxOrder;
     }
 

@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { CollectionFieldDto } from '../../../models/collection-field.dto';
+import { CollectionFieldDto } from '../../models/collection-field.dto';
 import { Observable } from 'rxjs';
-import { EditCollectionFieldModel } from '../../../models/edit-collection-field.model';
-import { FieldTypes } from '../../../models/field-types.enum';
+import { EditCollectionFieldModel } from '../../models/edit-collection-field.model';
+import { FieldTypeDto } from '../../models/field-type.dto';
 
 @Component({
     selector: 'app-edit-collection-field',
@@ -16,15 +16,12 @@ export class EditCollectionFieldComponent implements OnInit {
     title: string = '';
     saveButtonText: string = '';
     fieldId: string = '';
-    fieldTypes = Object.keys(FieldTypes)
-        .filter((key) => isNaN(Number(key)))
-        .map((key) => ({
-            value: FieldTypes[key as keyof typeof FieldTypes],
-            name: key,
-        }));
+    fieldTypes: FieldTypeDto[] = [];
+    // isRequired: boolean = false;
 
     editForm = new UntypedFormGroup({
-        displayName: new UntypedFormControl('', [Validators.required]),
+        fieldName: new UntypedFormControl('', [Validators.required]),
+        description: new UntypedFormControl(''),
         fieldType: new UntypedFormControl(''),
         isRequired: new UntypedFormControl(false),
     });
@@ -58,29 +55,32 @@ export class EditCollectionFieldComponent implements OnInit {
             this.title = 'EDIT_FIELD.TITLE_EDIT';
             this.saveButtonText = 'EDIT_FIELD.SAVE_EDIT';
             this.editForm.patchValue({
-                displayName: this.componentData.field?.displayName,
+                fieldName: this.componentData.field?.displayName,
+                description: this.componentData.field?.description,
                 fieldType: this.componentData.field?.type,
                 isRequired: this.componentData.field?.isRequired ?? false,
             });
             if (this.componentData.field.isSystem) {
-                this.editForm.get('displayName')?.disable();
+                this.editForm.get('fieldName')?.disable();
                 this.editForm.get('fieldType')?.disable();
             } else {
-                this.editForm.get('displayName')?.enable();
+                this.editForm.get('fieldName')?.enable();
                 this.editForm.get('fieldType')?.enable();
             }
         } else {
             this.title = 'EDIT_FIELD.TITLE_CREATE';
             this.saveButtonText = 'EDIT_FIELD.SAVE_CREATE';
-            this.editForm.get('displayName')?.enable();
+            this.editForm.get('fieldName')?.enable();
             this.editForm.get('fieldType')?.enable();
         }
+        this.fieldTypes = this.componentData.fieldTypes;
     }
 
     saveChanges() {
         const updatedField = new CollectionFieldDto();
         updatedField.id = this.fieldId;
-        updatedField.displayName = this.displayName?.value;
+        updatedField.displayName = this.fieldName?.value;
+        updatedField.description = this.description?.value;
         updatedField.type = this.fieldType?.value;
         updatedField.order = this.componentData.field?.order ?? 0;
         updatedField.isRequired = this.isRequired?.value;
@@ -88,8 +88,12 @@ export class EditCollectionFieldComponent implements OnInit {
         this.dialogRef.close(updatedField);
     }
 
-    get displayName() {
-        return this.editForm.get('displayName');
+    get fieldName() {
+        return this.editForm.get('fieldName');
+    }
+
+    get description() {
+        return this.editForm.get('description');
     }
 
     get fieldType() {

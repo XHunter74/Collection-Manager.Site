@@ -72,7 +72,7 @@
         "DELETE_FIELD_CONFIRMATION": "Are you sure you want to delete this field?",
         "UP": "Up",
         "DOWN": "Down",
-        "NAME_COLUMN": "Name",
+        "NAME_COLUMN": "Display Name",
         "DESCRIPTION_COLUMN": "Description",
         "TYPE_COLUMN": "Type",
         "REQUIRED_COLUMN": "Required",

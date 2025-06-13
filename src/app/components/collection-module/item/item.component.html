@@ -25,7 +25,7 @@
                         <ng-container *ngSwitchCase="0">
                             <div class="string-field">
                                 <label [for]="'field-' + i" class="form-label">{{
-                                    collectionMetadata!.fields[i].name
+                                    collectionMetadata!.fields[i].displayName
                                 }}</label>
                                 <input
                                     id="field-{{ i }}"
@@ -40,7 +40,7 @@
                         <ng-container *ngSwitchCase="1">
                             <div class="text-field">
                                 <label [for]="'field-' + i" class="form-label">{{
-                                    collectionMetadata!.fields[i].name
+                                    collectionMetadata!.fields[i].displayName
                                 }}</label>
                                 <textarea
                                     id="field-{{ i }}"
@@ -71,7 +71,7 @@
                                         type="checkbox"
                                         formControlName="control"
                                     />
-                                    {{ collectionMetadata!.fields[i].name }}
+                                    {{ collectionMetadata!.fields[i].displayName }}
                                 </label>
                             </div>
                         </ng-container>
@@ -80,7 +80,7 @@
                         <ng-container *ngSwitchCase="7">
                             <div class="date-field">
                                 <label [for]="'field-' + i" class="form-label">{{
-                                    collectionMetadata!.fields[i].name
+                                    collectionMetadata!.fields[i].displayName
                                 }}</label>
                                 <mat-form-field appearance="fill" style="width: 100%">
                                     <input
@@ -104,7 +104,7 @@
                         <ng-container *ngSwitchCase="8">
                             <div class="time-field">
                                 <label [for]="'field-' + i" class="form-label">{{
-                                    collectionMetadata!.fields[i].name
+                                    collectionMetadata!.fields[i].displayName
                                 }}</label>
                                 <mat-form-field>
                                     <mat-label>Pick a time</mat-label>
@@ -124,7 +124,7 @@
                         <ng-container *ngSwitchCase="9">
                             <div class="yes-no-field">
                                 <label [for]="'field-' + i" class="form-label">{{
-                                    collectionMetadata!.fields[i].name
+                                    collectionMetadata!.fields[i].displayName
                                 }}</label>
                                 <select
                                     id="field-{{ i }}"
@@ -142,7 +142,7 @@
                         <ng-container *ngSwitchCase="10">
                             <div class="select-field">
                                 <label [for]="'field-' + i" class="form-label">{{
-                                    collectionMetadata!.fields[i].name
+                                    collectionMetadata!.fields[i].displayName
                                 }}</label>
                                 <select
                                     id="field-{{ i }}"

@@ -31,12 +31,7 @@
 }
 
 .name-column {
-    width: 20%;
-    background-color: transparent;
-}
-
-.description-column {
-    width: 35%;
+    width: 55%;
     background-color: transparent;
 }
 

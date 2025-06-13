@@ -3,32 +3,26 @@
     <form class="modal-form" [formGroup]="editForm" (ngSubmit)="saveChanges()" autocomplete="on">
         <div class="modal-content">
             <div class="form-group field-name">
-                <label for="fieldName" class="login-label">{{
+                <label for="displayName" class="login-label">{{
                     'EDIT_FIELD.NAME' | translate
                 }}</label>
                 <div class="input-group">
                     <input
                         class="form-control"
                         type="text"
-                        formControlName="fieldName"
+                        formControlName="displayName"
                         ngbAutofocus
                         autofocus="true"
                     />
                 </div>
                 <div class="alert alert-name">
-                    <div *ngIf="fieldName?.invalid && (fieldName?.dirty || fieldName?.touched)">
-                        <div *ngIf="fieldName?.errors?.['required']">
+                    <div
+                        *ngIf="displayName?.invalid && (displayName?.dirty || displayName?.touched)"
+                    >
+                        <div *ngIf="displayName?.errors?.['required']">
                             {{ 'EDIT_FIELD.NAME_ERROR' | translate }}
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="form-group field-description">
-                <label for="description" class="login-label">{{
-                    'EDIT_FIELD.DESCRIPTION' | translate
-                }}</label>
-                <div class="input-group">
-                    <input class="form-control" type="text" formControlName="description" />
                 </div>
             </div>
             <div class="form-group field-field-type">
