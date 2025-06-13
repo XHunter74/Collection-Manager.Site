@@ -5,9 +5,10 @@ import { AppMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestComponent } from '../components/shared-module/test/test.component';
 import { ImageControlComponent } from '../components/shared-module/image-control/image-control.component';
+import { ViewImageModalComponent } from '../components/shared-module/view-image-modal/view-image-modal.component';
 
 @NgModule({
-    declarations: [TestComponent, ImageControlComponent],
+    declarations: [TestComponent, ImageControlComponent, ViewImageModalComponent],
     bootstrap: [],
     imports: [
         CommonModule,

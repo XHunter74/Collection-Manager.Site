@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ImagesService } from '../../../services/images.service';
 import { ImageDto } from '../../../models/image.dto';
+import { MatDialog } from '@angular/material/dialog';
+import { ViewImageModalComponent } from '../view-image-modal/view-image-modal.component';
 
 @Component({
     selector: 'app-image-control',
@@ -14,7 +16,10 @@ export class ImageControlComponent {
     @Input() collectionId: string | null = null;
     uploadingImage: boolean = false;
 
-    constructor(private imagesService: ImagesService) {}
+    constructor(
+        private matDialog: MatDialog,
+        private imagesService: ImagesService,
+    ) {}
 
     uploadImage(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -43,6 +48,6 @@ export class ImageControlComponent {
     }
 
     enlargeImage(): void {
-        console.log('Enlarge image functionality not implemented yet.');
+        ViewImageModalComponent.show(this.matDialog, this.getImageUrl() ?? undefined);
     }
 }
