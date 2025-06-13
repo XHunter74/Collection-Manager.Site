@@ -105,5 +105,19 @@
     "DYNAMIC_FORM": {
         "YES": "Yes",
         "NO": "No"
+    },
+    "FIELD_TYPES": {
+        "STRING": "String",
+        "TEXT": "Text",
+        "INTEGER": "Integer",
+        "MONEY": "Money",
+        "DECIMAL": "Decimal",
+        "CURRENCY": "Currency",
+        "BOOLEAN": "Boolean",
+        "DATE": "Date",
+        "TIME": "Time",
+        "YESNO": "Yes/No",
+        "SELECT": "Select",
+        "IMAGE": "Image"
     }
 }

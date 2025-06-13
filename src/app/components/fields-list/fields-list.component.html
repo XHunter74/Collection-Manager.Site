@@ -41,7 +41,7 @@
                     {{ 'FIELDS_LIST.TYPE_COLUMN' | translate }}
                 </th>
                 <td *matCellDef="let element" class="type-name-column">
-                    {{ element.typeName }}
+                    {{ element.typeName | translate }}
                 </td>
             </ng-container>
             <ng-container matColumnDef="buttons">
@@ -59,7 +59,7 @@
                     <button
                         class="row-button"
                         mat-button
-                        [disabled]="element.type !== 10"
+                        [disabled]="element.type !== fieldTypes.Select"
                         (click)="editPossibleValues(element.id)"
                         matTooltip="{{ 'FIELDS_LIST.EDIT_POSSIBLE_VALUES' | translate }}"
                         matTooltipClass="tooltip"

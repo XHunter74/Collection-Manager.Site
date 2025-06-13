@@ -8,6 +8,7 @@ import { EditCollectionFieldComponent } from '../edit-collection-field/edit-coll
 import { MatDialog } from '@angular/material/dialog';
 import { EditPossibleValuesComponent } from '../edit-possible-values/edit-possible-values.component';
 import { PossibleValueDto } from '../../models/possible-value.dto';
+import { FieldTypes } from '../../models/field-types.enum';
 
 @Component({
     selector: 'app-fields-list',
@@ -17,9 +18,10 @@ import { PossibleValueDto } from '../../models/possible-value.dto';
 })
 export class FieldsListComponent implements OnChanges, OnInit {
     @Input() collectionId: string | null = null;
-    fieldTypes: FieldTypeDto[] = [];
+    fieldTypes = FieldTypes;
+    fieldTypes1: FieldTypeDto[] = [];
     fields: CollectionFieldDto[] = [];
-    sortedData = new MatTableDataSource();
+    sortedData = new MatTableDataSource<CollectionFieldDto>();
     displayedColumns: string[] = ['name', 'description', 'isRequired', 'typeName', 'buttons'];
 
     constructor(
@@ -35,29 +37,11 @@ export class FieldsListComponent implements OnChanges, OnInit {
         }
     }
 
-    ngOnInit(): void {
-        this.loadFieldTypes();
-    }
-
-    loadFieldTypes() {
-        this.collectionService.loadFieldTypes().subscribe({
-            next: (fieldTypes: FieldTypeDto[]) => {
-                this.fieldTypes = fieldTypes;
-                this.fields.forEach((field) => {
-                    const fieldType = this.fieldTypes.find((ft) => ft.value === field.type);
-                    field.typeName = fieldType ? fieldType.name : 'Unknown';
-                });
-                console.log('Field types loaded:', this.fieldTypes);
-            },
-            error: (err) => {
-                console.error('Error loading field types:', err);
-            },
-        });
-    }
+    ngOnInit(): void {}
 
     addCollectionField(): void {
         const data = new EditCollectionFieldModel();
-        data.fieldTypes = this.fieldTypes;
+        data.fieldTypes = this.fieldTypes1;
 
         EditCollectionFieldComponent.show(this.matDialog, undefined, data).subscribe({
             next: (updatedField: CollectionFieldDto) => {
@@ -82,10 +66,11 @@ export class FieldsListComponent implements OnChanges, OnInit {
             next: (fields) => {
                 this.fields = fields
                     .map((field) => {
-                        const fieldType = this.fieldTypes.find((ft) => ft.value === field.type);
+                        const fieldTypeStr = `FIELD_TYPES.${(FieldTypes[field.type!] as string).toUpperCase()}`;
+                        field.typeName = fieldTypeStr;
                         return {
                             ...field,
-                            typeName: fieldType ? fieldType.name : 'Unknown',
+                            typeName: fieldTypeStr ? fieldTypeStr : 'Unknown',
                         };
                     })
                     .sort((a, b) => a.order! - b.order!);
@@ -125,7 +110,7 @@ export class FieldsListComponent implements OnChanges, OnInit {
 
         const data = new EditCollectionFieldModel();
         data.field = field;
-        data.fieldTypes = this.fieldTypes;
+        data.fieldTypes = this.fieldTypes1;
 
         EditCollectionFieldComponent.show(this.matDialog, undefined, data).subscribe({
             next: (updatedField: CollectionFieldDto) => {
@@ -143,7 +128,7 @@ export class FieldsListComponent implements OnChanges, OnInit {
         this.collectionService.createCollectionField(this.collectionId!, field).subscribe({
             next: (createdField: CollectionFieldDto) => {
                 console.log('Field created successfully:', createdField);
-                createdField.typeName = this.fieldTypes.find(
+                createdField.typeName = this.fieldTypes1.find(
                     (ft) => ft.value === createdField.type,
                 )?.name;
                 this.fields.push(createdField);
@@ -159,7 +144,7 @@ export class FieldsListComponent implements OnChanges, OnInit {
     updateCollectionField(field: CollectionFieldDto): void {
         this.collectionService.updateCollectionField(field).subscribe({
             next: (updatedField: CollectionFieldDto) => {
-                updatedField.typeName = this.fieldTypes.find(
+                updatedField.typeName = this.fieldTypes1.find(
                     (ft) => ft.value === updatedField.type,
                 )?.name;
                 console.log('Field updated successfully:', updatedField);

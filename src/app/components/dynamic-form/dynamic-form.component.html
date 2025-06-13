@@ -8,7 +8,7 @@
             >
                 <ng-container [ngSwitch]="field.get('type')!.value">
                     <!-- String -->
-                    <ng-container *ngSwitchCase="0">
+                    <ng-container *ngSwitchCase="fieldTypes.String">
                         <div class="string-field">
                             <label [for]="'field-' + i" class="form-label">{{
                                 config[i].label
@@ -23,7 +23,7 @@
                     </ng-container>
 
                     <!-- Text (textarea) -->
-                    <ng-container *ngSwitchCase="1">
+                    <ng-container *ngSwitchCase="fieldTypes.Text">
                         <div class="text-field">
                             <label [for]="'field-' + i" class="form-label">{{
                                 config[i].label
@@ -49,7 +49,7 @@
                 </ng-container> -->
 
                     <!-- Boolean -->
-                    <ng-container *ngSwitchCase="6">
+                    <ng-container *ngSwitchCase="fieldTypes.Boolean">
                         <div class="boolean-field">
                             <label [for]="'field-' + i">
                                 <input
@@ -63,7 +63,7 @@
                     </ng-container>
 
                     <!-- Date -->
-                    <ng-container *ngSwitchCase="7">
+                    <ng-container *ngSwitchCase="fieldTypes.Date">
                         <div class="date-field">
                             <label [for]="'field-' + i" class="form-label">{{
                                 config[i].label
@@ -87,7 +87,7 @@
                     </ng-container>
 
                     <!-- Time -->
-                    <ng-container *ngSwitchCase="8">
+                    <ng-container *ngSwitchCase="fieldTypes.Time">
                         <div class="time-field">
                             <label [for]="'field-' + i" class="form-label">{{
                                 config[i].label
@@ -107,7 +107,7 @@
                     </ng-container>
 
                     <!-- YesNo -->
-                    <ng-container *ngSwitchCase="9">
+                    <ng-container *ngSwitchCase="fieldTypes.YesNo">
                         <div class="yes-no-field">
                             <label [for]="'field-' + i" class="form-label">{{
                                 config[i].label
@@ -125,7 +125,7 @@
                     </ng-container>
 
                     <!-- Select -->
-                    <ng-container *ngSwitchCase="10">
+                    <ng-container *ngSwitchCase="fieldTypes.Select">
                         <div class="select-field">
                             <label [for]="'field-' + i" class="form-label">{{
                                 config[i].label
@@ -152,7 +152,7 @@
                         width="100"
                     />
                 </ng-container> -->
-                    <ng-container *ngSwitchCase="11">
+                    <ng-container *ngSwitchCase="fieldTypes.Image">
                         <div class="form-group collection-image-group">
                             <label for="image" class="form-label">{{
                                 'EDIT_COLLECTION.IMAGE' | translate

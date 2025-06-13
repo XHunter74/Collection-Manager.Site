@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { UtilsService } from '../../services/utils.service';
+import { FieldTypes } from '../../models/field-types.enum';
 
 @Component({
     selector: 'app-dynamic-form',
@@ -11,6 +12,7 @@ import { UtilsService } from '../../services/utils.service';
     standalone: false,
 })
 export class DynamicFormComponent implements OnInit {
+    fieldTypes = FieldTypes;
     form!: FormGroup;
     collectionId: string | null = '9aa7d666-b7ef-4322-ab52-e0f9ceb94fc7';
     testImage = 'ae8b6ebe-5f1b-4d7f-ba62-bd17ad65eddc';
