@@ -270,7 +270,6 @@ export class ItemComponent implements OnChanges {
                 this.collectionsService.updateCollectionItem(formData).subscribe({
                     next: () => {
                         console.log('Item updated successfully');
-                        // Optionally, you can reset the form or navigate away
                     },
                     error: (err: any) => {
                         console.error('Error updating item data:', err);
@@ -282,7 +281,6 @@ export class ItemComponent implements OnChanges {
                     .subscribe({
                         next: (newItem: BaseItemModel) => {
                             console.log('Item created successfully:', newItem);
-                            // Optionally, you can reset the form or navigate away
                         },
                         error: (err: any) => {
                             console.error('Error creating item data:', err);
