@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from '../components/login-module/login/login.component';
-import { ResetPasswordComponent } from '../components/reset-password/reset-password.component';
+import { ResetPasswordComponent } from '../components/login-module/reset-password/reset-password.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { CollectionsComponent } from '../components/collections/collections.component';
 import { ManageCollectionsComponent } from '../components/manage-collections/manage-collections.component';

@@ -7,8 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from '../components/login-module/login/login.component';
 import { ForgotPasswordComponent } from '../components/login-module/forgot-password/forgot-password.component';
 import { UsersService } from '../services/users.service';
-import { ResetPasswordComponent } from '../components/reset-password/reset-password.component';
-import { ResetPasswordModalComponent } from '../components/reset-password/reset-password-modal.component';
+import { ResetPasswordComponent } from '../components/login-module/reset-password/reset-password.component';
+import { ResetPasswordModalComponent } from '../components/login-module/reset-password-modal/reset-password-modal.component';
 import { LoginModalComponent } from '../components/login-module/login-modal/login-modal.component';
 
 @NgModule({

@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResetPasswordModalComponent } from './reset-password-modal.component';
+import { ResetPasswordModalComponent } from '../reset-password-modal/reset-password-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { UsersService } from '../../services/users.service';
-import { MessageDialogComponent } from '../dialogs/message-dialog.component';
+import { UsersService } from '../../../services/users.service';
+import { MessageDialogComponent } from '../../dialogs/message-dialog.component';
 
 @Component({
     selector: 'app-reset-password',
