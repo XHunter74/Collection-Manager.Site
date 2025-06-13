@@ -17,6 +17,6 @@ import { ViewImageModalComponent } from '../components/shared-module/view-image-
         ReactiveFormsModule,
         TranslateModule.forChild(),
     ],
-    exports: [],
+    exports: [ImageControlComponent, ViewImageModalComponent],
 })
 export class SharedModule {}

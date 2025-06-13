@@ -3,9 +3,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { CollectionDto } from '../../../models/collection.dto';
-import { ImageDto } from '../../../models/image.dto';
-import { ImagesService } from '../../../services/images.service';
-import { CollectionsService } from '../../../services/collections.service';
 
 @Component({
     selector: 'app-edit-collection',
@@ -29,8 +26,6 @@ export class EditCollectionComponent implements OnInit {
     constructor(
         private readonly dialogRef: MatDialogRef<EditCollectionComponent>,
         @Optional() @Inject(MAT_DIALOG_DATA) public componentData: CollectionDto,
-        private collectionsService: CollectionsService,
-        private utilsService: ImagesService,
     ) {}
 
     static show(
@@ -59,10 +54,7 @@ export class EditCollectionComponent implements OnInit {
             this.editForm.patchValue({
                 collectionName: this.componentData.name,
                 description: this.componentData.description,
-                image: this.utilsService.getImageUrl(
-                    this.collectionId,
-                    this.componentData.image || '',
-                ),
+                image: this.componentData.image || '',
             });
         } else {
             this.title = 'EDIT_COLLECTION.TITLE_CREATE';
@@ -70,30 +62,12 @@ export class EditCollectionComponent implements OnInit {
         }
     }
 
-    onImageSelected(event: Event) {
-        const input = event.target as HTMLInputElement;
-        if (!input.files || input.files.length === 0) return;
-        const file = input.files[0];
-        this.uploadingImage = true;
-        this.collectionsService.uploadCollectionImage(this.collectionId, file).subscribe({
-            next: (imageDto: ImageDto) => {
-                const imageUrl = this.utilsService.getImageUrl(this.collectionId, imageDto.fileId);
-                this.editForm.patchValue({ image: imageUrl });
-                this.uploadingImage = false;
-            },
-            error: () => {
-                this.uploadingImage = false;
-            },
-        });
-    }
-
     saveChanges() {
         const updatedCollection = new CollectionDto();
         updatedCollection.id = this.collectionId;
         updatedCollection.name = this.collectionName?.value;
         updatedCollection.description = this.description?.value;
-        const extractedImageId = this.utilsService.extractImageIdFromUrl(this.image?.value || '');
-        updatedCollection.image = extractedImageId === null ? undefined : extractedImageId;
+        updatedCollection.image = this.image?.value;
         this.dialogRef.close(updatedCollection);
     }
 

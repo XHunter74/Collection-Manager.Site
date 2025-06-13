@@ -121,7 +121,8 @@
         "IMAGE": "Image"
     },
     "SYSTEM_COLUMNS": {
-        "NAME": "Name",
+        "DISPLAY_NAME": "Display Name",
+        "DISPLAYNAME": "Display Name",
         "DESCRIPTION": "Description",
         "PICTURE": "Picture"
     },

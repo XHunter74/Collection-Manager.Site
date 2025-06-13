@@ -11,6 +11,7 @@ import { FieldsListComponent } from '../components/management-module/fields-list
 import { CollectionsListComponent } from '../components/management-module/collections-list/collections-list.component';
 import { EditCollectionFieldComponent } from '../components/management-module/edit-collection-field/edit-collection-field.component';
 import { EditPossibleValuesComponent } from '../components/management-module/edit-possible-values/edit-possible-values.component';
+import { SharedModule } from './shared.module';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { EditPossibleValuesComponent } from '../components/management-module/edi
         FormsModule,
         ReactiveFormsModule,
         TranslateModule.forChild(),
+        SharedModule,
     ],
     providers: [UsersService, CollectionsService],
     exports: [ManageCollectionsComponent],
