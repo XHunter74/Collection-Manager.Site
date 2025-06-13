@@ -112,4 +112,9 @@ export class CollectionsService extends HttpService {
         const actionUrl = `collectionfields/possible-values/${id}`;
         return this.delete(actionUrl);
     }
+
+    loadItemData(itemId: string): Observable<BaseItemModel> {
+        const actionUrl = `items/${itemId}`;
+        return this.get<BaseItemModel>(actionUrl);
+    }
 }

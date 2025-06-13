@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { UtilsService } from '../../services/utils.service';
 import { BaseItemModel } from '../../models/base-item.model';
 import { CollectionMetadataModel } from '../../models/collection-metadata.model';
+import { CollectionsService } from '../../services/collections.service';
 
 @Component({
     selector: 'app-item-component',
@@ -15,11 +16,12 @@ export class ItemComponent implements OnChanges {
     @Input() collectionMetadata: CollectionMetadataModel | null = null;
     @Input() itemId: string | null = null;
 
-    itemData: BaseItemModel[] | null = null;
+    itemData: BaseItemModel | null = null;
 
     constructor(
         private formBuilder: FormBuilder,
         private utilsService: UtilsService,
+        private collectionsService: CollectionsService,
     ) {}
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,6 +39,7 @@ export class ItemComponent implements OnChanges {
                 ),
             ),
         });
+        this.fillDynamicForm();
     }
 
     get fieldsArray(): FormArray {
@@ -70,8 +73,59 @@ export class ItemComponent implements OnChanges {
         });
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    private patchFormValues(itemData: BaseItemModel[]): void {}
+    fillDynamicForm(): void {
+        if (this.itemId && this.itemId.length > 0) {
+            this.collectionsService.loadItemData(this.itemId).subscribe({
+                next: (itemData: BaseItemModel) => {
+                    this.itemData = itemData;
+                    this.patchFormValues(itemData);
+                },
+                error: (err: any) => {
+                    console.error('Error loading item data:', err);
+                    this.itemData = null;
+                },
+            });
+        }
+    }
+
+    private patchFormValues(itemData: BaseItemModel): void {
+        if (!this.collectionMetadata || !this.form) return;
+        const fields = this.collectionMetadata.fields;
+        const fieldsArray = this.fieldsArray;
+        if (!fieldsArray) return;
+
+        fields.forEach((field, idx) => {
+            const controlGroup = fieldsArray.at(idx) as FormGroup;
+            if (!controlGroup) return;
+            const fieldName = field.name;
+            if (!fieldName) return;
+            let value = itemData[fieldName];
+
+            switch (field.type) {
+                case 7: // Date
+                    if (value) {
+                        const date = new Date(value as string);
+                        value = date.toISOString().substring(0, 10);
+                    }
+                    break;
+                case 8: // Time
+                    if (value) {
+                        const date = new Date(value as string);
+                        value = date;
+                    }
+                    break;
+                case 11: // Image
+                    value = this.utilsService.getImageUrl(
+                        this.collectionMetadata!.collection!.id!,
+                        value as string,
+                    );
+                    break;
+                default:
+                    break;
+            }
+            controlGroup.get('control')?.patchValue(value);
+        });
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onImageSelected(event: Event, idx: number) {}
@@ -103,5 +157,40 @@ export class ItemComponent implements OnChanges {
         return false;
     }
 
-    saveItem(): void {}
+    saveItem(): void {
+        if (this.form.invalid) {
+            this.form.markAllAsTouched();
+            return;
+        }
+
+        const formData = this.form.value.fields.reduce((acc: any, formField: any) => {
+            const field = this.collectionMetadata!.fields.find((f) => f.id === formField.fieldId);
+            const fieldName = field!.name!;
+            if (formField.type === 11) {
+                acc[fieldName] = this.utilsService.extractImageIdFromUrl(formField.control);
+            } else {
+                acc[fieldName] = formField.control;
+            }
+            return acc;
+        }, {});
+
+        const itemData: BaseItemModel = {
+            id: this.itemId,
+            collectionId: this.collectionMetadata!.collection!.id!,
+            ...formData,
+        };
+
+        if (itemData) {
+            console.log('Item data to save:', itemData);
+        }
+        // this.collectionsService.saveItemData(itemData).subscribe({
+        //     next: () => {
+        //         console.log('Item saved successfully');
+        //         // Optionally, you can reset the form or navigate away
+        //     },
+        //     error: (err: any) => {
+        //         console.error('Error saving item data:', err);
+        //     },
+        // });
+    }
 }
