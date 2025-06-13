@@ -1,0 +1,21 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { AppMaterialModule } from './material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TestComponent } from '../components/shared-module/test/test.component';
+import { ImageControlComponent } from '../components/shared-module/image-control/image-control.component';
+
+@NgModule({
+    declarations: [TestComponent, ImageControlComponent],
+    bootstrap: [],
+    imports: [
+        CommonModule,
+        AppMaterialModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule.forChild(),
+    ],
+    exports: [],
+})
+export class SharedModule {}

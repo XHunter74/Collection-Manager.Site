@@ -1,0 +1,42 @@
+<div class="image-control-container">
+    <div class="image-control-header">
+        <span
+            class="delete-button"
+            tabindex="0"
+            (click)="deleteImage()"
+            (keyup.enter)="deleteImage()"
+            matTooltip="{{ 'IMAGE_CONTROL.DELETE_IMAGE' | translate }}"
+            role="button"
+        >
+            <mat-icon>delete</mat-icon>
+        </span>
+        <span
+            class="add-button"
+            tabindex="0"
+            (click)="fileInput.click()"
+            (keyup.enter)="deleteImage()"
+            matTooltip="{{ 'IMAGE_CONTROL.UPLOAD_IMAGE' | translate }}"
+            role="button"
+        >
+            <mat-icon>add_a_photo</mat-icon>
+        </span>
+    </div>
+    <input
+        #fileInput
+        id="file-upload"
+        type="file"
+        accept="image/*"
+        (change)="onImageSelected($event)"
+        style="display: none"
+    />
+    <div class="image-control-stack">
+        <img class="control-image" [src]="getImageUrl()" alt="Collection image" tabindex="0" />
+        <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+        <div
+            class="clickable"
+            matTooltip="{{ 'IMAGE_CONTROL.IMAGE_TOOLTIP' | translate }}"
+            (click)="enlargeImage()"
+            (keyup.enter)="enlargeImage()"
+        ></div>
+    </div>
+</div>

@@ -24,6 +24,7 @@ import { QuestionDialogComponent } from '../components/dialogs/question-dialog.c
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { AppDateAdapter } from '../adapters/app-date.adapter';
 import { APP_DATE_FORMATS } from '../adapters/app-date-format';
+import { SharedModule } from './shared.module';
 
 @NgModule({
     declarations: [AppComponent, MessageDialogComponent, QuestionDialogComponent],
@@ -37,6 +38,7 @@ import { APP_DATE_FORMATS } from '../adapters/app-date-format';
         LoginModule,
         CollectionsModule,
         ManageCollectionsModule,
+        SharedModule,
         TranslateModule.forRoot({
             defaultLanguage: environment.defaultLocale,
             loader: {

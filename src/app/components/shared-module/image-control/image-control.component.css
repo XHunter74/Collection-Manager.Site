@@ -1,0 +1,68 @@
+.image-control-container {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: #8ac7ff;
+}
+
+.image-control-stack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.control-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.clickable {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 80%;
+    background: transparent;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.image-control-header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 20%;
+    background: transparent
+    z-index: 2;
+}
+
+.delete-button{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    color: black;
+    cursor: pointer;
+    z-index: 3;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.add-button {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    color: black;
+    cursor: pointer;
+    z-index: 3;
+    margin-left: 5px;
+    margin-top: 5px;
+}

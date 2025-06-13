@@ -1,4 +1,3 @@
-// filepath: c:\Sources\My Projects\Collection Manager Site\src\app\modules\login.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';

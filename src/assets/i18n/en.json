@@ -124,5 +124,10 @@
         "NAME": "Name",
         "DESCRIPTION": "Description",
         "PICTURE": "Picture"
+    },
+    "IMAGE_CONTROL": {
+        "IMAGE_TOOLTIP": "Click to enlarge image",
+        "DELETE_IMAGE": "Delete Image",
+        "UPLOAD_IMAGE": "Upload Image"
     }
 }
