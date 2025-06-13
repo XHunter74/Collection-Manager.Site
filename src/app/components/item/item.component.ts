@@ -98,4 +98,10 @@ export class ItemComponent implements OnChanges {
             { v: false, l: 'DYNAMIC_FORM.NO' },
         ];
     }
+
+    get isSaveButtonDisabled(): boolean {
+        return false;
+    }
+
+    saveItem(): void {}
 }
