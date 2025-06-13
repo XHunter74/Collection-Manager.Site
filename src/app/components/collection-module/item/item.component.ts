@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UtilsService } from '../../../services/utils.service';
+import { ImagesService } from '../../../services/images.service';
 import { BaseItemModel, ItemValue } from '../../../models/base-item.model';
 import { CollectionMetadataModel } from '../../../models/collection-metadata.model';
 import { CollectionsService } from '../../../services/collections.service';
@@ -23,7 +23,7 @@ export class ItemComponent implements OnChanges {
 
     constructor(
         private formBuilder: FormBuilder,
-        private utilsService: UtilsService,
+        private utilsService: ImagesService,
         private collectionsService: CollectionsService,
     ) {}
 

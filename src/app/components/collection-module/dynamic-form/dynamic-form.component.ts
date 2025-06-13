@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { UtilsService } from '../../../services/utils.service';
+import { ImagesService } from '../../../services/images.service';
 import { FieldTypes } from '../../../models/field-types.enum';
 
 @Component({
@@ -36,7 +36,7 @@ export class DynamicFormComponent implements OnInit {
     constructor(
         private readonly dialogRef: MatDialogRef<DynamicFormComponent>,
         private formBuilder: FormBuilder,
-        private utilsService: UtilsService,
+        private utilsService: ImagesService,
     ) {}
 
     static show(dialog: MatDialog, width?: string, data?: any): Observable<any> {

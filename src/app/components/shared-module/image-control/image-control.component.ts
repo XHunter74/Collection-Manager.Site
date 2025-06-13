@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { UtilsService } from '../../../services/utils.service';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ImagesService } from '../../../services/images.service';
+import { ImageDto } from '../../../models/image.dto';
 
 @Component({
     selector: 'app-image-control',
@@ -9,18 +10,36 @@ import { UtilsService } from '../../../services/utils.service';
 })
 export class ImageControlComponent {
     @Input() imageId: string | null = null;
+    @Output() imageIdChange = new EventEmitter<string | null>();
     @Input() collectionId: string | null = null;
+    uploadingImage: boolean = false;
 
-    constructor(private utilsService: UtilsService) {}
+    constructor(private imagesService: ImagesService) {}
 
-    onImageSelected(event: Event) {}
+    uploadImage(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (!input.files || input.files.length === 0) return;
+        const file = input.files[0];
+        this.uploadingImage = true;
+        this.imagesService.uploadCollectionImage(this.collectionId || '', file).subscribe({
+            next: (imageDto: ImageDto) => {
+                this.imageId = imageDto.fileId;
+                this.imageIdChange.emit(this.imageId);
+                this.uploadingImage = false;
+            },
+            error: () => {
+                this.uploadingImage = false;
+            },
+        });
+    }
 
     getImageUrl(): string | null {
-        return this.utilsService.getImageUrl(this.collectionId || '', this.imageId || '');
+        return this.imagesService.getImageUrl(this.collectionId || '', this.imageId || '');
     }
 
     deleteImage(): void {
         this.imageId = null;
+        this.imageIdChange.emit(this.imageId);
     }
 
     enlargeImage(): void {

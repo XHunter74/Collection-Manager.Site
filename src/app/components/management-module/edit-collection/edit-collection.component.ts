@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { Observable } from 'rxjs';
 import { CollectionDto } from '../../../models/collection.dto';
 import { ImageDto } from '../../../models/image.dto';
-import { UtilsService } from '../../../services/utils.service';
+import { ImagesService } from '../../../services/images.service';
 import { CollectionsService } from '../../../services/collections.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class EditCollectionComponent implements OnInit {
         private readonly dialogRef: MatDialogRef<EditCollectionComponent>,
         @Optional() @Inject(MAT_DIALOG_DATA) public componentData: CollectionDto,
         private collectionsService: CollectionsService,
-        private utilsService: UtilsService,
+        private utilsService: ImagesService,
     ) {}
 
     static show(

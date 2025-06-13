@@ -1,13 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional, SkipSelf } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Constants } from '../shared/constants';
 import { AuthService } from './auth.service';
+import { HttpService } from './http.service';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
+import { ImageDto } from '../models/image.dto';
 
 @Injectable({
     providedIn: 'root',
 })
-export class UtilsService {
-    constructor(private authService: AuthService) {}
+export class ImagesService extends HttpService {
+    constructor(
+        http: HttpClient,
+        @Optional() @SkipSelf() parentModule: ImagesService,
+        authService: AuthService,
+    ) {
+        super(http, parentModule, authService);
+    }
 
     extractImageIdFromUrl(url: string): string | null {
         // eslint-disable-next-line no-useless-escape
@@ -26,5 +36,12 @@ export class UtilsService {
         } else {
             return Constants.PlaceholderImage;
         }
+    }
+
+    uploadCollectionImage(collectionId: string, file: File): Observable<ImageDto> {
+        const formData = new FormData();
+        formData.append('file', file);
+        const actionUrl = `collections/${collectionId}/images`;
+        return this.post<ImageDto>(actionUrl, formData, undefined, false);
     }
 }
