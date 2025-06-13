@@ -119,5 +119,10 @@
         "YESNO": "Yes/No",
         "SELECT": "Select",
         "IMAGE": "Image"
+    },
+    "SYSTEM_COLUMNS": {
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "PICTURE": "Picture"
     }
 }

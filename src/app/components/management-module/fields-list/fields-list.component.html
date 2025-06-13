@@ -17,7 +17,7 @@
                     {{ 'FIELDS_LIST.NAME_COLUMN' | translate }}
                 </th>
                 <td *matCellDef="let element" class="name-column">
-                    {{ element.name }}
+                    {{ element.name | translate }}
                 </td>
             </ng-container>
             <ng-container matColumnDef="description">

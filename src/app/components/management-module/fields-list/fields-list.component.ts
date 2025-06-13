@@ -68,6 +68,9 @@ export class FieldsListComponent implements OnChanges, OnInit {
                     .map((field) => {
                         const fieldTypeStr = `FIELD_TYPES.${(FieldTypes[field.type!] as string).toUpperCase()}`;
                         field.typeName = fieldTypeStr;
+                        if (field.isSystem) {
+                            field.name = `SYSTEM_COLUMNS.${field.name?.toUpperCase()}`;
+                        }
                         return {
                             ...field,
                             typeName: fieldTypeStr ? fieldTypeStr : 'Unknown',
