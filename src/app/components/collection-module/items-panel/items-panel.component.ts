@@ -27,6 +27,7 @@ export class ItemsPanelComponent implements OnChanges {
                 changes['currentCollection']?.previousValue?.id !==
                     changes['currentCollection']?.currentValue?.id)
         ) {
+            this.selectedItemId = null;
             this.loadCollectionMetadata();
         }
     }

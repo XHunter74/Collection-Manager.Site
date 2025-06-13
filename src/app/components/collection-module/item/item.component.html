@@ -1,6 +1,7 @@
 <div class="item-panel">
     <div class="item-header-container">
         <button
+            *ngIf="itemId && fieldsArray && fieldsArray.length > 0"
             class="hourly__mat-button"
             mat-button
             (click)="saveItem()"
@@ -12,7 +13,7 @@
             <mat-icon>save</mat-icon>
         </button>
     </div>
-    <div *ngIf="fieldsArray && fieldsArray.length > 0" class="dynamic-form">
+    <div *ngIf="itemId && fieldsArray && fieldsArray.length > 0" class="dynamic-form">
         <form [formGroup]="form">
             <div formArrayName="fields" class="form-container">
                 <div

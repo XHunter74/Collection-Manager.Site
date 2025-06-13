@@ -5,6 +5,7 @@ import { BaseItemModel, ItemValue } from '../../../models/base-item.model';
 import { CollectionMetadataModel } from '../../../models/collection-metadata.model';
 import { CollectionsService } from '../../../services/collections.service';
 import { FieldTypes } from '../../../models/field-types.enum';
+import { ImageDto } from '../../../models/image.dto';
 
 @Component({
     selector: 'app-item-component',
@@ -17,6 +18,7 @@ export class ItemComponent implements OnChanges {
     @Input() collectionMetadata: CollectionMetadataModel | null = null;
     @Input() itemId: string | null = null;
 
+    uploadingImage: boolean = false;
     itemData: BaseItemModel | null = null;
 
     constructor(
@@ -154,8 +156,27 @@ export class ItemComponent implements OnChanges {
         });
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onImageSelected(event: Event, idx: number) {}
+    onImageSelected(event: Event, idx: number) {
+        const input = event.target as HTMLInputElement;
+        if (!input.files || input.files.length === 0) return;
+        const file = input.files[0];
+        this.uploadingImage = true;
+        this.collectionsService
+            .uploadCollectionImage(this.collectionMetadata!.collection.id!, file)
+            .subscribe({
+                next: (imageDto: ImageDto) => {
+                    const imageUrl = this.utilsService.getImageUrl(
+                        this.collectionMetadata!.collection.id!,
+                        imageDto.fileId,
+                    );
+                    this.fieldsArray.at(idx).get('control')?.patchValue(imageUrl);
+                    this.uploadingImage = false;
+                },
+                error: () => {
+                    this.uploadingImage = false;
+                },
+            });
+    }
 
     getOptions(fieldIdx: number): any[] {
         const field = this.collectionMetadata!.fields[fieldIdx];
