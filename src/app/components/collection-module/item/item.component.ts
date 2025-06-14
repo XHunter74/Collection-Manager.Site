@@ -4,7 +4,6 @@ import { BaseItemModel, ItemValue } from '../../../models/base-item.model';
 import { CollectionMetadataModel } from '../../../models/collection-metadata.model';
 import { CollectionsService } from '../../../services/collections.service';
 import { FieldTypes } from '../../../models/field-types.enum';
-import { Constants } from '../../../shared/constants';
 
 @Component({
     selector: 'app-item-component',

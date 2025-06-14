@@ -12,6 +12,8 @@ import { CollectionItemsComponent } from '../components/collection-module/collec
 import { ItemComponent } from '../components/collection-module/item/item.component';
 import { DynamicFormComponent } from '../components/collection-module/dynamic-form/dynamic-form.component';
 import { SharedModule } from './shared.module';
+import { DecimalNumbersOnlyDirective } from '../directives/decimal-numbers-only-directive';
+import { IntegerNumbersOnlyDirective } from '../directives/integer-numbers-only-directive';
 
 @NgModule({
     declarations: [
@@ -21,6 +23,8 @@ import { SharedModule } from './shared.module';
         CollectionItemsComponent,
         ItemComponent,
         DynamicFormComponent,
+        DecimalNumbersOnlyDirective,
+        IntegerNumbersOnlyDirective,
     ],
     bootstrap: [],
     imports: [

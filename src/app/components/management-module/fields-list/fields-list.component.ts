@@ -172,11 +172,18 @@ export class FieldsListComponent implements OnChanges {
         const currentOrder = field.order!;
 
         let pairField: CollectionFieldDto | undefined;
-
-        while (!pairField) {
-            pairField = this.fields.find(
-                (f) => f.order === currentOrder + direction && f.id !== fieldId,
-            );
+        if (direction < 0) {
+            pairField = this.fields
+                .filter((f) => f.order! < currentOrder)
+                .sort((a, b) => b.order! - a.order!)[0];
+        } else {
+            pairField = this.fields
+                .filter((f) => f.order! > currentOrder)
+                .sort((a, b) => a.order! - b.order!)[0];
+        }
+        if (!pairField) {
+            console.warn('No adjacent field found to swap order with.');
+            return;
         }
 
         const newOrder = currentOrder + direction;
