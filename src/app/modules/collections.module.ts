@@ -11,6 +11,7 @@ import { ItemsPanelComponent } from '../components/collection-module/items-panel
 import { CollectionItemsComponent } from '../components/collection-module/collection-items/collection-items.component';
 import { ItemComponent } from '../components/collection-module/item/item.component';
 import { DynamicFormComponent } from '../components/collection-module/dynamic-form/dynamic-form.component';
+import { SharedModule } from './shared.module';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { DynamicFormComponent } from '../components/collection-module/dynamic-fo
         FormsModule,
         ReactiveFormsModule,
         TranslateModule.forChild(),
+        SharedModule,
     ],
     providers: [UsersService, CollectionsService],
     exports: [CollectionsComponent],

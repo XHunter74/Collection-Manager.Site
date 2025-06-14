@@ -1,11 +1,9 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ImagesService } from '../../../services/images.service';
 import { BaseItemModel, ItemValue } from '../../../models/base-item.model';
 import { CollectionMetadataModel } from '../../../models/collection-metadata.model';
 import { CollectionsService } from '../../../services/collections.service';
 import { FieldTypes } from '../../../models/field-types.enum';
-import { ImageDto } from '../../../models/image.dto';
 
 @Component({
     selector: 'app-item-component',
@@ -23,12 +21,10 @@ export class ItemComponent implements OnChanges {
 
     constructor(
         private formBuilder: FormBuilder,
-        private utilsService: ImagesService,
         private collectionsService: CollectionsService,
     ) {}
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ngOnChanges(changes: SimpleChanges): void {
+    ngOnChanges(): void {
         if (this.collectionMetadata) {
             this.createDynamicForm();
         }
@@ -57,10 +53,7 @@ export class ItemComponent implements OnChanges {
         let initialValue: any = null;
 
         if (type === 11) {
-            initialValue = this.utilsService.getImageUrl(
-                this.collectionMetadata!.collection!.id!,
-                '',
-            );
+            initialValue = '';
         }
 
         if (isRequired) {
@@ -130,10 +123,7 @@ export class ItemComponent implements OnChanges {
                     }
                     break;
                 case FieldTypes.Image: // Image
-                    value = this.utilsService.getImageUrl(
-                        this.collectionMetadata!.collection!.id!,
-                        value as string,
-                    );
+                    value = value as string;
                     break;
                 case FieldTypes.Select: // Select
                     {
@@ -154,28 +144,6 @@ export class ItemComponent implements OnChanges {
             }
             controlGroup.get('control')?.patchValue(value);
         });
-    }
-
-    onImageSelected(event: Event, idx: number) {
-        const input = event.target as HTMLInputElement;
-        if (!input.files || input.files.length === 0) return;
-        const file = input.files[0];
-        this.uploadingImage = true;
-        this.collectionsService
-            .uploadCollectionImage(this.collectionMetadata!.collection.id!, file)
-            .subscribe({
-                next: (imageDto: ImageDto) => {
-                    const imageUrl = this.utilsService.getImageUrl(
-                        this.collectionMetadata!.collection.id!,
-                        imageDto.fileId,
-                    );
-                    this.fieldsArray.at(idx).get('control')?.patchValue(imageUrl);
-                    this.uploadingImage = false;
-                },
-                error: () => {
-                    this.uploadingImage = false;
-                },
-            });
     }
 
     getOptions(fieldIdx: number): any[] {
@@ -227,12 +195,7 @@ export class ItemComponent implements OnChanges {
                         acc.displayName = formField.control;
                         break;
                     case 'Picture':
-                        {
-                            const extractedPicture = this.utilsService.extractImageIdFromUrl(
-                                formField.control,
-                            );
-                            acc.picture = extractedPicture === null ? undefined : extractedPicture;
-                        }
+                        acc.picture = formField.control;
                         break;
                     default:
                         switch (field!.type) {
@@ -241,9 +204,7 @@ export class ItemComponent implements OnChanges {
                                     const newValue = new ItemValue();
                                     newValue.fieldId = fieldId;
                                     newValue.fieldName = fieldName;
-                                    newValue.value = this.utilsService.extractImageIdFromUrl(
-                                        formField.control,
-                                    );
+                                    newValue.value = formField.control;
                                     acc.values.push(newValue);
                                 }
                                 break;
