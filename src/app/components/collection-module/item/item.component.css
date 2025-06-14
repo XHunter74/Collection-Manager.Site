@@ -1,10 +1,10 @@
 .item-panel {
     width: 100%;
-    height: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .item-header-container {
@@ -13,8 +13,18 @@
 }
 
 .dynamic-form {
-    height: calc(100% - 50px);
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    overflow: hidden;
+}
+/* Make the inner form a flex child for proper scrolling */
+.dynamic-form > form {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .form-label {
@@ -24,15 +34,14 @@
 .system-items-panel {
     display: flex;
     flex-direction: row;
+    padding: 10px;
 }
 
 .form-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    margin-top: 10px;
-    scroll-behavior: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 10px 10px 80px 10px; /* increased bottom padding for extra space after last control */
 }
 
 .string-field {
