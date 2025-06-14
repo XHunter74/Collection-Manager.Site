@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
     styleUrl: './view-image-modal.component.css',
     standalone: false,
 })
-export class ViewImageModalComponent implements OnInit {
+export class ViewImageModalComponent {
     constructor(
         private readonly dialogRef: MatDialogRef<ViewImageModalComponent>,
         @Optional() @Inject(MAT_DIALOG_DATA) public componentData: string,
@@ -24,10 +24,5 @@ export class ViewImageModalComponent implements OnInit {
         });
         const dialogResult = dialogRef.afterClosed();
         return dialogResult;
-    }
-
-    ngOnInit(): void {
-        if (this.componentData) {
-        }
     }
 }
