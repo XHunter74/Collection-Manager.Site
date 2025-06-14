@@ -129,9 +129,8 @@ export class FieldsListComponent implements OnChanges {
         this.collectionService.createCollectionField(this.collectionId!, field).subscribe({
             next: (createdField: CollectionFieldDto) => {
                 console.log('Field created successfully:', createdField);
-                createdField.typeName = this.fieldTypes1.find(
-                    (ft) => ft.value === createdField.type,
-                )?.name;
+                const fieldTypeStr = `FIELD_TYPES.${(FieldTypes[field.type!] as string).toUpperCase()}`;
+                createdField.typeName = fieldTypeStr;
                 this.fields.push(createdField);
                 this.fields.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
                 this.sortedData.data = [...this.fields];
@@ -148,6 +147,8 @@ export class FieldsListComponent implements OnChanges {
                 updatedField.typeName = this.fieldTypes1.find(
                     (ft) => ft.value === updatedField.type,
                 )?.name;
+                const fieldTypeStr = `FIELD_TYPES.${(FieldTypes[field.type!] as string).toUpperCase()}`;
+                updatedField.typeName = fieldTypeStr;
                 console.log('Field updated successfully:', updatedField);
                 const index = this.fields.findIndex((f) => f.id === updatedField.id);
                 if (index !== -1) {

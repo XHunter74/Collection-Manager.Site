@@ -91,10 +91,17 @@
                         </ng-container>
 
                         <!-- Integer -->
-                        <!-- <ng-container *ngSwitchCase="2">
-                    <label [for]="'field-' + i">{{ config[i].label }}</label>
-                    <input id="field-{{ i }}" type="number" formControlName="control" />
-                </ng-container> -->
+                        <ng-container *ngSwitchCase="2">
+                            <label [for]="'field-' + i">{{
+                                collectionMetadata!.fields[i].displayName
+                            }}</label>
+                            <input
+                                id="field-{{ i }}"
+                                type="number"
+                                formControlName="control"
+                                class="form-control"
+                            />
+                        </ng-container>
 
                         <!-- Money / Decimal / Currency -->
                         <!-- <ng-container *ngSwitchCase="3">
