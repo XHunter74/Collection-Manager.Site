@@ -15,6 +15,30 @@
     </div>
     <div *ngIf="itemId && fieldsArray && fieldsArray.length > 0" class="dynamic-form">
         <form [formGroup]="form">
+            <div class="system-items-panel">
+                <div class="image-preview">
+                    <app-image-control
+                        [collectionId]="collectionMetadata?.collection?.id ?? null"
+                        [imageId]="form.get('picture')!.value"
+                        (imageIdChange)="pictureWasChanged($event)"
+                    ></app-image-control>
+                </div>
+                <div class="string-field">
+                    <input type="text" formControlName="displayName" class="form-control" />
+                    <div class="alert alert-name">
+                        <div
+                            *ngIf="
+                                form.get('displayName')!.invalid &&
+                                (form.get('displayName')!.dirty || form.get('displayName')!.touched)
+                            "
+                        >
+                            <div *ngIf="form.get('displayName')!.errors?.['required']">
+                                {{ 'EDIT_FIELD.NAME_ERROR' | translate }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div formArrayName="fields" class="form-container">
                 <div
                     *ngFor="let field of fieldsArray.controls; let i = index"
@@ -191,7 +215,7 @@
                                     <app-image-control
                                         [collectionId]="collectionMetadata?.collection?.id ?? null"
                                         [imageId]="field.get('control')!.value"
-                                        (imageIdChange)="field.get('control')!.setValue($event)"
+                                        (imageIdChange)="formImageWasChanged($event, i)"
                                     ></app-image-control>
                                 </div>
                             </div>

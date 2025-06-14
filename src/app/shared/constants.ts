@@ -11,6 +11,7 @@ export class Constants {
     static Negative = 'negative';
     static PlaceholderImage = 'assets/placeholder.jpg';
     static DisplayNameFieldName = 'DisplayName';
+    static PictureFieldName = 'Picture';
 }
 
 export class Intervals {

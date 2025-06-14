@@ -29,16 +29,17 @@ export class ItemComponent implements OnChanges {
 
     ngOnChanges(): void {
         if (this.collectionMetadata) {
-            this.displayName =
-                this.collectionMetadata.fields.find(
-                    (f) => f.displayName === Constants.DisplayNameFieldName,
-                )?.displayName || null;
+            this.collectionMetadata.fields = this.collectionMetadata.fields.filter(
+                (f) => f.isSystem === false,
+            );
             this.createDynamicForm();
         }
     }
 
     createDynamicForm(): void {
         this.form = this.formBuilder.group({
+            displayName: ['', Validators.required],
+            picture: [''],
             fields: this.formBuilder.array(
                 this.collectionMetadata!.fields.map((f) =>
                     this.createControl(f.type!, f.id!, f.isRequired!),
@@ -92,6 +93,11 @@ export class ItemComponent implements OnChanges {
     }
 
     private patchFormValues(itemData: BaseItemModel): void {
+        this.displayName = itemData.displayName || null;
+        this.form.patchValue({
+            displayName: itemData.displayName || '',
+            picture: itemData.picture || '',
+        });
         if (!this.collectionMetadata || !this.form) return;
         const fields = this.collectionMetadata.fields;
         const fieldsArray = this.fieldsArray;
@@ -103,18 +109,7 @@ export class ItemComponent implements OnChanges {
             const fieldName = field.displayName;
             if (!fieldName) return;
 
-            let value: any = null; //itemData[fieldName];
-
-            switch (field.displayName) {
-                case 'DisplayName':
-                    value = itemData.displayName;
-                    break;
-                case 'Picture':
-                    value = itemData.picture;
-                    break;
-                default:
-                    value = itemData.values.find((v) => v.fieldId === field.id)?.value || null;
-            }
+            let value: any = itemData.values.find((v) => v.fieldId === field.id)?.value || null;
 
             switch (field.type) {
                 case FieldTypes.Date: // Date
@@ -196,55 +191,40 @@ export class ItemComponent implements OnChanges {
                 );
                 const fieldId = field!.id!;
                 const fieldName = field!.displayName!;
-
-                switch (fieldName) {
-                    case 'DisplayName':
-                        acc.displayName = formField.control;
-                        if (formField.control != this.displayName) {
-                            this.displayNameChange.emit(formField.control);
+                switch (field!.type) {
+                    case FieldTypes.Image:
+                        {
+                            const newValue = new ItemValue();
+                            newValue.fieldId = fieldId;
+                            newValue.fieldName = fieldName;
+                            newValue.value = formField.control;
+                            acc.values.push(newValue);
                         }
                         break;
-                    case 'Picture':
-                        acc.picture = formField.control;
+                    case FieldTypes.Select:
+                        {
+                            const controlValue = formField.control;
+                            const fieldPossibleValues =
+                                this.collectionMetadata!.possibleValues.find(
+                                    (e) => e.fieldId === fieldId,
+                                );
+                            const itemPossibleValue = fieldPossibleValues?.possibleValues.find(
+                                (v) => v.id === controlValue,
+                            );
+                            const newValue = new ItemValue();
+                            newValue.fieldId = fieldId;
+                            newValue.fieldName = fieldName;
+                            newValue.value = itemPossibleValue?.value || null;
+                            acc.values.push(newValue);
+                        }
                         break;
                     default:
-                        switch (field!.type) {
-                            case FieldTypes.Image:
-                                {
-                                    const newValue = new ItemValue();
-                                    newValue.fieldId = fieldId;
-                                    newValue.fieldName = fieldName;
-                                    newValue.value = formField.control;
-                                    acc.values.push(newValue);
-                                }
-                                break;
-                            case FieldTypes.Select:
-                                {
-                                    const controlValue = formField.control;
-                                    const fieldPossibleValues =
-                                        this.collectionMetadata!.possibleValues.find(
-                                            (e) => e.fieldId === fieldId,
-                                        );
-                                    const itemPossibleValue =
-                                        fieldPossibleValues?.possibleValues.find(
-                                            (v) => v.id === controlValue,
-                                        );
-                                    const newValue = new ItemValue();
-                                    newValue.fieldId = fieldId;
-                                    newValue.fieldName = fieldName;
-                                    newValue.value = itemPossibleValue?.value || null;
-                                    acc.values.push(newValue);
-                                }
-                                break;
-                            default:
-                                {
-                                    const newValue = new ItemValue();
-                                    newValue.fieldId = fieldId;
-                                    newValue.fieldName = fieldName;
-                                    newValue.value = formField.control;
-                                    acc.values.push(newValue);
-                                }
-                                break;
+                        {
+                            const newValue = new ItemValue();
+                            newValue.fieldId = fieldId;
+                            newValue.fieldName = fieldName;
+                            newValue.value = formField.control;
+                            acc.values.push(newValue);
                         }
                         break;
                 }
@@ -255,6 +235,12 @@ export class ItemComponent implements OnChanges {
 
         formData.collectionId = this.collectionMetadata!.collection.id!;
         formData.id = this.itemId || undefined;
+        formData.picture = this.form.value.picture || '';
+
+        if (this.form.value.displayName != this.displayName) {
+            this.displayNameChange.emit(this.form.value.displayName);
+        }
+        formData.displayName = this.form.value.displayName || '';
 
         if (formData) {
             console.log('Item data to save:', formData);
@@ -280,6 +266,19 @@ export class ItemComponent implements OnChanges {
                         },
                     });
             }
+        }
+    }
+
+    pictureWasChanged(event: string | null): void {
+        this.form.get('picture')!.setValue(event);
+        this.form.markAsDirty();
+    }
+
+    formImageWasChanged(event: string | null, controlIdx: number): void {
+        const control = this.fieldsArray.at(controlIdx).get('control');
+        if (control) {
+            control.setValue(event);
+            this.form.markAsDirty();
         }
     }
 }
