@@ -26,7 +26,9 @@
                         <ng-container *ngSwitchCase="0">
                             <div class="string-field">
                                 <label [for]="'field-' + i" class="form-label">{{
-                                    collectionMetadata!.fields[i].displayName
+                                    collectionMetadata!.fields[i].translatedDisplayName ||
+                                        collectionMetadata!.fields[i].displayName ||
+                                        '' | translate
                                 }}</label>
                                 <input
                                     id="field-{{ i }}"
@@ -178,7 +180,11 @@
                                         for="image"
                                         class="form-label"
                                         style="margin-bottom: 8px"
-                                        >{{ 'EDIT_COLLECTION.IMAGE' | translate }}</label
+                                        >{{
+                                            collectionMetadata!.fields[i].translatedDisplayName ||
+                                                collectionMetadata!.fields[i].displayName ||
+                                                '' | translate
+                                        }}</label
                                     >
                                 </div>
                                 <div class="image-preview">

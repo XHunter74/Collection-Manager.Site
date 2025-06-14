@@ -1,9 +1,10 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseItemModel, ItemValue } from '../../../models/base-item.model';
 import { CollectionMetadataModel } from '../../../models/collection-metadata.model';
 import { CollectionsService } from '../../../services/collections.service';
 import { FieldTypes } from '../../../models/field-types.enum';
+import { Constants } from '../../../shared/constants';
 
 @Component({
     selector: 'app-item-component',
@@ -15,7 +16,9 @@ export class ItemComponent implements OnChanges {
     form!: FormGroup;
     @Input() collectionMetadata: CollectionMetadataModel | null = null;
     @Input() itemId: string | null = null;
+    @Output() displayNameChange = new EventEmitter<string | null>();
 
+    displayName: string | null = null;
     uploadingImage: boolean = false;
     itemData: BaseItemModel | null = null;
 
@@ -26,6 +29,10 @@ export class ItemComponent implements OnChanges {
 
     ngOnChanges(): void {
         if (this.collectionMetadata) {
+            this.displayName =
+                this.collectionMetadata.fields.find(
+                    (f) => f.displayName === Constants.DisplayNameFieldName,
+                )?.displayName || null;
             this.createDynamicForm();
         }
     }
@@ -193,6 +200,9 @@ export class ItemComponent implements OnChanges {
                 switch (fieldName) {
                     case 'DisplayName':
                         acc.displayName = formField.control;
+                        if (formField.control != this.displayName) {
+                            this.displayNameChange.emit(formField.control);
+                        }
                         break;
                     case 'Picture':
                         acc.picture = formField.control;
@@ -251,6 +261,7 @@ export class ItemComponent implements OnChanges {
             if (formData.id) {
                 this.collectionsService.updateCollectionItem(formData).subscribe({
                     next: () => {
+                        this.form.markAsPristine();
                         console.log('Item updated successfully');
                     },
                     error: (err: any) => {

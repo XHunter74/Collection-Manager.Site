@@ -1,10 +1,17 @@
-import { Component, Input, OnChanges, Output, EventEmitter, OnInit } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnChanges,
+    Output,
+    EventEmitter,
+    OnInit,
+    SimpleChanges,
+} from '@angular/core';
 import { CollectionDto } from '../../../models/collection.dto';
 import { CollectionsService } from '../../../services/collections.service';
 import { CollectionFieldDto } from '../../../models/collection-field.dto';
 import { BaseItemModel } from '../../../models/base-item.model';
 import { MatTableDataSource } from '@angular/material/table';
-import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -15,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class CollectionItemsComponent implements OnInit, OnChanges {
     @Input() currentCollection: CollectionDto | null = null;
+    @Input() selectedItemDisplayName: string | null = null;
     fields: CollectionFieldDto[] = [];
     sortedData = new MatTableDataSource<BaseItemModel>();
     displayedColumns = ['displayName'];
@@ -39,13 +47,20 @@ export class CollectionItemsComponent implements OnInit, OnChanges {
         private collectionsService: CollectionsService,
     ) {}
 
-    ngOnChanges(): void {
-        this.handleCollectionChange();
-    }
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['currentCollection'] && !changes['currentCollection'].firstChange) {
+            if (this.currentCollection) {
+                this.processCollectionChange();
+            }
+        }
 
-    private handleCollectionChange(): void {
-        if (this.currentCollection) {
-            this.processCollectionChange();
+        if (changes['selectedItemDisplayName'] && this.sortedData.data.length > 0) {
+            const selectedItem = this.sortedData.data.find(
+                (item) => item.id === this.selectedItemId,
+            );
+            if (selectedItem) {
+                selectedItem.displayName = this.selectedItemDisplayName ?? undefined;
+            }
         }
     }
 
@@ -88,20 +103,7 @@ export class CollectionItemsComponent implements OnInit, OnChanges {
             });
     }
 
-    addNewItem(): void {
-        DynamicFormComponent.show(this.matDialog).subscribe({
-            next: (newItem: any) => {
-                if (newItem) {
-                    console.log('New item created:', newItem);
-                    this.sortedData.data = [...this.sortedData.data, newItem];
-                    this.selectRow(newItem);
-                }
-            },
-            error: (err) => {
-                console.error('Error creating new item:', err);
-            },
-        });
-    }
+    addNewItem(): void {}
 
     public selectRow(item: BaseItemModel): void {
         this.selectedItemId = item.id ?? null;

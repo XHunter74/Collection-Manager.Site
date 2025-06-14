@@ -10,6 +10,7 @@ export class Constants {
     static Positive = 'positive';
     static Negative = 'negative';
     static PlaceholderImage = 'assets/placeholder.jpg';
+    static DisplayNameFieldName = 'DisplayName';
 }
 
 export class Intervals {

@@ -2,6 +2,7 @@
     <div class="app-collection-items">
         <app-collection-items
             [currentCollection]="currentCollection"
+            [selectedItemDisplayName]="selectedItemDisplayName"
             (selectedItemIdChange)="selectedItemId = $event"
         ></app-collection-items>
     </div>
@@ -9,6 +10,7 @@
         <app-item-component
             [itemId]="selectedItemId"
             [collectionMetadata]="collectionMetadata"
+            (displayNameChange)="selectedItemDisplayName = $event"
         ></app-item-component>
     </div>
 </div>

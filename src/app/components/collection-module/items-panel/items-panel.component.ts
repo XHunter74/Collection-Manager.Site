@@ -15,6 +15,7 @@ import { forkJoin, map, of, switchMap } from 'rxjs';
 export class ItemsPanelComponent implements OnChanges {
     @Input() currentCollection: CollectionDto | null = null;
     selectedItemId: string | null = null;
+    selectedItemDisplayName: string | null = null;
     collectionMetadata: CollectionMetadataModel | null = null;
 
     constructor(private collectionService: CollectionsService) {}
@@ -41,7 +42,14 @@ export class ItemsPanelComponent implements OnChanges {
             .loadCollectionFields(this.currentCollection.id!)
             .pipe(
                 switchMap((fields: CollectionFieldDto[]) => {
-                    fields = fields.sort((a, b) => a.order! - b.order!);
+                    fields = fields
+                        .map((field) => {
+                            if (field.isSystem) {
+                                field.translatedDisplayName = `SYSTEM_COLUMNS.${field.displayName?.toUpperCase()}`;
+                            }
+                            return field;
+                        })
+                        .sort((a, b) => a.order! - b.order!);
                     const selectFields = fields.filter((f) => f.type === 10);
                     if (selectFields.length === 0) {
                         return of({ fields, possibleValues: [] });
