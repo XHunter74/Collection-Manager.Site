@@ -170,7 +170,7 @@ export class ItemComponent implements OnChanges {
     }
 
     get isSaveButtonDisabled(): boolean {
-        return false;
+        return this.form.invalid || this.form.pristine;
     }
 
     saveItem(): void {

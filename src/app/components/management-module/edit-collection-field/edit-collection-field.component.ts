@@ -26,7 +26,6 @@ export class EditCollectionFieldComponent implements OnInit {
     editForm = new UntypedFormGroup({
         displayName: new UntypedFormControl('', [Validators.required]),
         fieldType: new UntypedFormControl(''),
-        isRequired: new UntypedFormControl(false),
     });
 
     constructor(
@@ -44,7 +43,7 @@ export class EditCollectionFieldComponent implements OnInit {
         }
         const dialogRef = dialog.open(EditCollectionFieldComponent, {
             width,
-            height: '450px',
+            height: '335px',
             disableClose: false,
             data: data,
         });
@@ -83,7 +82,6 @@ export class EditCollectionFieldComponent implements OnInit {
         updatedField.displayName = this.displayName?.value;
         updatedField.type = this.fieldType?.value;
         updatedField.order = this.componentData.field?.order ?? 0;
-        updatedField.isRequired = this.isRequired?.value;
         updatedField.isSystem = this.componentData.field?.isSystem ?? false;
         this.dialogRef.close(updatedField);
     }

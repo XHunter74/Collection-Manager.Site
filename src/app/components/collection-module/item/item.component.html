@@ -34,6 +34,19 @@
                                     formControlName="control"
                                     class="form-control"
                                 />
+                                <div class="alert alert-name">
+                                    <div
+                                        *ngIf="
+                                            field.get('control')?.invalid &&
+                                            (field.get('control')?.dirty ||
+                                                field.get('control')?.touched)
+                                        "
+                                    >
+                                        <div *ngIf="field.get('control')?.errors?.['required']">
+                                            {{ 'EDIT_FIELD.NAME_ERROR' | translate }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </ng-container>
 
@@ -158,20 +171,16 @@
                         </ng-container>
 
                         <!-- Image -->
-                        <!-- <ng-container *ngSwitchCase="11">
-                    <label>{{ config[i].label }}</label>
-                    <input type="file" accept="image/*" (change)="onImageSelected($event, i)" />
-                    <img
-                        *ngIf="field.get('control')!.value"
-                        [src]="field.get('control')!.value"
-                        width="100"
-                    />
-                </ng-container> -->
                         <ng-container *ngSwitchCase="11">
                             <div class="form-group collection-image-group">
-                                <label for="image" class="form-label">{{
-                                    'EDIT_COLLECTION.IMAGE' | translate
-                                }}</label>
+                                <div class="image-label">
+                                    <label
+                                        for="image"
+                                        class="form-label"
+                                        style="margin-bottom: 8px"
+                                        >{{ 'EDIT_COLLECTION.IMAGE' | translate }}</label
+                                    >
+                                </div>
                                 <div class="image-preview">
                                     <app-image-control
                                         [collectionId]="collectionMetadata?.collection?.id ?? null"
