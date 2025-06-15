@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditPossibleValuesComponent } from '../edit-possible-values/edit-possible-values.component';
 import { PossibleValueDto } from '../../../models/possible-value.dto';
 import { FieldTypes } from '../../../models/field-types.enum';
+import { QuestionDialogComponent } from '../../dialogs/question-dialog.component';
+import { Constants } from '../../../shared/constants';
 
 @Component({
     selector: 'app-fields-list',
@@ -90,15 +92,24 @@ export class FieldsListComponent implements OnChanges {
             return;
         }
 
-        this.collectionService.deleteCollectionField(fieldId).subscribe({
-            next: () => {
-                console.log('Field deleted successfully:', fieldId);
-                this.fields = this.fields.filter((f) => f.id !== fieldId);
-                this.sortedData.data = [...this.fields];
-            },
-            error: (err) => {
-                console.error('Error deleting field:', err);
-            },
+        QuestionDialogComponent.show(
+            this.matDialog,
+            'FIELDS_LIST.DELETE_FIELD_CONFIRMATION',
+        ).subscribe((response) => {
+            if (response === Constants.Positive) {
+                this.collectionService.deleteCollectionField(fieldId).subscribe({
+                    next: () => {
+                        console.log('Field deleted successfully:', fieldId);
+                        this.fields = this.fields.filter((f) => f.id !== fieldId);
+                        this.sortedData.data = [...this.fields];
+                    },
+                    error: (err) => {
+                        console.error('Error deleting field:', err);
+                    },
+                });
+            } else {
+                console.log('Field deletion cancelled:', fieldId);
+            }
         });
     }
 
@@ -186,14 +197,19 @@ export class FieldsListComponent implements OnChanges {
             return;
         }
 
-        const newOrder = pairField.order!;
-        pairField.order = field.order;
-        field.order = newOrder;
+        this.swapFields(field, pairField);
+    }
 
-        this.fields.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    swapFields(field1: CollectionFieldDto, field2: CollectionFieldDto): void {
+        const tempOrder = field1.order;
+        field1.order = field2.order;
+        field2.order = tempOrder;
+
+        this.fields = this.fields.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
         this.sortedData.data = this.fields;
-        this.storeChangedOrder(field.id!, field.order!);
-        this.storeChangedOrder(pairField.id!, pairField.order!);
+
+        this.storeChangedOrder(field1.id!, field1.order!);
+        this.storeChangedOrder(field2.id!, field2.order!);
     }
 
     isUpButtonDisabled(fieldId: string): boolean {
