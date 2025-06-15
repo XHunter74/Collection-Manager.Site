@@ -22,7 +22,7 @@ export class FieldsListComponent implements OnChanges {
     fieldTypes1: FieldTypeDto[] = [];
     fields: CollectionFieldDto[] = [];
     sortedData = new MatTableDataSource<CollectionFieldDto>();
-    displayedColumns: string[] = ['displayName', 'isRequired', 'typeName', 'buttons'];
+    displayedColumns: string[] = ['displayName', 'typeName', 'buttons'];
 
     constructor(
         private matDialog: MatDialog,
