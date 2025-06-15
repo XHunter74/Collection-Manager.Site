@@ -25,3 +25,6 @@
 .selected {
     background-color: #2483f0 !important;
 }
+.table-row:hover {
+    cursor: pointer;
+}
