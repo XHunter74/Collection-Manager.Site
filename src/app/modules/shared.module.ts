@@ -23,6 +23,6 @@ import { ImagesControlComponent } from '../components/shared-module/images-contr
         ReactiveFormsModule,
         TranslateModule.forChild(),
     ],
-    exports: [ImageControlComponent, ViewImageModalComponent],
+    exports: [ImageControlComponent, ViewImageModalComponent, ImagesControlComponent],
 })
 export class SharedModule {}

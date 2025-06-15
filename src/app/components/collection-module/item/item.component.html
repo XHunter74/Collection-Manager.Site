@@ -249,6 +249,24 @@
                                 </div>
                             </div>
                         </ng-container>
+
+                        <!-- Image List -->
+                        <ng-container *ngSwitchCase="12">
+                            <div class="image-label">
+                                <label for="image" class="form-label" style="margin-bottom: 8px">{{
+                                    collectionMetadata!.fields[i].translatedDisplayName ||
+                                        collectionMetadata!.fields[i].displayName ||
+                                        '' | translate
+                                }}</label>
+                            </div>
+                            <div class="image-preview">
+                                <app-images-control
+                                    [collectionId]="collectionMetadata?.collection?.id ?? null"
+                                    [images]="field.get('control')!.value"
+                                    (imagesChange)="formImagesWasChanged($event, i)"
+                                ></app-images-control>
+                            </div>
+                        </ng-container>
                     </ng-container>
                 </div>
             </div>

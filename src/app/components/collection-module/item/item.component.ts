@@ -61,6 +61,8 @@ export class ItemComponent implements OnChanges {
 
         if (type === 11) {
             initialValue = '';
+        } else if (type === 12) {
+            initialValue = [];
         }
 
         if (isRequired) {
@@ -274,6 +276,14 @@ export class ItemComponent implements OnChanges {
     }
 
     formImageWasChanged(event: string | null, controlIdx: number): void {
+        const control = this.fieldsArray.at(controlIdx).get('control');
+        if (control) {
+            control.setValue(event);
+            this.form.markAsDirty();
+        }
+    }
+
+    formImagesWasChanged(event: string[], controlIdx: number): void {
         const control = this.fieldsArray.at(controlIdx).get('control');
         if (control) {
             control.setValue(event);

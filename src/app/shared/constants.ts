@@ -5,7 +5,7 @@ export class Constants {
     static AuthToken = 'auth-token';
     static RefreshToken = 'refresh-token';
     static TokenExpiresIn = 'token-expires-in';
-    static RequestTimeout = 5000;
+    static RequestTimeout = 25000;
     static RetryCount = 3;
     static Positive = 'positive';
     static Negative = 'negative';

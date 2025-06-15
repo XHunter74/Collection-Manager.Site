@@ -11,4 +11,5 @@ export enum FieldTypes {
     YesNo = 9,
     Select = 10,
     Image = 11,
+    ImageList = 12,
 }

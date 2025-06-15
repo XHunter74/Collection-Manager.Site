@@ -28,10 +28,12 @@ export class ImagesControlComponent implements OnChanges {
     }
 
     createDynamicForm(): void {
+        if (!this.images || !Array.isArray(this.images)) {
+            this.images = [];
+        }
         this.form = this.formBuilder.group({
             images: this.formBuilder.array(this.images.map((f) => this.createControl(f))),
         });
-        // this.fillDynamicForm();
     }
 
     private createControl(imageId: string): FormGroup {
