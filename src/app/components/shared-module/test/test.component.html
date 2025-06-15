@@ -1,5 +1,10 @@
-<app-image-control
+<!-- <app-image-control
     [collectionId]="'9aa7d666-b7ef-4322-ab52-e0f9ceb94fc7'"
     [imageId]="imageId"
     (imageIdChange)="onImageIdChanged($event)"
-></app-image-control>
+></app-image-control> -->
+<app-images-control
+    [collectionId]="'9aa7d666-b7ef-4322-ab52-e0f9ceb94fc7'"
+    [images]="images"
+    (imagesChange)="onImagesChanged($event)"
+></app-images-control>

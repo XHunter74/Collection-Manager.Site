@@ -27,7 +27,7 @@ export class ImagesService extends HttpService {
     }
 
     getImageUrl(collectionId: string, imageId: string): string | null {
-        if (imageId) {
+        if (collectionId && imageId) {
             let imageUrl = `${environment.apiUrl}collections/${collectionId}/images/${imageId}`;
             if (environment.useTokenAuthorizationForImages) {
                 imageUrl = imageUrl + `?token=${this.authService.token()}`;

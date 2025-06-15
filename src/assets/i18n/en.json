@@ -130,5 +130,8 @@
         "IMAGE_TOOLTIP": "Click to enlarge image",
         "DELETE_IMAGE": "Delete Image",
         "UPLOAD_IMAGE": "Upload Image"
+    },
+    "IMAGES_CONTROL": {
+        "ADD_IMAGE": "Add Image"
     }
 }

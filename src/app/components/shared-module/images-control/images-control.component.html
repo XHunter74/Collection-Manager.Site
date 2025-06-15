@@ -1,0 +1,35 @@
+<div class="images-control">
+    <div class="images-header">
+        <span
+            class="images-add-button"
+            tabindex="0"
+            (click)="addImage()"
+            (keyup.enter)="addImage()"
+            matTooltip="{{ 'IMAGES_CONTROL.ADD_IMAGE' | translate }}"
+            role="button"
+        >
+            <mat-icon>add</mat-icon>
+        </span>
+    </div>
+    <div class="images-panel">
+        <div *ngIf="images && images.length > 0" class="images-dynamic-form">
+            <form [formGroup]="form">
+                <div formArrayName="images" class="images-form-container">
+                    <div
+                        *ngFor="let imageControl of imagesArray.controls; let i = index"
+                        [formGroupName]="i"
+                        class="image-row"
+                    >
+                        <div class="image-preview">
+                            <app-image-control
+                                [collectionId]="collectionId"
+                                [imageId]="imageControl.get('control')!.value"
+                                (imageIdChange)="formImageWasChanged($event, i)"
+                            ></app-image-control>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

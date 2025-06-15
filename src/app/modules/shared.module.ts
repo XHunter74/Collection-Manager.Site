@@ -6,9 +6,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestComponent } from '../components/shared-module/test/test.component';
 import { ImageControlComponent } from '../components/shared-module/image-control/image-control.component';
 import { ViewImageModalComponent } from '../components/shared-module/view-image-modal/view-image-modal.component';
+import { ImagesControlComponent } from '../components/shared-module/images-control/images-control.component';
 
 @NgModule({
-    declarations: [TestComponent, ImageControlComponent, ViewImageModalComponent],
+    declarations: [
+        TestComponent,
+        ImageControlComponent,
+        ViewImageModalComponent,
+        ImagesControlComponent,
+    ],
     bootstrap: [],
     imports: [
         CommonModule,
