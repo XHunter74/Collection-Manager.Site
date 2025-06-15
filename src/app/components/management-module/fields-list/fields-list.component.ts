@@ -186,15 +186,9 @@ export class FieldsListComponent implements OnChanges {
             return;
         }
 
-        const newOrder = currentOrder + direction;
-
-        if (newOrder < 0) {
-            console.warn('New order is out of bounds:', newOrder);
-            return;
-        }
-
+        const newOrder = pairField.order!;
+        pairField.order = field.order;
         field.order = newOrder;
-        pairField.order = pairField.order! - direction;
 
         this.fields.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
         this.sortedData.data = this.fields;
