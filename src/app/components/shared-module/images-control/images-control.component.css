@@ -20,6 +20,9 @@
 .images-form-container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap; /* wrap images to new lines when width exceeded */
+    gap: 10px; /* spacing between image items */
+    overflow-x: hidden; /* hide horizontal scrollbar */
 }
 
 .image-preview {
@@ -28,9 +31,10 @@
 }
 
 .image-row {
-    display: block;
-    width: 200px;
-    margin-right: 10px;
+    display: flex;
+    flex: 0 0 200px; /* fixed width per image */
+    margin-right: 0; /* spacing handled by gap */
+    margin-bottom: 10px; /* spacing below row */
 }
 
 .images-add-button {
